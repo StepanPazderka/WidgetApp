@@ -12,26 +12,32 @@ struct Provider: AppIntentTimelineProvider {
     let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(text: "Just some quote", configuration: ConfigurationAppIntent())
-    }
+        let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
 
+        return SimpleEntry(text: "Just some quote", color: .primary, fontSize: fontSize ?? 20.0, configuration: ConfigurationAppIntent())
+    }
+    
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let text = sharedDefaults?.object(forKey: "widgetContent") as? String
-        return SimpleEntry(text: text ?? "Couldn't load data", configuration: configuration)
+        let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
+
+        return SimpleEntry(text: text ?? "Couldn't load data", color: .primary, fontSize: fontSize ?? 20.0, configuration: configuration)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
         var entries: [SimpleEntry] = []
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let text = sharedDefaults?.object(forKey: "widgetContent") as? String
-            let entry = SimpleEntry(text: text ?? "Couldn't load data", configuration: configuration)
-            entries.append(entry)
+        let text = sharedDefaults?.object(forKey: "widgetContent") as? String
+        let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
+        let colorData = sharedDefaults?.object(forKey: "widgetColor") as? String
+        var color: Color?
+        if let colorData {
+            color = Color(rawValue: colorData)
         }
-
+        
+        let entry = SimpleEntry(text: text ?? "Couldn't load data", color: color ?? .primary, fontSize: fontSize ?? 20.0, configuration: configuration)
+        entries.append(entry)
+        
         return Timeline(entries: entries, policy: .never)
     }
 }
@@ -39,25 +45,48 @@ struct Provider: AppIntentTimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date = Date()
     let text: String
+    let color: Color
+    let fontSize: CGFloat
     let configuration: ConfigurationAppIntent
 }
 
 struct WidgetAppWidgetEntryView: View {
     var entry: Provider.Entry
+    
+    @State var widgetText: String = "Just a test"
+    @State var widgetFontSize: CGFloat = 20.0
+    @State var color: Color = .primary
+    
+    init(entry: SimpleEntry) {
+        self.entry = entry 
 
+        self.color = entry.color
+        self.widgetText = entry.text
+        self.widgetFontSize = entry.fontSize
+    }
+    
     var body: some View {
-        Text(entry.text)
+        WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize)
+    }
+    
+    func bindingFromString(_ string: String) -> Binding<String> {
+        Binding<String>(
+            get: { string },
+            set: { newValue in
+            }
+        )
     }
 }
 
 struct WidgetAppWidget: Widget {
     let kind: String = "WidgetAppWidget"
-
+    
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             WidgetAppWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+                .containerBackground(entry.color, for: .widget)
         }
+        .supportedFamilies([.accessoryCircular, .accessoryRectangular, .systemSmall, .systemMedium, .systemLarge])
     }
 }
 
@@ -75,9 +104,20 @@ extension ConfigurationAppIntent {
     }
 }
 
+#Preview(as: .accessoryRectangular) {
+    WidgetAppWidget()
+} timeline: {
+    SimpleEntry(text: "Just a very simple text", color: .primary, fontSize: 20.0, configuration: .smiley)
+}
+
+#Preview(as: .systemMedium) {
+    WidgetAppWidget()
+} timeline: {
+    SimpleEntry(text: "Just a very simple text", color: .primary, fontSize: 20.0, configuration: .smiley)
+}
+
 #Preview(as: .systemSmall) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Test 1", configuration: .smiley)
-    SimpleEntry(text: "Test 2", configuration: .starEyes)
+    SimpleEntry(text: "Just a very simple text", color: .primary, fontSize: 20.0, configuration: .smiley)
 }
