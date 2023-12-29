@@ -44,7 +44,7 @@ struct ContentView: View {
             }
             .padding([.leading, .trailing], 20)
             Spacer()
-            Slider(value: $fontSize, in: 10...30)
+//            Slider(value: $fontSize, in: 10...30)
         }
         .padding()
         .padding([.top], 30)
