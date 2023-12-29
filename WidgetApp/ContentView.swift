@@ -10,38 +10,50 @@ import WidgetKit
 import UIKit
 
 struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     @State var textfielContent = ""
     @State var backgroundColor = Color(.sRGB, red: 1.0, green: 1.0, blue: 1.0)
-    @State var fontSize: CGFloat = 15.0
+    @State var fontSize: CGFloat = 30.0
     @State var isBold = false
     
     var body: some View {
         VStack {
-            Group {
-                WidgetView(text: $textfielContent, fontSize: $fontSize)
-                    .padding(10)
-                    .background(backgroundColor)
-                    .border(.black)
-                    .fontWeight(isBold ? .bold : .medium)
-            }
-            .background(.black)
-            .frame(maxWidth: .infinity)
+            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold)
+                .frame(width: 200, height: 200)
+                .padding(20)
+                .background(backgroundColor)
+                .fontWeight(isBold ? .bold : .regular)
+                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .frame(maxWidth: .infinity)
+            Spacer()
+                .frame(height: 50)
             TextField("Enter widget content", text: $textfielContent)
-                .frame(height: 200)
-                .colorInvert()
-            Toggle(isOn: $isBold, label: {
-                Text("Should be bold")
-            })
-            ColorPicker("Background color", selection: $backgroundColor)
-            Slider(value: $fontSize, in: 15...50)
+                .frame(height: 40)
+                .padding(20)
+                .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+            Spacer()
+                .frame(height: 50)
+            VStack {
+                Toggle(isOn: $isBold, label: {
+                    Text("Should be bold")
+                })
+                ColorPicker("Background color", selection: $backgroundColor)
+            }
+            .padding([.leading, .trailing], 20)
+            Spacer()
+            Slider(value: $fontSize, in: 10...30)
         }
         .padding()
         .padding([.top], 30)
-        .padding([.leading, .trailing], 20)
         .onAppear {
             let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
             let readData = sharedDefaults?.object(forKey: "widgetContent") as? String
             let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
+            let shouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool
+            
             let colorData = sharedDefaults?.object(forKey: "widgetColor") as? String
             var color: Color?
             if let colorData {
@@ -50,6 +62,7 @@ struct ContentView: View {
                 }
             }
             
+            self.isBold = shouldBeBold ?? false
             self.textfielContent = readData ?? ""
             self.fontSize = fontSize ?? 15.0
         }
@@ -63,7 +76,7 @@ struct ContentView: View {
             updateSettings()
         }
         .onChange(of: fontSize) {
-            updateSettings()
+            //            updateSettings()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             WidgetCenter.shared.reloadAllTimelines()
@@ -76,6 +89,7 @@ struct ContentView: View {
         sharedDefaults?.set(textfielContent, forKey: "widgetContent")
         sharedDefaults?.set(fontSize, forKey: "widgetFontSize")
         sharedDefaults?.set(backgroundColor.rawValue, forKey: "widgetColor")
+        sharedDefaults?.set(isBold, forKey: "widgetBold")
     }
 }
 

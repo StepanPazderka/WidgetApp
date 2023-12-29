@@ -10,6 +10,7 @@ import SwiftUI
 struct WidgetView: View {
     @Binding var text: String
     @Binding var fontSize: CGFloat
+    @Binding var shouldBeBold: Bool
 
     var body: some View {
         Text(text)
@@ -18,5 +19,5 @@ struct WidgetView: View {
 }
 
 #Preview {
-    WidgetView(text: .constant("Just some text"), fontSize: .constant(20))
+    WidgetView(text: .constant("Just some text"), fontSize: .constant(20), shouldBeBold: .constant(true))
 }
