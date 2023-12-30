@@ -11,13 +11,15 @@ struct WidgetView: View {
     @Binding var text: String
     @Binding var fontSize: CGFloat
     @Binding var shouldBeBold: Bool
+    @Binding var textPadding: CGFloat
 
     var body: some View {
         Text(text)
             .font(.system(size: fontSize))
+            .padding(textPadding)
     }
 }
 
 #Preview {
-    WidgetView(text: .constant("Just some text"), fontSize: .constant(20), shouldBeBold: .constant(true))
+    WidgetView(text: .constant("Just some text"), fontSize: .constant(20), shouldBeBold: .constant(true), textPadding: .constant(0))
 }

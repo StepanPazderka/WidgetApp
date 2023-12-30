@@ -14,14 +14,14 @@ struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
 
-        return SimpleEntry(text: "Just some quote", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0, configuration: ConfigurationAppIntent())
+        return SimpleEntry(text: "Just some quote", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
     }
     
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let text = sharedDefaults?.object(forKey: "widgetContent") as? String
         let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
 
-        return SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0, configuration: configuration)
+        return SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
@@ -35,7 +35,7 @@ struct Provider: AppIntentTimelineProvider {
         if let colorData {
             color = Color(rawValue: colorData)
         }
-        let entry = SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0, configuration: configuration)
+        let entry = SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
         entries.append(entry)
         return Timeline(entries: entries, policy: .never)
     }
@@ -47,7 +47,7 @@ struct SimpleEntry: TimelineEntry {
     let shouldBeBold: Bool
     let color: Color
     let fontSize: CGFloat
-    let configuration: ConfigurationAppIntent
+//    let configuration: ConfigurationAppIntent
 }
 
 struct WidgetAppWidgetEntryView: View {
@@ -66,7 +66,7 @@ struct WidgetAppWidgetEntryView: View {
     }
     
     var body: some View {
-        WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold)
+        WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
     }
     
     func bindingFromString(_ string: String) -> Binding<String> {
@@ -82,7 +82,7 @@ struct WidgetAppWidget: Widget {
     let kind: String = "WidgetAppWidget"
     
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, provider: Provider()) { entry in
             let color = entry.color
             
             WidgetAppWidgetEntryView(entry: entry)
@@ -98,13 +98,13 @@ struct WidgetAppWidget: Widget {
 extension ConfigurationAppIntent {
     fileprivate static var smiley: ConfigurationAppIntent {
         let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
+//        intent.favoriteEmoji = "😀"
         return intent
     }
     
     fileprivate static var starEyes: ConfigurationAppIntent {
         let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
+//        intent.favoriteEmoji = "🤩"
         return intent
     }
 }
@@ -112,17 +112,17 @@ extension ConfigurationAppIntent {
 #Preview(as: .accessoryRectangular) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0, configuration: .smiley)
+    SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
 }
 
 #Preview(as: .systemMedium) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Just a very simple text", shouldBeBold: false, color: .red, fontSize: 20.0, configuration: .smiley)
+    SimpleEntry(text: "Just a very simple text", shouldBeBold: false, color: .red, fontSize: 20.0)
 }
 
 #Preview(as: .systemSmall) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0, configuration: .smiley)
+    SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
 }

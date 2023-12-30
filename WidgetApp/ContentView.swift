@@ -15,14 +15,15 @@ struct ContentView: View {
     @State var textfielContent = ""
     @State var backgroundColor = Color(.sRGB, red: 1.0, green: 1.0, blue: 1.0)
     @State var fontSize: CGFloat = 30.0
+    @State var padding: CGFloat = 10.0
     @State var isBold = false
     
     var body: some View {
         VStack {
             VStack {
-                WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold)
-                    .padding(36)
-                    .frame(width: 200, height: 200)
+                WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                    .padding(17)
+                    .frame(width: 180, height: 180)
                     .background(backgroundColor)
                     .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
                     .font(.system(size: fontSize))
@@ -32,16 +33,16 @@ struct ContentView: View {
             
             Spacer()
                 .frame(height: 50)
-            TextField("Enter widget message", text: $textfielContent)
-                .frame(width: 300, height: 100, alignment: .top)
-                .padding(20)
-                .multilineTextAlignment(.leading)
+            TextEditor(text: $textfielContent)
+                .padding(15)
+                .scrollContentBackground(.hidden)
                 .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
             Spacer()
                 .frame(height: 50)
             VStack {
                 Slider(value: $fontSize, in: 10...30, step: 1)
+                Spacer()
                 Toggle(isOn: $isBold, label: {
                     Text("Should be bold")
                 })
@@ -49,6 +50,7 @@ struct ContentView: View {
             }
             .padding([.leading, .trailing], 20)
             Spacer()
+                .frame(height: 150)
         }
         .padding()
         .padding([.top], 30)
