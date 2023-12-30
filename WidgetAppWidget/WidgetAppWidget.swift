@@ -30,7 +30,6 @@ struct Provider: AppIntentTimelineProvider {
         let text = sharedDefaults?.object(forKey: "widgetContent") as? String
         let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
         let shouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool
-
         let colorData = sharedDefaults?.object(forKey: "widgetColor") as? String
         var color: Color?
         if let colorData {
@@ -38,7 +37,6 @@ struct Provider: AppIntentTimelineProvider {
         }
         let entry = SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0, configuration: configuration)
         entries.append(entry)
-        
         return Timeline(entries: entries, policy: .never)
     }
 }
@@ -64,7 +62,7 @@ struct WidgetAppWidgetEntryView: View {
         self.entry = entry
         self.color = entry.color
         self.widgetText = entry.text
-        self.widgetFontSize = entry.fontSize
+        self._widgetFontSize = State(initialValue: entry.fontSize)
     }
     
     var body: some View {

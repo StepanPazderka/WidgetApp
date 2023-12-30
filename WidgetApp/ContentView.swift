@@ -19,24 +19,29 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold)
-                .frame(width: 200, height: 200)
-                .padding(20)
-                .background(backgroundColor)
-                .fontWeight(isBold ? .bold : .regular)
-                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                .clipShape(RoundedRectangle(cornerRadius: 30))
-                .frame(maxWidth: .infinity)
+            VStack {
+                WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold)
+                    .padding(36)
+                    .frame(width: 200, height: 200)
+                    .background(backgroundColor)
+                    .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                    .font(.system(size: fontSize))
+                    .fontWeight( isBold ? .bold : .regular)
+                    .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+            }
+            
             Spacer()
                 .frame(height: 50)
-            TextField("Enter widget content", text: $textfielContent)
-                .frame(height: 40)
+            TextField("Enter widget message", text: $textfielContent)
+                .frame(width: 300, height: 100, alignment: .top)
                 .padding(20)
+                .multilineTextAlignment(.leading)
                 .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
             Spacer()
                 .frame(height: 50)
             VStack {
+                Slider(value: $fontSize, in: 10...30, step: 1)
                 Toggle(isOn: $isBold, label: {
                     Text("Should be bold")
                 })
@@ -44,7 +49,6 @@ struct ContentView: View {
             }
             .padding([.leading, .trailing], 20)
             Spacer()
-//            Slider(value: $fontSize, in: 10...30)
         }
         .padding()
         .padding([.top], 30)
@@ -76,7 +80,7 @@ struct ContentView: View {
             updateSettings()
         }
         .onChange(of: fontSize) {
-            //            updateSettings()
+            updateSettings()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             WidgetCenter.shared.reloadAllTimelines()
@@ -88,6 +92,7 @@ struct ContentView: View {
         let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
         sharedDefaults?.set(textfielContent, forKey: "widgetContent")
         sharedDefaults?.set(fontSize, forKey: "widgetFontSize")
+        print("Saving font size \(fontSize)")
         sharedDefaults?.set(backgroundColor.rawValue, forKey: "widgetColor")
         sharedDefaults?.set(isBold, forKey: "widgetBold")
     }
