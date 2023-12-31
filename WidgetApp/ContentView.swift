@@ -22,27 +22,26 @@ struct ContentView: View {
         VStack {
             VStack {
                 ScrollView(.horizontal) {
-                    LazyHStack(spacing: 0) {
-                        HStack(alignment: .center) {
-                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                                .padding(17)
-                                .frame(width: 180, height: 180)
-                                .background(backgroundColor)
-                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                                .font(.system(size: fontSize))
-                                .fontWeight( isBold ? .bold : .regular)
-                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
-                                .containerRelativeFrame(.horizontal)
-                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                                .padding(17)
-                                .frame(width: 350, height: 180)
-                                .background(backgroundColor)
-                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                                .font(.system(size: fontSize))
-                                .fontWeight( isBold ? .bold : .regular)
-                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
-                                .containerRelativeFrame(.horizontal)
-                        }
+                    LazyHStack(alignment: .center, spacing: 0) {
+                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                            .padding(17)
+                            .frame(width: 180, height: 180)
+                            .background(backgroundColor)
+                            .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                            .font(.system(size: fontSize))
+                            .fontWeight( isBold ? .bold : .regular)
+                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                            .containerRelativeFrame(.horizontal)
+                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                            .padding([.leading, .trailing], 7)
+                            .frame(width: 340, height: 160)
+                            .background(backgroundColor)
+                            .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                            .font(.system(size: fontSize))
+                            .fontWeight( isBold ? .bold : .regular)
+                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                            .containerRelativeFrame(.horizontal)
+                        
                     }
                     .scrollTargetLayout()
                 }

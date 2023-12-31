@@ -72,8 +72,7 @@ struct WidgetAppWidgetEntryView: View {
     func bindingFromString(_ string: String) -> Binding<String> {
         Binding<String>(
             get: { string },
-            set: { newValue in
-            }
+            set: { newValue in }
         )
     }
 }
