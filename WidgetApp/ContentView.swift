@@ -21,23 +21,44 @@ struct ContentView: View {
     var body: some View {
         VStack {
             VStack {
-                WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                    .padding(17)
-                    .frame(width: 180, height: 180)
-                    .background(backgroundColor)
-                    .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                    .font(.system(size: fontSize))
-                    .fontWeight( isBold ? .bold : .regular)
-                    .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 0) {
+                        HStack(alignment: .center) {
+                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                .padding(17)
+                                .frame(width: 180, height: 180)
+                                .background(backgroundColor)
+                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                                .font(.system(size: fontSize))
+                                .fontWeight( isBold ? .bold : .regular)
+                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                                .containerRelativeFrame(.horizontal)
+                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                .padding(17)
+                                .frame(width: 350, height: 180)
+                                .background(backgroundColor)
+                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                                .font(.system(size: fontSize))
+                                .fontWeight( isBold ? .bold : .regular)
+                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                                .containerRelativeFrame(.horizontal)
+                        }
+                    }
+                    .scrollTargetLayout()
+                }
+                .padding(0)
+                .scrollTargetBehavior(.paging)
+                .frame(maxWidth: .infinity)
+                .frame(height: 220)
             }
             
             Spacer()
-                .frame(height: 50)
             TextEditor(text: $textfielContent)
                 .padding(15)
                 .scrollContentBackground(.hidden)
                 .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+                .frame(height: 150)
             Spacer()
                 .frame(height: 50)
             VStack {
