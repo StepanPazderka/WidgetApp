@@ -20,8 +20,14 @@ struct Provider: AppIntentTimelineProvider {
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let text = sharedDefaults?.object(forKey: "widgetContent") as? String
         let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
+        let shouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool
+        let colorData = sharedDefaults?.object(forKey: "widgetColor") as? String
+        var color: Color?
 
-        return SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
+        if let colorData {
+            color = Color(rawValue: colorData)
+        }
+        return SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
