@@ -14,4 +14,9 @@ struct WidgetAppApp: App {
             ContentView()
         }
     }
+    
+    init() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .gray
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
+    }
 }

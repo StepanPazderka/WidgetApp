@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 extension Color: RawRepresentable {
-
+    
     public init?(rawValue: String) {
         guard let data = Data(base64Encoded: rawValue) else {
             self = .gray

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
     let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
+    let icloudDefaults = NSUbiquitousKeyValueStore.default
     
     func placeholder(in context: Context) -> SimpleEntry {
         let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
@@ -27,17 +28,63 @@ struct Provider: AppIntentTimelineProvider {
         if let colorData {
             color = Color(rawValue: colorData)
         }
-        return SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
+        return SimpleEntry(text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
         var entries: [SimpleEntry] = []
-
-        let text = sharedDefaults?.object(forKey: "widgetContent") as? String
-        let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
-        let shouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool
-        let colorData = sharedDefaults?.object(forKey: "widgetColor") as? String
+        
+        var widgetType: WidgetTypes?
+        if context.family == .systemSmall {
+            widgetType = .systemSmall
+            print("Small: \(context.displaySize)")
+            let smallWidgetSize: [String: CGFloat] = [
+                "width": context.displaySize.width,
+                "height": context.displaySize.height
+            ]
+            sharedDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
+        } else if context.family == .systemMedium {
+            print("Medium: \(context.displaySize)")
+            widgetType = .systemMedium
+            let mediumWidgetSize: [String: CGFloat] = [
+                "width": context.displaySize.width,
+                "height": context.displaySize.height
+            ]
+            sharedDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
+        } else if context.family == .systemLarge {
+            print("Large: \(context.displaySize)")
+            widgetType = .systemLarge
+            let largeWidgetSize: [String: CGFloat] = [
+                "width": context.displaySize.width,
+                "height": context.displaySize.height
+            ]
+            sharedDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
+        } else if context.family == .systemExtraLarge {
+            print("Extra large: \(context.displaySize)")
+            widgetType = .systemExtraLarge
+            let extraLargeWidgetSize: [String: CGFloat] = [
+                "width": context.displaySize.width,
+                "height": context.displaySize.height
+            ]
+            sharedDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
+        } else if context.family == .accessoryRectangular {
+            widgetType = .accessoryRectangular
+            print("Rectangular: \(context.displaySize)")
+        } else if context.family == .accessoryCircular {
+            widgetType = .accessoryCircular
+            print("Circular: \(context.displaySize)")
+        }
+        
+        let text = sharedDefaults?.object(forKey: "0-widgetContent") as? String
+        let fontSize = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
+        let shouldBeBold = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
+        let colorData = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
+        
+        if context.family == .accessoryRectangular {
+            print("Showing rectangular")
+        }
+        
         if let colorData {
             color = Color(rawValue: colorData)
         }
@@ -53,7 +100,6 @@ struct SimpleEntry: TimelineEntry {
     let shouldBeBold: Bool
     let color: Color
     let fontSize: CGFloat
-//    let configuration: ConfigurationAppIntent
 }
 
 struct WidgetAppWidgetEntryView: View {

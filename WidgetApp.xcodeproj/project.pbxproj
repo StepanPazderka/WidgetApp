@@ -18,6 +18,8 @@
 		7F44D45A2B34498A00730DA6 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D4592B34498A00730DA6 /* AppIntent.swift */; };
 		7F44D45C2B34498A00730DA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D45B2B34498A00730DA6 /* Assets.xcassets */; };
 		7F44D4612B34498A00730DA6 /* WidgetAppWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7F44D4512B34498900730DA6 /* WidgetAppWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
+		7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F7E9BFA2B35CFF80016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
@@ -64,6 +66,7 @@
 		7F44D45B2B34498A00730DA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F44D45D2B34498A00730DA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F44D45E2B34498A00730DA6 /* WidgetAppWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetAppWidget.entitlements; sourceTree = "<group>"; };
+		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
 		7F998AF62B3492EC0094F970 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +94,7 @@
 		7F44D3FE2B34440400730DA6 = {
 			isa = PBXGroup;
 			children = (
+				7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */,
 				7F44D4092B34440400730DA6 /* WidgetApp */,
 				7F44D4542B34498900730DA6 /* WidgetAppWidget */,
 				7F44D41E2B3444B200730DA6 /* Frameworks */,
@@ -264,6 +268,7 @@
 				7F7E9BFA2B35CFF80016407C /* Color+encode.swift in Sources */,
 				7F44D40D2B34440400730DA6 /* ContentView.swift in Sources */,
 				7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */,
+				7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F44D4562B34498900730DA6 /* WidgetAppWidgetBundle.swift in Sources */,
+				7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */,
 				7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */,
 				7F44D4582B34498A00730DA6 /* WidgetAppWidget.swift in Sources */,
 				7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */,
