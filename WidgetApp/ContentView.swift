@@ -28,7 +28,7 @@ struct ContentView: View {
     @State var smallWidgetSize: CGSize = CGSize(width: 170, height: 170)
     @State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
     @State var largeWidgetSize: CGSize = CGSize(width: 364, height: 364)
-    @State var extraLargeWidgetSize: CGSize = CGSize(width: 364, height: 364)
+    @State var extraLargeWidgetSize: CGSize = CGSize(width: 715, height: 364)
     
     private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
     
@@ -67,6 +67,16 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
                             .containerRelativeFrame(.horizontal)
                             .tag(WidgetTypes.systemLarge)
+                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                            .padding(6)
+                            .frame(width: extraLargeWidgetSize.width, height: extraLargeWidgetSize.height)
+                            .background(backgroundColor)
+                            .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                            .font(.system(size: fontSize))
+                            .fontWeight( isBold ? .bold : .regular)
+                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                            .containerRelativeFrame(.horizontal)
+                            .tag(WidgetTypes.systemExtraLarge)
                     }
                     WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
                         .padding(2)
@@ -117,7 +127,11 @@ struct ContentView: View {
                 Spacer()
                     .frame(height: 50)
                 VStack {
-                    Slider(value: $fontSize, in: 10...30, step: 1)
+                    if idiom == .pad {
+                        Slider(value: $fontSize, in: 20...80, step: 1)
+                    } else {
+                        Slider(value: $fontSize, in: 10...30, step: 1)
+                    }
                     Spacer()
                     Toggle(isOn: $isBold, label: {
                         Text("Should be bold")

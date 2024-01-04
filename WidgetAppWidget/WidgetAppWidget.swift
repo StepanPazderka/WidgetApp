@@ -142,7 +142,7 @@ struct WidgetAppWidget: Widget {
                 .foregroundStyle(color.complementaryColor(for: color))
                 .fontWeight( entry.shouldBeBold ? .bold : .regular)
         }
-        .supportedFamilies([.accessoryCircular, .accessoryRectangular, .systemSmall, .systemMedium, .systemLarge])
+        .supportedFamilies([.accessoryCircular, .accessoryRectangular, .systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
     }
 }
 
