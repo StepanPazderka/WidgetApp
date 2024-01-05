@@ -24,6 +24,8 @@
 		7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
 		7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
+		7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */; };
+		7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,7 @@
 		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
 		7F998AF62B3492EC0094F970 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideKeyboard.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				7F7E9BF92B35CFF80016407C /* Color+encode.swift */,
+				7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -181,6 +186,9 @@
 				7F44D4602B34498A00730DA6 /* PBXTargetDependency */,
 			);
 			name = WidgetApp;
+			packageProductDependencies = (
+				7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */,
+			);
 			productName = WidgetApp;
 			productReference = 7F44D4072B34440400730DA6 /* WidgetApp.app */;
 			productType = "com.apple.product-type.application";
@@ -229,6 +237,9 @@
 				Base,
 			);
 			mainGroup = 7F44D3FE2B34440400730DA6;
+			packageReferences = (
+				7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = 7F44D4082B34440400730DA6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -269,6 +280,7 @@
 				7F44D40D2B34440400730DA6 /* ContentView.swift in Sources */,
 				7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */,
 				7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */,
+				7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +430,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WidgetApp/WidgetApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -440,7 +452,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pazderka.WidgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -459,7 +471,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WidgetApp/WidgetApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -481,7 +493,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pazderka.WidgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -599,6 +611,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.16;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7F44D3FF2B34440400730DA6 /* Project object */;
 }

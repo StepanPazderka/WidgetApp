@@ -43,7 +43,11 @@ extension Color: RawRepresentable {
     
     func complementaryColor(for color: Color) -> Color {
         // Convert the Color to UIColor to access its components
+        #if os(iOS)
         let uiColor = UIColor(color)
+        #elseif os(OSX)
+        let uiColor = NSColor(color)
+        #endif
         
         // Get the HSB components of the color
         var hue: CGFloat = 0

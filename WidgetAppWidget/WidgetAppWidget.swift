@@ -14,15 +14,15 @@ struct Provider: AppIntentTimelineProvider {
     
     func placeholder(in context: Context) -> SimpleEntry {
         let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
-
+        
         return SimpleEntry(text: "Just some quote", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
     }
     
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let text = sharedDefaults?.object(forKey: "0-widgetContent") as? String
         var widgetType: WidgetTypes?
-
-    
+        
+        
         if context.family == .systemSmall {
             widgetType = .systemSmall
             print("Small: \(context.displaySize)")
@@ -55,19 +55,22 @@ struct Provider: AppIntentTimelineProvider {
                 "height": context.displaySize.height
             ]
             sharedDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
-        } else if context.family == .accessoryRectangular {
+        }
+#if os(iOS)
+        if context.family == .accessoryRectangular {
             widgetType = .accessoryRectangular
             print("Rectangular: \(context.displaySize)")
         } else if context.family == .accessoryCircular {
             widgetType = .accessoryCircular
             print("Circular: \(context.displaySize)")
         }
+#endif
         
         let fontSize = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
         let shouldBeBold = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
         let colorData = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
-
+        
         if let colorData {
             color = Color(rawValue: colorData)
         }
@@ -110,13 +113,16 @@ struct Provider: AppIntentTimelineProvider {
                 "height": context.displaySize.height
             ]
             sharedDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
-        } else if context.family == .accessoryRectangular {
+        }
+#if os(iOS)
+        if context.family == .accessoryRectangular {
             widgetType = .accessoryRectangular
             print("Rectangular: \(context.displaySize)")
         } else if context.family == .accessoryCircular {
             widgetType = .accessoryCircular
             print("Circular: \(context.displaySize)")
         }
+#endif
         
         let text = sharedDefaults?.object(forKey: "0-widgetContent") as? String
         let fontSize = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
@@ -124,9 +130,11 @@ struct Provider: AppIntentTimelineProvider {
         let colorData = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
         
+#if os(iOS)
         if context.family == .accessoryRectangular {
             print("Showing rectangular")
         }
+#endif
         
         if let colorData {
             color = Color(rawValue: colorData)
@@ -175,6 +183,7 @@ struct WidgetAppWidgetEntryView: View {
 struct WidgetAppWidget: Widget {
     let kind: String = "WidgetAppWidget"
     
+#if os(iOS)
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, provider: Provider()) { entry in
             let color = entry.color
@@ -187,27 +196,44 @@ struct WidgetAppWidget: Widget {
         }
         .supportedFamilies([.accessoryCircular, .accessoryRectangular, .systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
     }
+#elseif os(macOS)
+    var body: some WidgetConfiguration {
+        AppIntentConfiguration(kind: kind, provider: Provider()) { entry in
+            let color = entry.color
+            
+            WidgetAppWidgetEntryView(entry: entry)
+                .containerBackground(entry.color, for: .widget)
+                .font(.system(size: entry.fontSize))
+                .foregroundStyle(color.complementaryColor(for: color))
+                .fontWeight( entry.shouldBeBold ? .bold : .regular)
+        }
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
+    }
+#endif
+    
 }
 
 extension ConfigurationAppIntent {
     fileprivate static var smiley: ConfigurationAppIntent {
         let intent = ConfigurationAppIntent()
-//        intent.favoriteEmoji = "😀"
+        //        intent.favoriteEmoji = "😀"
         return intent
     }
     
     fileprivate static var starEyes: ConfigurationAppIntent {
         let intent = ConfigurationAppIntent()
-//        intent.favoriteEmoji = "🤩"
+        //        intent.favoriteEmoji = "🤩"
         return intent
     }
 }
 
+#if os(iOS)
 #Preview(as: .accessoryRectangular) {
     WidgetAppWidget()
 } timeline: {
     SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
 }
+#endif
 
 #Preview(as: .systemMedium) {
     WidgetAppWidget()
