@@ -161,6 +161,8 @@ struct WidgetAppWidgetEntryView: View {
     @State var color: Color = .primary
     @State var shouldBeBold: Bool = false
     
+    @Environment(\.widgetFamily) var family //<- here
+    
     init(entry: SimpleEntry) {
         self.entry = entry
         self.color = entry.color
@@ -169,7 +171,44 @@ struct WidgetAppWidgetEntryView: View {
     }
     
     var body: some View {
-        WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+        switch family {
+        case .systemMedium:
+            Link(destination: URL(string: "echoframe://systemMedium")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            }
+        case .systemSmall:
+            Link(destination: URL(string: "echoframe://systemSmall")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            }
+        case .systemLarge:
+            Link(destination: URL(string: "echoframe://systemLarge")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            }
+        case .systemExtraLarge:
+            Link(destination: URL(string: "echoframe://systemExtraLarge")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            }
+        case .accessoryCircular:
+            Link(destination: URL(string: "echoframe://accessoryCircular")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                    .foregroundStyle(.white)
+            }
+        case .accessoryRectangular:
+            Link(destination: URL(string: "echoframe://accessoryRectangular")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                    .foregroundStyle(.white)
+            }
+        case .accessoryInline:
+            Link(destination: URL(string: "echoframe://accessoryInline")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                    .foregroundStyle(.white)
+            }
+        @unknown default:
+            Link(destination: URL(string: "echoframe://")!) {
+                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            }
+        }
+        
     }
     
     func bindingFromString(_ string: String) -> Binding<String> {
@@ -210,7 +249,6 @@ struct WidgetAppWidget: Widget {
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
     }
 #endif
-    
 }
 
 extension ConfigurationAppIntent {

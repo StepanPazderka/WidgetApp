@@ -22,7 +22,7 @@ struct ContentView: View {
     @State var fontSize: CGFloat = 30.0
     @State var padding: CGFloat = 10.0
     @State var isBold = false
-        
+    
     @State var widgetStyleSelectedInPreview: WidgetTypes = .systemSmall
     @State var widgetNumber: Int = 0
     
@@ -30,15 +30,16 @@ struct ContentView: View {
     @State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
     @State var largeWidgetSize: CGSize = CGSize(width: 364, height: 364)
     @State var extraLargeWidgetSize: CGSize = CGSize(width: 715, height: 364)
-        
-    private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+    
+    private var deviceType : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
     
     var body: some View {
+        ScrollView {
             VStack {
                 VStack {
                     TabView(selection: $widgetStyleSelectedInPreview) {
                         WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                            .padding(6)
+                            .padding( deviceType == .pad ? 4 : 6)
                             .frame(width: smallWidgetSize.width, height: smallWidgetSize.height)
                             .background(backgroundColor)
                             .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
@@ -57,7 +58,7 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
                             .containerRelativeFrame(.horizontal)
                             .tag(WidgetTypes.systemMedium)
-                        if idiom == .pad {
+                        if deviceType == .pad {
                             WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
                                 .padding(6)
                                 .frame(width: largeWidgetSize.width, height: largeWidgetSize.height)
@@ -104,10 +105,9 @@ struct ContentView: View {
                             .containerRelativeFrame(.horizontal)
                             .tag(WidgetTypes.accessoryCircular)
                     }
-                    .animation(nil, value: fontSize)
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(maxWidth: .infinity)
-                    .frame(height: idiom == .pad ? 450 : 300)
+                    .frame(height: deviceType == .pad ? 400 : 300)
                     .onChange(of: widgetStyleSelectedInPreview) { oldValue, newValue in
                         print(newValue.rawValue)
                         loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
@@ -115,23 +115,20 @@ struct ContentView: View {
                     .onAppear {
                         loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
                     }
+                    .animation(.easeInOut(duration: 4), value: widgetStyleSelectedInPreview)
                 }.onTapGesture {
                     self.hideKeyboard()
                 }
                 
                 VStack {
-                    Spacer()
-                        .frame(height: 20)
                     TextEditor(text: $textfielContent)
                         .padding(15)
                         .scrollContentBackground(.hidden)
                         .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
                         .frame(height: 150)
-                    Spacer()
-                        .frame(height: 20)
                     VStack {
-                        if idiom == .pad {
+                        if deviceType == .pad {
                             Slider(value: $fontSize, in: 10...80, step: 1)
                         } else {
                             Slider(value: $fontSize, in: 5...30, step: 1)
@@ -144,8 +141,6 @@ struct ContentView: View {
                         ColorPicker("Background color", selection: $backgroundColor)
                     }
                     .padding([.leading, .trailing], 20)
-                    Spacer()
-                        .frame(height: 150)
                 }
                 .frame(maxWidth: 600)
                 .onTapGesture {
@@ -177,6 +172,12 @@ struct ContentView: View {
                 WidgetCenter.shared.reloadAllTimelines()
             })
             Spacer()
+        }
+        .onOpenURL { url in
+            if let widgetFamily = url.host(), let selectedWidget = WidgetTypes.init(rawValue: widgetFamily) {
+                self.widgetStyleSelectedInPreview = selectedWidget
+            }
+        }
     }
     
     func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
@@ -195,7 +196,7 @@ struct ContentView: View {
     
     func transferOldSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
         let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
-                
+        
         if let oldContentData = sharedDefaults?.object(forKey: "widgetContent") as? String {
             sharedDefaults?.set(oldContentData, forKey: "\(forWidgetNo)-widgetContent")
             sharedDefaults?.removeObject(forKey: "widgetContent")
@@ -205,12 +206,12 @@ struct ContentView: View {
             sharedDefaults?.set(oldFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
             sharedDefaults?.removeObject(forKey: "widgetFontSize")
         }
-
+        
         if let oldColorData = sharedDefaults?.object(forKey: "widgetColor") as? String {
             sharedDefaults?.set(oldColorData, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
             sharedDefaults?.removeObject(forKey: "widgetColor")
         }
-            
+        
         if let oldShouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool {
             sharedDefaults?.set(oldShouldBeBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
             sharedDefaults?.removeObject(forKey: "widgetBold")
@@ -258,9 +259,7 @@ struct ContentView: View {
         if let colorDataFromiCloud {
             sharedDefaults?.set(colorDataFromiCloud, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
         }
-        
-        print("iCloud Text: \(textDataFromiCloud), iCloud bold: \(isBoldFromiCloud)")
-        
+                
         if let colorDataFromiCloud {
             if let color = Color(rawValue: colorDataFromiCloud) {
                 self.backgroundColor = color
@@ -280,7 +279,7 @@ struct ContentView: View {
         if let textData, textData.isEmpty {
             self.textfielContent = "This is a preview text that will be in the widget"
         }
-
+        
         withAnimation {
             self.fontSize = fontSize ?? 15.0
         }
