@@ -9,7 +9,7 @@ import SwiftUI
 import WidgetKit
 import UIKit
 
-struct ContentView: View {
+struct WidgetSettingsView: View {
     let icloudDefaults = NSUbiquitousKeyValueStore.default
     let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
     
@@ -34,149 +34,147 @@ struct ContentView: View {
     private var deviceType : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
     
     var body: some View {
-        ScrollView {
-            VStack {
+        GeometryReader { geometry in
                 VStack {
-                    TabView(selection: $widgetStyleSelectedInPreview) {
-                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                            .padding( deviceType == .pad ? 4 : 6)
-                            .frame(width: smallWidgetSize.width, height: smallWidgetSize.height)
-                            .background(backgroundColor)
-                            .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                            .font(.system(size: fontSize))
-                            .fontWeight( isBold ? .bold : .regular)
-                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
-                            .containerRelativeFrame(.horizontal)
-                            .tag(WidgetTypes.systemSmall)
-                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                            .padding(6)
-                            .frame(width: mediumWidgetSize.width, height: mediumWidgetSize.height)
-                            .background(backgroundColor)
-                            .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                            .font(.system(size: fontSize))
-                            .fontWeight( isBold ? .bold : .regular)
-                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
-                            .containerRelativeFrame(.horizontal)
-                            .tag(WidgetTypes.systemMedium)
-                        if deviceType == .pad {
-                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                                .padding(6)
-                                .frame(width: largeWidgetSize.width, height: largeWidgetSize.height)
-                                .background(backgroundColor)
-                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                                .font(.system(size: fontSize))
-                                .fontWeight( isBold ? .bold : .regular)
-                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
-                                .containerRelativeFrame(.horizontal)
-                                .tag(WidgetTypes.systemLarge)
-                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                                .padding(6)
-                                .frame(width: extraLargeWidgetSize.width, height: extraLargeWidgetSize.height)
-                                .background(backgroundColor)
-                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
-                                .font(.system(size: fontSize))
-                                .fontWeight( isBold ? .bold : .regular)
-                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
-                                .containerRelativeFrame(.horizontal)
-                                .tag(WidgetTypes.systemExtraLarge)
-                        }
-                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                            .padding(2)
-                            .frame(width: 180, height: 85)
-                            .background(.black.opacity(0.5))
-                            .foregroundStyle(.white)
-                            .colorMultiply(.white)
-                            .grayscale(1.0)
-                            .font(.system(size: fontSize))
-                            .fontWeight( isBold ? .bold : .regular)
-                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(10, 10)))
-                            .containerRelativeFrame(.horizontal)
-                            .tag(WidgetTypes.accessoryRectangular)
-                        WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
-                            .padding(2)
-                            .frame(width: 72, height: 72)
-                            .background(.black.opacity(0.5))
-                            .foregroundStyle(.white)
-                            .colorMultiply(.white)
-                            .grayscale(1.0)
-                            .font(.system(size: fontSize))
-                            .fontWeight( isBold ? .bold : .regular)
-                            .clipShape(RoundedRectangle(cornerSize: CGSizeMake(10, 10)))
-                            .containerRelativeFrame(.horizontal)
-                            .tag(WidgetTypes.accessoryCircular)
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                    .frame(maxWidth: .infinity)
-                    .frame(height: deviceType == .pad ? 400 : 300)
-                    .onChange(of: widgetStyleSelectedInPreview) { oldValue, newValue in
-                        print(newValue.rawValue)
-                        loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-                    }
-                    .onAppear {
-                        loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-                    }
-                    .animation(.easeInOut(duration: 4), value: widgetStyleSelectedInPreview)
-                }.onTapGesture {
-                    self.hideKeyboard()
-                }
-                
-                VStack {
-                    TextEditor(text: $textfielContent)
-                        .padding(15)
-                        .scrollContentBackground(.hidden)
-                        .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
-                        .frame(height: 150)
                     VStack {
-                        if deviceType == .pad {
-                            Slider(value: $fontSize, in: 10...80, step: 1)
-                        } else {
-                            Slider(value: $fontSize, in: 5...30, step: 1)
+                        TabView(selection: $widgetStyleSelectedInPreview) {
+                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                .padding( deviceType == .pad ? 4 : 6)
+                                .frame(width: smallWidgetSize.width, height: smallWidgetSize.height)
+                                .background(backgroundColor)
+                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                                .font(.system(size: fontSize))
+                                .fontWeight( isBold ? .bold : .regular)
+                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                                .containerRelativeFrame(.horizontal)
+                                .tag(WidgetTypes.systemSmall)
+                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                .padding(6)
+                                .frame(width: mediumWidgetSize.width, height: mediumWidgetSize.height)
+                                .background(backgroundColor)
+                                .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                                .font(.system(size: fontSize))
+                                .fontWeight( isBold ? .bold : .regular)
+                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                                .containerRelativeFrame(.horizontal)
+                                .tag(WidgetTypes.systemMedium)
+                            if deviceType == .pad {
+                                WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                    .padding(6)
+                                    .frame(width: largeWidgetSize.width, height: largeWidgetSize.height)
+                                    .background(backgroundColor)
+                                    .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                                    .font(.system(size: fontSize))
+                                    .fontWeight( isBold ? .bold : .regular)
+                                    .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                                    .containerRelativeFrame(.horizontal)
+                                    .tag(WidgetTypes.systemLarge)
+                                WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                    .padding(6)
+                                    .frame(width: extraLargeWidgetSize.width, height: extraLargeWidgetSize.height)
+                                    .background(backgroundColor)
+                                    .foregroundStyle(backgroundColor.complementaryColor(for: backgroundColor))
+                                    .font(.system(size: fontSize))
+                                    .fontWeight( isBold ? .bold : .regular)
+                                    .clipShape(RoundedRectangle(cornerSize: CGSizeMake(30, 30)))
+                                    .containerRelativeFrame(.horizontal)
+                                    .tag(WidgetTypes.systemExtraLarge)
+                            }
+                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                .padding(2)
+                                .frame(width: 180, height: 85)
+                                .background(.black.opacity(0.5))
+                                .foregroundStyle(.white)
+                                .colorMultiply(.white)
+                                .grayscale(1.0)
+                                .font(.system(size: fontSize))
+                                .fontWeight( isBold ? .bold : .regular)
+                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(10, 10)))
+                                .containerRelativeFrame(.horizontal)
+                                .tag(WidgetTypes.accessoryRectangular)
+                            WidgetView(text: $textfielContent, fontSize: $fontSize, shouldBeBold: $isBold, textPadding: $padding)
+                                .padding(2)
+                                .frame(width: 72, height: 72)
+                                .background(.black.opacity(0.5))
+                                .foregroundStyle(.white)
+                                .colorMultiply(.white)
+                                .grayscale(1.0)
+                                .font(.system(size: fontSize))
+                                .fontWeight( isBold ? .bold : .regular)
+                                .clipShape(RoundedRectangle(cornerSize: CGSizeMake(10, 10)))
+                                .containerRelativeFrame(.horizontal)
+                                .tag(WidgetTypes.accessoryCircular)
                         }
-                        Spacer()
-                            .frame(height: 20)
-                        Toggle(isOn: $isBold, label: {
-                            Text("Should be bold")
-                        })
-                        ColorPicker("Background color", selection: $backgroundColor)
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                        .padding(.top, -50)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: deviceType == .pad ? 390 : 300)
+                        .onChange(of: widgetStyleSelectedInPreview) { oldValue, newValue in
+                            print(newValue.rawValue)
+                            loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                        }
+                        .onAppear {
+                            loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                        }
+                        .animation(.easeInOut(duration: 4), value: widgetStyleSelectedInPreview)
                     }
-                    .padding([.leading, .trailing], 20)
+                    .padding(0)
+                    .onTapGesture {
+                        self.hideKeyboard()
+                    }
+                    
+                    VStack {
+                        TextEditor(text: $textfielContent)
+                            .padding(15)
+                            .scrollContentBackground(.hidden)
+                            .background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+                            .frame(height: 150)
+                        VStack {
+                            if deviceType == .pad {
+                                Slider(value: $fontSize, in: 10...80, step: 1)
+                            } else {
+                                Slider(value: $fontSize, in: 5...30, step: 1)
+                            }
+                            Toggle(isOn: $isBold, label: {
+                                Text("Should be bold")
+                            })
+                            ColorPicker("Background color", selection: $backgroundColor)
+                        }
+                        .padding([.leading, .trailing], 20)
+                    }
+                    .frame(maxWidth: 600)
+                    .onTapGesture {
+                        self.hideKeyboard()
+                    }
                 }
-                .frame(maxWidth: 600)
-                .onTapGesture {
-                    self.hideKeyboard()
+                .padding([.top], 30)
+                .padding(.horizontal, 15)
+                .onChange(of: textfielContent) {
+                    updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                }
+                .onChange(of: isBold) {
+                    updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                }
+                .onChange(of: backgroundColor) {
+                    updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                }
+                .onChange(of: fontSize) {
+                    updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                    WidgetCenter.shared.reloadAllTimelines()
+                }
+                .onReceive(iCloudChangePublisher, perform: { _ in
+                    loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
+                    WidgetCenter.shared.reloadAllTimelines()
+                })
+            .onOpenURL { url in
+                if let widgetFamily = url.host(), let selectedWidget = WidgetTypes.init(rawValue: widgetFamily) {
+                    self.widgetStyleSelectedInPreview = selectedWidget
                 }
             }
-            .padding()
-            .padding([.top], 30)
-            .onAppear {
-                
-            }
-            .onChange(of: textfielContent) {
-                updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-            }
-            .onChange(of: isBold) {
-                updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-            }
-            .onChange(of: backgroundColor) {
-                updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-            }
-            .onChange(of: fontSize) {
-                updateSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                WidgetCenter.shared.reloadAllTimelines()
-            }
-            .onReceive(iCloudChangePublisher, perform: { _ in
-                loadSettings(forWidgetNo: widgetNumber, widgetSize: widgetStyleSelectedInPreview)
-                WidgetCenter.shared.reloadAllTimelines()
-            })
-            Spacer()
-        }
-        .onOpenURL { url in
-            if let widgetFamily = url.host(), let selectedWidget = WidgetTypes.init(rawValue: widgetFamily) {
-                self.widgetStyleSelectedInPreview = selectedWidget
-            }
+            .frame(height: geometry.size.height)
         }
     }
     
@@ -269,10 +267,8 @@ struct ContentView: View {
                 self.backgroundColor = color
             }
         } else {
-            self.backgroundColor = Color(uiColor: UIColor(hue: CGFloat.random(in: 0.0...1.0), saturation: CGFloat.random(in: 0.0...1.0), brightness: CGFloat.random(in: 0.0...1.0), alpha: 1.0))
+            self.backgroundColor = .random
         }
-        
-        
         
         self.isBold = isBoldFromiCloud ?? shouldBeBold ?? false
         self.textfielContent = textDataFromiCloud ?? textData ?? "This is a preview text that will be in the widget"
@@ -287,5 +283,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(textfielContent: "Preview Text")
+    WidgetSettingsView(textfielContent: "Preview Text")
 }

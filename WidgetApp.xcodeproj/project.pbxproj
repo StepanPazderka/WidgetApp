@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F1694D82B4CA5BA008F70D3 /* WidgetSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA635E12B4B6B5100E6D4CC /* WidgetSettings.swift */; };
 		7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40A2B34440400730DA6 /* WidgetApp.swift */; };
-		7F44D40D2B34440400730DA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40C2B34440400730DA6 /* ContentView.swift */; };
+		7F44D40D2B34440400730DA6 /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */; };
 		7F44D40F2B34440600730DA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D40E2B34440600730DA6 /* Assets.xcassets */; };
 		7F44D4132B34440600730DA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D4122B34440600730DA6 /* Preview Assets.xcassets */; };
 		7F44D4522B34498900730DA6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F44D41F2B3444B200730DA6 /* WidgetKit.framework */; };
@@ -24,8 +25,16 @@
 		7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
 		7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
+		7FA635E32B4B6B5100E6D4CC /* WidgetSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA635E12B4B6B5100E6D4CC /* WidgetSettings.swift */; };
+		7FA635E52B4B711700E6D4CC /* WidgetContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA635E42B4B711700E6D4CC /* WidgetContentProvider.swift */; };
+		7FA635E62B4B711700E6D4CC /* WidgetContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA635E42B4B711700E6D4CC /* WidgetContentProvider.swift */; };
+		7FA635EB2B4B933F00E6D4CC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA635EA2B4B933F00E6D4CC /* MainView.swift */; };
+		7FA635F02B4C769600E6D4CC /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7FA635EF2B4C769600E6D4CC /* Algorithms */; };
+		7FA635F52B4C9D3500E6D4CC /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7FA635F42B4C9D3500E6D4CC /* Algorithms */; };
 		7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */; };
 		7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */; };
+		7FFC33862B4DA6B900FE607B /* Color+random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFC33852B4DA6B900FE607B /* Color+random.swift */; };
+		7FFC33872B4DA6C000FE607B /* Color+random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFC33852B4DA6B900FE607B /* Color+random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +64,7 @@
 /* Begin PBXFileReference section */
 		7F44D4072B34440400730DA6 /* WidgetApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WidgetApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F44D40A2B34440400730DA6 /* WidgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetApp.swift; sourceTree = "<group>"; };
-		7F44D40C2B34440400730DA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
 		7F44D40E2B34440600730DA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F44D4102B34440600730DA6 /* WidgetApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetApp.entitlements; sourceTree = "<group>"; };
 		7F44D4122B34440600730DA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -71,8 +80,13 @@
 		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
 		7F998AF62B3492EC0094F970 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		7FA635E12B4B6B5100E6D4CC /* WidgetSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettings.swift; sourceTree = "<group>"; };
+		7FA635E42B4B711700E6D4CC /* WidgetContentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetContentProvider.swift; sourceTree = "<group>"; };
+		7FA635EA2B4B933F00E6D4CC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideKeyboard.swift"; sourceTree = "<group>"; };
 		7FFA4E7C2B4B54940098DAB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7FFC33822B4D9F5A00FE607B /* UserDefault+widgetNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+widgetNumber.swift"; sourceTree = "<group>"; };
+		7FFC33852B4DA6B900FE607B /* Color+random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+random.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FA635F02B4C769600E6D4CC /* Algorithms in Frameworks */,
 				7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FA635F52B4C9D3500E6D4CC /* Algorithms in Frameworks */,
 				7F44D4532B34498900730DA6 /* SwiftUI.framework in Frameworks */,
 				7F44D4522B34498900730DA6 /* WidgetKit.framework in Frameworks */,
 			);
@@ -99,6 +115,7 @@
 		7F44D3FE2B34440400730DA6 = {
 			isa = PBXGroup;
 			children = (
+				7FA635E42B4B711700E6D4CC /* WidgetContentProvider.swift */,
 				7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */,
 				7F44D4092B34440400730DA6 /* WidgetApp */,
 				7F44D4542B34498900730DA6 /* WidgetAppWidget */,
@@ -122,11 +139,12 @@
 				7FFA4E7C2B4B54940098DAB0 /* Info.plist */,
 				7F7E9BF82B35CFED0016407C /* Utilities */,
 				7F44D40A2B34440400730DA6 /* WidgetApp.swift */,
-				7F44D40C2B34440400730DA6 /* ContentView.swift */,
+				7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */,
 				7F44D40E2B34440600730DA6 /* Assets.xcassets */,
 				7F44D4102B34440600730DA6 /* WidgetApp.entitlements */,
 				7F44D4112B34440600730DA6 /* Preview Content */,
 				7F998AF62B3492EC0094F970 /* WidgetView.swift */,
+				7FA635EA2B4B933F00E6D4CC /* MainView.swift */,
 			);
 			path = WidgetApp;
 			sourceTree = "<group>";
@@ -154,6 +172,7 @@
 				7F44D4552B34498900730DA6 /* WidgetAppWidgetBundle.swift */,
 				7F44D4572B34498A00730DA6 /* WidgetAppWidget.swift */,
 				7F44D4592B34498A00730DA6 /* AppIntent.swift */,
+				7FA635E12B4B6B5100E6D4CC /* WidgetSettings.swift */,
 				7F44D45B2B34498A00730DA6 /* Assets.xcassets */,
 				7F44D45D2B34498A00730DA6 /* Info.plist */,
 				7F44D45E2B34498A00730DA6 /* WidgetAppWidget.entitlements */,
@@ -166,6 +185,8 @@
 			children = (
 				7F7E9BF92B35CFF80016407C /* Color+encode.swift */,
 				7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */,
+				7FFC33822B4D9F5A00FE607B /* UserDefault+widgetNumber.swift */,
+				7FFC33852B4DA6B900FE607B /* Color+random.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -190,6 +211,7 @@
 			name = WidgetApp;
 			packageProductDependencies = (
 				7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */,
+				7FA635EF2B4C769600E6D4CC /* Algorithms */,
 			);
 			productName = WidgetApp;
 			productReference = 7F44D4072B34440400730DA6 /* WidgetApp.app */;
@@ -208,6 +230,9 @@
 			dependencies = (
 			);
 			name = WidgetAppWidgetExtension;
+			packageProductDependencies = (
+				7FA635F42B4C9D3500E6D4CC /* Algorithms */,
+			);
 			productName = WidgetAppWidgetExtension;
 			productReference = 7F44D4512B34498900730DA6 /* WidgetAppWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -241,6 +266,7 @@
 			mainGroup = 7F44D3FE2B34440400730DA6;
 			packageReferences = (
 				7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				7FA635EE2B4C769600E6D4CC /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 7F44D4082B34440400730DA6 /* Products */;
 			projectDirPath = "";
@@ -277,9 +303,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FA635E52B4B711700E6D4CC /* WidgetContentProvider.swift in Sources */,
 				7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */,
+				7FA635EB2B4B933F00E6D4CC /* MainView.swift in Sources */,
+				7F1694D82B4CA5BA008F70D3 /* WidgetSettings.swift in Sources */,
 				7F7E9BFA2B35CFF80016407C /* Color+encode.swift in Sources */,
-				7F44D40D2B34440400730DA6 /* ContentView.swift in Sources */,
+				7F44D40D2B34440400730DA6 /* WidgetSettingsView.swift in Sources */,
+				7FFC33862B4DA6B900FE607B /* Color+random.swift in Sources */,
 				7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */,
 				7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */,
 				7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */,
@@ -290,12 +320,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FA635E62B4B711700E6D4CC /* WidgetContentProvider.swift in Sources */,
 				7F44D4562B34498900730DA6 /* WidgetAppWidgetBundle.swift in Sources */,
 				7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */,
 				7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */,
 				7F44D4582B34498A00730DA6 /* WidgetAppWidget.swift in Sources */,
 				7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */,
+				7FA635E32B4B6B5100E6D4CC /* WidgetSettings.swift in Sources */,
 				7F44D45A2B34498A00730DA6 /* AppIntent.swift in Sources */,
+				7FFC33872B4DA6C000FE607B /* Color+random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +654,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7FA635EE2B4C769600E6D4CC /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -632,6 +673,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7FA635EF2B4C769600E6D4CC /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7FA635EE2B4C769600E6D4CC /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+		7FA635F42B4C9D3500E6D4CC /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7FA635EE2B4C769600E6D4CC /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
 		7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;

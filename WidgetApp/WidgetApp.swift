@@ -11,10 +11,10 @@ import IQKeyboardManagerSwift
 @main
 struct WidgetAppApp: App {
     let syncObserver = SyncObserver()
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
     }
     

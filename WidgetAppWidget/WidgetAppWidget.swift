@@ -19,6 +19,7 @@ struct Provider: AppIntentTimelineProvider {
     }
     
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
+        
         let text = sharedDefaults?.object(forKey: "0-widgetContent") as? String
         var widgetType: WidgetTypes?
         
@@ -74,6 +75,9 @@ struct Provider: AppIntentTimelineProvider {
         if let colorData {
             color = Color(rawValue: colorData)
         }
+        
+//        let content = configuration.widgetContent
+        
         return SimpleEntry(text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
     }
     
@@ -139,6 +143,9 @@ struct Provider: AppIntentTimelineProvider {
         if let colorData {
             color = Color(rawValue: colorData)
         }
+        
+//        let content = configuration.widgetContent
+        
         let entry = SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
         entries.append(entry)
         return Timeline(entries: entries, policy: .never)
@@ -251,19 +258,6 @@ struct WidgetAppWidget: Widget {
 #endif
 }
 
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        //        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        //        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
 
 #if os(iOS)
 #Preview(as: .accessoryRectangular) {
