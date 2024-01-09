@@ -135,17 +135,20 @@ struct ContentView: View {
                         }
                         Spacer()
                             .frame(height: 20)
+                            .onTapGesture {
+                                self.hideKeyboard()
+                            }
                         Toggle(isOn: $isBold, label: {
                             Text("Should be bold")
                         })
+                        .onTapGesture {
+                            self.hideKeyboard()
+                        }
                         ColorPicker("Background color", selection: $backgroundColor)
                     }
                     .padding([.leading, .trailing], 20)
                 }
                 .frame(maxWidth: 600)
-                .onTapGesture {
-                    self.hideKeyboard()
-                }
             }
             .padding()
             .padding([.top], 30)
