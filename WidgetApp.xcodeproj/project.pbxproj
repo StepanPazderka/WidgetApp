@@ -24,6 +24,8 @@
 		7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
 		7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
+		7FB48D232BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */; };
+		7FB48D242BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */; };
 		7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */; };
 		7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */; };
 /* End PBXBuildFile section */
@@ -66,11 +68,12 @@
 		7F44D4572B34498A00730DA6 /* WidgetAppWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetAppWidget.swift; sourceTree = "<group>"; };
 		7F44D4592B34498A00730DA6 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
 		7F44D45B2B34498A00730DA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7F44D45D2B34498A00730DA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F44D45E2B34498A00730DA6 /* WidgetAppWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetAppWidget.entitlements; sourceTree = "<group>"; };
 		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
 		7F998AF62B3492EC0094F970 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7FB48D292BB1DF340042BD25 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideKeyboard.swift"; sourceTree = "<group>"; };
 		7FFA4E7C2B4B54940098DAB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +102,7 @@
 		7F44D3FE2B34440400730DA6 = {
 			isa = PBXGroup;
 			children = (
+				7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */,
 				7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */,
 				7F44D4092B34440400730DA6 /* WidgetApp */,
 				7F44D4542B34498900730DA6 /* WidgetAppWidget */,
@@ -151,11 +155,11 @@
 		7F44D4542B34498900730DA6 /* WidgetAppWidget */ = {
 			isa = PBXGroup;
 			children = (
+				7FB48D292BB1DF340042BD25 /* Info.plist */,
 				7F44D4552B34498900730DA6 /* WidgetAppWidgetBundle.swift */,
 				7F44D4572B34498A00730DA6 /* WidgetAppWidget.swift */,
 				7F44D4592B34498A00730DA6 /* AppIntent.swift */,
 				7F44D45B2B34498A00730DA6 /* Assets.xcassets */,
-				7F44D45D2B34498A00730DA6 /* Info.plist */,
 				7F44D45E2B34498A00730DA6 /* WidgetAppWidget.entitlements */,
 			);
 			path = WidgetAppWidget;
@@ -220,7 +224,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1510;
-				LastUpgradeCheck = 1510;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					7F44D4062B34440400730DA6 = {
 						CreatedOnToolsVersion = 15.1;
@@ -257,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FB48D232BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */,
 				7F44D4132B34440600730DA6 /* Preview Assets.xcassets in Resources */,
 				7F44D40F2B34440600730DA6 /* Assets.xcassets in Resources */,
 			);
@@ -266,6 +271,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FB48D242BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */,
 				7F44D45C2B34498A00730DA6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +350,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -405,6 +412,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -433,7 +441,8 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetApp/WidgetApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.6;
+				CURRENT_PROJECT_VERSION = 1.6.1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -456,7 +465,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pazderka.WidgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -477,7 +486,8 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetApp/WidgetApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.6;
+				CURRENT_PROJECT_VERSION = 1.6.1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -500,7 +510,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pazderka.WidgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -519,7 +529,8 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = WidgetAppWidget/WidgetAppWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -557,7 +568,8 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = WidgetAppWidget/WidgetAppWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
