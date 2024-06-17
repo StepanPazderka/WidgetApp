@@ -17,9 +17,11 @@ extension Color: RawRepresentable {
         }
         do {
 #if os(iOS)
-            let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor ?? .gray
+//            let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor ?? .gray
+			let color: UIColor = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [UIColor.self], from: data) as? UIColor ?? .gray
 #elseif os(OSX)
-            let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSColor ?? .gray
+//            let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSColor ?? .gray
+			let color: NSColor = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [UIColor.self], from: data) as? NSColor ?? .gray
 #endif
             self = Color(color)
         } catch {
@@ -73,3 +75,5 @@ extension Color: RawRepresentable {
         return Color(hue: hue, saturation: 0, brightness: white, opacity: 1.0)
     }
 }
+
+extension Color: Codable { }

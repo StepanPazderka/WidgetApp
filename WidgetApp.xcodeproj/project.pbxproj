@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F06A27C2BC964630087BF1B /* iCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27B2BC964630087BF1B /* iCloudService.swift */; };
+		7F06A27D2BC964630087BF1B /* iCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27B2BC964630087BF1B /* iCloudService.swift */; };
+		7F06A27F2BC965320087BF1B /* WidgetSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27E2BC965320087BF1B /* WidgetSettings.swift */; };
+		7F06A2802BC965320087BF1B /* WidgetSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27E2BC965320087BF1B /* WidgetSettings.swift */; };
+		7F06A2862BC96BF50087BF1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A2852BC96BF50087BF1B /* Constants.swift */; };
+		7F06A2872BC96BF50087BF1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A2852BC96BF50087BF1B /* Constants.swift */; };
 		7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40A2B34440400730DA6 /* WidgetApp.swift */; };
-		7F44D40D2B34440400730DA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40C2B34440400730DA6 /* ContentView.swift */; };
+		7F44D40D2B34440400730DA6 /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */; };
 		7F44D40F2B34440600730DA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D40E2B34440600730DA6 /* Assets.xcassets */; };
 		7F44D4132B34440600730DA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D4122B34440600730DA6 /* Preview Assets.xcassets */; };
 		7F44D4522B34498900730DA6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F44D41F2B3444B200730DA6 /* WidgetKit.framework */; };
@@ -18,12 +24,19 @@
 		7F44D45A2B34498A00730DA6 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D4592B34498A00730DA6 /* AppIntent.swift */; };
 		7F44D45C2B34498A00730DA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D45B2B34498A00730DA6 /* Assets.xcassets */; };
 		7F44D4612B34498A00730DA6 /* WidgetAppWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7F44D4512B34498900730DA6 /* WidgetAppWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7F4FD8CD2BF4F18300556E5A /* WidgetCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8CC2BF4F18300556E5A /* WidgetCarousel.swift */; };
+		7F4FD8CF2BF4F24F00556E5A /* AddWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8CE2BF4F24F00556E5A /* AddWidgetView.swift */; };
+		7F4FD8D12BF4FBC100556E5A /* WidgetSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */; };
+		7F4FD8D52BF5EA2D00556E5A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7F4FD8D42BF5EA2D00556E5A /* Algorithms */; };
+		7F4FD8D72BF60F0000556E5A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D62BF60F0000556E5A /* Environment.swift */; };
+		7F57D5352BF6D2BB00F722B8 /* UserDefaults+appGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */; };
 		7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F7E9BFA2B35CFF80016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
 		7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
+		7FB469892C0A1E4B001710B4 /* [WidgetSettings].swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB469882C0A1E4B001710B4 /* [WidgetSettings].swift */; };
 		7FB48D232BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */; };
 		7FB48D242BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */; };
 		7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */; };
@@ -55,9 +68,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7F06A27B2BC964630087BF1B /* iCloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudService.swift; sourceTree = "<group>"; };
+		7F06A27E2BC965320087BF1B /* WidgetSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettings.swift; sourceTree = "<group>"; };
+		7F06A2852BC96BF50087BF1B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7F44D4072B34440400730DA6 /* WidgetApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WidgetApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F44D40A2B34440400730DA6 /* WidgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetApp.swift; sourceTree = "<group>"; };
-		7F44D40C2B34440400730DA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettingsView.swift; sourceTree = "<group>"; };
 		7F44D40E2B34440600730DA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F44D4102B34440600730DA6 /* WidgetApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetApp.entitlements; sourceTree = "<group>"; };
 		7F44D4122B34440600730DA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -68,10 +84,16 @@
 		7F44D4572B34498A00730DA6 /* WidgetAppWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetAppWidget.swift; sourceTree = "<group>"; };
 		7F44D4592B34498A00730DA6 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
 		7F44D45B2B34498A00730DA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7F44D45E2B34498A00730DA6 /* WidgetAppWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetAppWidget.entitlements; sourceTree = "<group>"; };
+		7F4FD8CB2BF4ECC300556E5A /* WidgetAppWidget.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = WidgetAppWidget.entitlements; sourceTree = "<group>"; };
+		7F4FD8CC2BF4F18300556E5A /* WidgetCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCarousel.swift; sourceTree = "<group>"; };
+		7F4FD8CE2BF4F24F00556E5A /* AddWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWidgetView.swift; sourceTree = "<group>"; };
+		7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettingsRepository.swift; sourceTree = "<group>"; };
+		7F4FD8D62BF60F0000556E5A /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+appGroup.swift"; sourceTree = "<group>"; };
 		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
 		7F998AF62B3492EC0094F970 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		7FB469882C0A1E4B001710B4 /* [WidgetSettings].swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[WidgetSettings].swift"; sourceTree = "<group>"; };
 		7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7FB48D292BB1DF340042BD25 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideKeyboard.swift"; sourceTree = "<group>"; };
@@ -83,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F4FD8D52BF5EA2D00556E5A /* Algorithms in Frameworks */,
 				7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,13 +122,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F06A2812BC966870087BF1B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */,
+				7F06A27E2BC965320087BF1B /* WidgetSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		7F44D3FE2B34440400730DA6 = {
 			isa = PBXGroup;
 			children = (
+				7F57D5382BF7CE0A00F722B8 /* Views */,
+				7F06A2852BC96BF50087BF1B /* Constants.swift */,
+				7F4FD8D62BF60F0000556E5A /* Environment.swift */,
+				7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */,
 				7FB48D222BB1D8900042BD25 /* PrivacyInfo.xcprivacy */,
-				7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */,
 				7F44D4092B34440400730DA6 /* WidgetApp */,
-				7F44D4542B34498900730DA6 /* WidgetAppWidget */,
+				7F44D4542B34498900730DA6 /* WidgetExtension */,
 				7F44D41E2B3444B200730DA6 /* Frameworks */,
 				7F44D4082B34440400730DA6 /* Products */,
 			);
@@ -123,10 +158,12 @@
 		7F44D4092B34440400730DA6 /* WidgetApp */ = {
 			isa = PBXGroup;
 			children = (
-				7FFA4E7C2B4B54940098DAB0 /* Info.plist */,
-				7F7E9BF82B35CFED0016407C /* Utilities */,
 				7F44D40A2B34440400730DA6 /* WidgetApp.swift */,
-				7F44D40C2B34440400730DA6 /* ContentView.swift */,
+				7F4FD8CC2BF4F18300556E5A /* WidgetCarousel.swift */,
+				7F06A2812BC966870087BF1B /* Models */,
+				7FFA4E7C2B4B54940098DAB0 /* Info.plist */,
+				7F06A27B2BC964630087BF1B /* iCloudService.swift */,
+				7F7E9BF82B35CFED0016407C /* Utilities */,
 				7F44D40E2B34440600730DA6 /* Assets.xcassets */,
 				7F44D4102B34440600730DA6 /* WidgetApp.entitlements */,
 				7F44D4112B34440600730DA6 /* Preview Content */,
@@ -152,7 +189,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7F44D4542B34498900730DA6 /* WidgetAppWidget */ = {
+		7F44D4542B34498900730DA6 /* WidgetExtension */ = {
 			isa = PBXGroup;
 			children = (
 				7FB48D292BB1DF340042BD25 /* Info.plist */,
@@ -160,9 +197,18 @@
 				7F44D4572B34498A00730DA6 /* WidgetAppWidget.swift */,
 				7F44D4592B34498A00730DA6 /* AppIntent.swift */,
 				7F44D45B2B34498A00730DA6 /* Assets.xcassets */,
-				7F44D45E2B34498A00730DA6 /* WidgetAppWidget.entitlements */,
+				7F4FD8CB2BF4ECC300556E5A /* WidgetAppWidget.entitlements */,
 			);
-			path = WidgetAppWidget;
+			path = WidgetExtension;
+			sourceTree = "<group>";
+		};
+		7F57D5382BF7CE0A00F722B8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */,
+				7F4FD8CE2BF4F24F00556E5A /* AddWidgetView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7F7E9BF82B35CFED0016407C /* Utilities */ = {
@@ -170,6 +216,8 @@
 			children = (
 				7F7E9BF92B35CFF80016407C /* Color+encode.swift */,
 				7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */,
+				7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */,
+				7FB469882C0A1E4B001710B4 /* [WidgetSettings].swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -194,6 +242,7 @@
 			name = WidgetApp;
 			packageProductDependencies = (
 				7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */,
+				7F4FD8D42BF5EA2D00556E5A /* Algorithms */,
 			);
 			productName = WidgetApp;
 			productReference = 7F44D4072B34440400730DA6 /* WidgetApp.app */;
@@ -245,6 +294,7 @@
 			mainGroup = 7F44D3FE2B34440400730DA6;
 			packageReferences = (
 				7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				7F4FD8D32BF5EA2D00556E5A /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 7F44D4082B34440400730DA6 /* Products */;
 			projectDirPath = "";
@@ -283,12 +333,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F06A27C2BC964630087BF1B /* iCloudService.swift in Sources */,
 				7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */,
 				7F7E9BFA2B35CFF80016407C /* Color+encode.swift in Sources */,
-				7F44D40D2B34440400730DA6 /* ContentView.swift in Sources */,
+				7F4FD8D72BF60F0000556E5A /* Environment.swift in Sources */,
+				7F57D5352BF6D2BB00F722B8 /* UserDefaults+appGroup.swift in Sources */,
+				7FB469892C0A1E4B001710B4 /* [WidgetSettings].swift in Sources */,
+				7F4FD8CD2BF4F18300556E5A /* WidgetCarousel.swift in Sources */,
+				7F44D40D2B34440400730DA6 /* WidgetSettingsView.swift in Sources */,
+				7F06A27F2BC965320087BF1B /* WidgetSettings.swift in Sources */,
+				7F4FD8D12BF4FBC100556E5A /* WidgetSettingsRepository.swift in Sources */,
 				7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */,
 				7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */,
+				7F4FD8CF2BF4F24F00556E5A /* AddWidgetView.swift in Sources */,
 				7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */,
+				7F06A2862BC96BF50087BF1B /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,12 +355,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F06A27D2BC964630087BF1B /* iCloudService.swift in Sources */,
 				7F44D4562B34498900730DA6 /* WidgetAppWidgetBundle.swift in Sources */,
 				7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */,
 				7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */,
+				7F06A2802BC965320087BF1B /* WidgetSettings.swift in Sources */,
 				7F44D4582B34498A00730DA6 /* WidgetAppWidget.swift in Sources */,
 				7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */,
 				7F44D45A2B34498A00730DA6 /* AppIntent.swift in Sources */,
+				7F06A2872BC96BF50087BF1B /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,15 +589,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = WidgetAppWidget/WidgetAppWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetAppWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WidgetAppWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = WidgetAppWidget;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -566,15 +628,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = WidgetAppWidget/WidgetAppWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetAppWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 3HV23S92WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WidgetAppWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = WidgetAppWidget;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -633,6 +695,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7F4FD8D32BF5EA2D00556E5A /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -644,6 +714,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7F4FD8D42BF5EA2D00556E5A /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7F4FD8D32BF5EA2D00556E5A /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
 		7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;

@@ -21,5 +21,5 @@ struct WidgetView: View {
 }
 
 #Preview {
-    WidgetView(text: .constant("Just some text"), fontSize: .constant(20), shouldBeBold: .constant(true), textPadding: .constant(0))
+    WidgetView(text: .constant("Widget test content"), fontSize: .constant(20), shouldBeBold: .constant(true), textPadding: .constant(0))
 }

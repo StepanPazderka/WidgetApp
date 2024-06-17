@@ -7,47 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9711B6F4-A56A-42FD-9334-BD72C8D728DE"
-            shouldBeEnabled = "Yes"
+            uuid = "BD00E4D6-A9DC-4B98-B1B0-E255BB3361E6"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WidgetApp/ContentView.swift"
+            filePath = "WidgetSettingsRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "9711B6F4-A56A-42FD-9334-BD72C8D728DE - 96eb8640fe28c72b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Foundation.URL) -&gt; () in WidgetApp.ContentView.body.getter : some"
-                  moduleName = "WidgetApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanpazderka/Developer/WidgetApp/WidgetApp/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "180"
-                  endingLineNumber = "180">
-               </Location>
-               <Location
-                  uuid = "9711B6F4-A56A-42FD-9334-BD72C8D728DE - 96eb8640fe28c72b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Foundation.URL) -&gt; () in WidgetApp.ContentView.body.getter : some"
-                  moduleName = "WidgetApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanpazderka/Developer/WidgetApp/WidgetApp/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "180"
-                  endingLineNumber = "180">
-               </Location>
-            </Locations>
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "loadWidgetSettings()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

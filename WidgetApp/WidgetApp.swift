@@ -10,39 +10,21 @@ import IQKeyboardManagerSwift
 
 @main
 struct WidgetAppApp: App {
-    let syncObserver = SyncObserver()
+    let syncObserver = iCloudService()
+	
+	@State var selectedWidgetNo = 0
+	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
+	
+	init() {
+		IQKeyboardManager.shared.enable = true
+		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
+		UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
+	}
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+			WidgetCarousel(selectedWidgetNo: 0)
         }
-    }
-    
-    init() {
-        IQKeyboardManager.shared.enable = true
-        UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
-        UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
-    }
-}
-
-class SyncObserver {
-    let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
-    let icloudDefaults = NSUbiquitousKeyValueStore.default
-    
-    init() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(yourUpdateMethod),
-            name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-            object: NSUbiquitousKeyValueStore.default)
-    }
-    
-    @objc func yourUpdateMethod(notification: Notification) {
-        for key in icloudDefaults.dictionaryRepresentation.keys {
-            let value = icloudDefaults.object(forKey: key)
-            sharedDefaults?.set(value, forKey: key)
-        }
-
-        print("Transfering data")
+		.environmentObject(widgetSettingsRepository)
     }
 }

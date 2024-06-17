@@ -9,19 +9,20 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
-    let sharedDefaults = UserDefaults(suiteName: "group.com.pazderka.widgetApp")
+    let localDefaults = UserDefaults(suiteName: bundleID)
     let icloudDefaults = NSUbiquitousKeyValueStore.default
     
-    func placeholder(in context: Context) -> SimpleEntry {
-        let fontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat
+	// MARK: - Placeholder for when previewing widget when on homescreen
+    func placeholder(in context: Context) -> WidgetSettings {
+        let fontSize = localDefaults?.object(forKey: "widgetFontSize") as? CGFloat
         
-        return SimpleEntry(text: "Just some quote", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
+        return WidgetSettings(text: "Your text will be displayed here", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
     }
     
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        let text = sharedDefaults?.object(forKey: "0-widgetContent") as? String
+	// MARK: - Snapshot when updating timeline
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> WidgetSettings {
+        let text = localDefaults?.object(forKey: "0-widgetContent") as? String
         var widgetType: WidgetTypes?
-        
         
         if context.family == .systemSmall {
             widgetType = .systemSmall
@@ -30,7 +31,7 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
+            localDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
         } else if context.family == .systemMedium {
             print("Medium: \(context.displaySize)")
             widgetType = .systemMedium
@@ -38,7 +39,7 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
+            localDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
         } else if context.family == .systemLarge {
             print("Large: \(context.displaySize)")
             widgetType = .systemLarge
@@ -46,7 +47,7 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
+            localDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
         } else if context.family == .systemExtraLarge {
             print("Extra large: \(context.displaySize)")
             widgetType = .systemExtraLarge
@@ -54,9 +55,9 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
+            localDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
         }
-#if os(iOS)
+		#if os(iOS)
         if context.family == .accessoryRectangular {
             widgetType = .accessoryRectangular
             print("Rectangular: \(context.displaySize)")
@@ -64,21 +65,21 @@ struct Provider: AppIntentTimelineProvider {
             widgetType = .accessoryCircular
             print("Circular: \(context.displaySize)")
         }
-#endif
+		#endif
         
-        let fontSize = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
-        let shouldBeBold = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
-        let colorData = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
+        let fontSize = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
+        let shouldBeBold = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
+        let colorData = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
         
         if let colorData {
             color = Color(rawValue: colorData)
         }
-        return SimpleEntry(text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
+        return WidgetSettings(text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
     }
     
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<WidgetSettings> {
+        var entries: [WidgetSettings] = []
         
         var widgetType: WidgetTypes?
         if context.family == .systemSmall {
@@ -88,7 +89,7 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
+            localDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
         } else if context.family == .systemMedium {
             print("Medium: \(context.displaySize)")
             widgetType = .systemMedium
@@ -96,7 +97,7 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
+            localDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
         } else if context.family == .systemLarge {
             print("Large: \(context.displaySize)")
             widgetType = .systemLarge
@@ -104,7 +105,7 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
+            localDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
         } else if context.family == .systemExtraLarge {
             print("Extra large: \(context.displaySize)")
             widgetType = .systemExtraLarge
@@ -112,9 +113,9 @@ struct Provider: AppIntentTimelineProvider {
                 "width": context.displaySize.width,
                 "height": context.displaySize.height
             ]
-            sharedDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
+            localDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
         }
-#if os(iOS)
+		#if os(iOS)
         if context.family == .accessoryRectangular {
             widgetType = .accessoryRectangular
             print("Rectangular: \(context.displaySize)")
@@ -122,100 +123,86 @@ struct Provider: AppIntentTimelineProvider {
             widgetType = .accessoryCircular
             print("Circular: \(context.displaySize)")
         }
-#endif
+		#endif
         
-        let text = sharedDefaults?.object(forKey: "0-widgetContent") as? String
-        let fontSize = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
-        let shouldBeBold = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
-        let colorData = sharedDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
+        let widgetContent = localDefaults?.object(forKey: "0-widgetContent") as? String
+        let widgetFontSize = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
+        let widgetBoldSetting = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
+        let widgetColor = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
         
-#if os(iOS)
+		#if os(iOS)
         if context.family == .accessoryRectangular {
             print("Showing rectangular")
         }
-#endif
+		#endif
         
-        if let colorData {
-            color = Color(rawValue: colorData)
+        if let widgetColor {
+            color = Color(rawValue: widgetColor)
         }
-        let entry = SimpleEntry(text: text ?? "Couldn't load data", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
+        let entry = WidgetSettings(text: widgetContent ?? "Couldn't load data", shouldBeBold: widgetBoldSetting ?? false, color: color ?? .primary, fontSize: widgetFontSize ?? 20.0)
         entries.append(entry)
         return Timeline(entries: entries, policy: .never)
     }
 }
 
-struct SimpleEntry: TimelineEntry {
-    let date: Date = Date()
-    let text: String
-    let shouldBeBold: Bool
-    let color: Color
-    let fontSize: CGFloat
-}
+
 
 struct WidgetAppWidgetEntryView: View {
+	@State var widgetText: String = "Your text will be here"
+	@State var widgetFontSize: CGFloat = 20.0
+	@State var color: Color = .primary
+	@State var shouldBeBold: Bool = false
+	@Environment(\.widgetFamily) var family
+
     var entry: Provider.Entry
     
-    @State var widgetText: String = "Just a test"
-    @State var widgetFontSize: CGFloat = 20.0
-    @State var color: Color = .primary
-    @State var shouldBeBold: Bool = false
-    
-    @Environment(\.widgetFamily) var family //<- here
-    
-    init(entry: SimpleEntry) {
+    init(entry: WidgetSettings) {
         self.entry = entry
         self.color = entry.color
         self.widgetText = entry.text
-        self._widgetFontSize = State(initialValue: entry.fontSize)
+		self.widgetFontSize = entry.fontSize
     }
     
     var body: some View {
         switch family {
         case .systemMedium:
             Link(destination: URL(string: "echoframe://systemMedium")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .systemSmall:
             Link(destination: URL(string: "echoframe://systemSmall")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .systemLarge:
             Link(destination: URL(string: "echoframe://systemLarge")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .systemExtraLarge:
             Link(destination: URL(string: "echoframe://systemExtraLarge")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .accessoryCircular:
             Link(destination: URL(string: "echoframe://accessoryCircular")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
                     .foregroundStyle(.white)
             }
         case .accessoryRectangular:
             Link(destination: URL(string: "echoframe://accessoryRectangular")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
                     .foregroundStyle(.white)
             }
         case .accessoryInline:
             Link(destination: URL(string: "echoframe://accessoryInline")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
                     .foregroundStyle(.white)
             }
         @unknown default:
             Link(destination: URL(string: "echoframe://")!) {
-                WidgetView(text: bindingFromString(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+				WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         }
         
-    }
-    
-    func bindingFromString(_ string: String) -> Binding<String> {
-        Binding<String>(
-            get: { string },
-            set: { newValue in }
-        )
     }
 }
 
@@ -269,18 +256,18 @@ extension ConfigurationAppIntent {
 #Preview(as: .accessoryRectangular) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
+	WidgetSettings(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
 }
 #endif
 
 #Preview(as: .systemMedium) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Just a very simple text", shouldBeBold: false, color: .red, fontSize: 20.0)
+    WidgetSettings(text: "Just a very simple text", shouldBeBold: false, color: .red, fontSize: 20.0)
 }
 
 #Preview(as: .systemSmall) {
     WidgetAppWidget()
 } timeline: {
-    SimpleEntry(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
+    WidgetSettings(text: "Just a very simple text", shouldBeBold: true, color: .accentColor, fontSize: 20.0)
 }
