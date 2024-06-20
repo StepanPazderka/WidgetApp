@@ -62,7 +62,7 @@ class WidgetSettingsRepository: ObservableObject {
 		
 		var newWidgetID: Int?
 		
-		if let lastWidgetID = widgetSettings.uniqued(on: \.id).last?.id {
+		if let lastWidgetID = widgetSettings.last?.id {
 			newWidgetID = lastWidgetID + 1
 		} else {
 			newWidgetID = 0

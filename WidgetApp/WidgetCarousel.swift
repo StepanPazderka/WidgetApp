@@ -14,6 +14,8 @@ struct WidgetCarousel: View {
 			print("Current value: \(selectedWidgetNo)")
 		}
 	}
+	@State var showingDeleteAlert = false
+
 	@EnvironmentObject var repo: WidgetSettingsRepository
 	
     var body: some View {
@@ -42,10 +44,22 @@ struct WidgetCarousel: View {
 			.background(Color(UIColor.tertiarySystemFill))
 			.tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
 			.ignoresSafeArea(.all)
-			Button("Remove") {
+			Button(action: {
+				self.showingDeleteAlert.toggle()
+			}) {
+				Label("Trash", systemImage: "trash")
+			}
+		}
+		.onAppear {
+			if let firstWidgetID = repo.widgetSettings.first?.id {
+				selectedWidgetNo = firstWidgetID
+			}
+		}
+		.alert(isPresented: $showingDeleteAlert, content: {
+			Alert(title: Text("Are you sure you want to delete this widget settings"), primaryButton: .default(Text("Yes"), action: {
 				withAnimation {
 					repo.deleteWidgetSettings(id: selectedWidgetNo)
-										
+					
 					guard let firstID = repo.widgetSettings.first?.id else { return }
 					
 					if selectedWidgetNo > firstID {
@@ -54,13 +68,9 @@ struct WidgetCarousel: View {
 						self.selectedWidgetNo = firstID
 					}
 				}
-			}
-		}
-		.onAppear {
-			if let firstWidgetID = repo.widgetSettings.first?.id {
-				selectedWidgetNo = firstWidgetID
-			}
-		}
+			}), secondaryButton: .cancel())
+		})
+		.background(Color(UIColor.tertiarySystemFill))
     }
 }
 

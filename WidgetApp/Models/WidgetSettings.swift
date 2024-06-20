@@ -7,10 +7,18 @@
 
 import WidgetKit
 import SwiftUI
+import AppIntents
 
-struct WidgetSettings: TimelineEntry, Identifiable {
+struct WidgetSettings: TimelineEntry, AppEntity, Identifiable {
+	static var typeDisplayRepresentation: TypeDisplayRepresentation = "WidgetContent"
+	static var defaultQuery = WidgetContentQuery()
+	
+	var displayRepresentation: DisplayRepresentation {
+		DisplayRepresentation(title: "\(truncateText(text, toLength: 20))")
+	}
+	
 	let id: Int
-	let date: Date = Date()
+	var date: Date = Date()
 	let text: String
 	let shouldBeBold: Bool
 	let color: Color

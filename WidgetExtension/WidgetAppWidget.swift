@@ -21,7 +21,9 @@ struct Provider: AppIntentTimelineProvider {
     
 	// MARK: - Snapshot when updating timeline
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> WidgetSettings {
-        let text = localDefaults?.object(forKey: "0-widgetContent") as? String
+		let id = configuration.content.id
+		
+        let text = localDefaults?.object(forKey: "\(id)-widgetContent") as? String
         var widgetType: WidgetTypes?
         
         if context.family == .systemSmall {
@@ -66,10 +68,10 @@ struct Provider: AppIntentTimelineProvider {
             print("Circular: \(context.displaySize)")
         }
 		#endif
-        
-        let fontSize = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
-        let shouldBeBold = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
-        let colorData = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
+        		
+        let fontSize = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
+        let shouldBeBold = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
+        let colorData = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
         
         if let colorData {
@@ -125,10 +127,12 @@ struct Provider: AppIntentTimelineProvider {
         }
 		#endif
         
-        let widgetContent = localDefaults?.object(forKey: "0-widgetContent") as? String
-        let widgetFontSize = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
-        let widgetBoldSetting = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
-        let widgetColor = localDefaults?.object(forKey: "0-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
+		let id = configuration.content.id
+		
+        let widgetContent = localDefaults?.object(forKey: "\(id)-widgetContent") as? String
+        let widgetFontSize = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
+        let widgetBoldSetting = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
+        let widgetColor = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
         var color: Color?
         
 		#if os(iOS)
@@ -211,15 +215,17 @@ struct WidgetAppWidget: Widget {
     
 #if os(iOS)
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, provider: Provider()) { entry in
+		AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             let color = entry.color
-            
-            WidgetAppWidgetEntryView(entry: entry)
+			
+			WidgetAppWidgetEntryView(entry: entry)
                 .containerBackground(entry.color, for: .widget)
                 .font(.system(size: entry.fontSize))
                 .foregroundStyle(color.complementaryColor(for: color))
                 .fontWeight( entry.shouldBeBold ? .bold : .regular)
         }
+		.configurationDisplayName("Widget Settings")
+		.description("Sets a Widget Settings to display")
         .supportedFamilies([.accessoryCircular, .accessoryRectangular, .systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
     }
 #elseif os(macOS)

@@ -33,7 +33,7 @@ struct WidgetSettingsView: View {
     @State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
     @State var largeWidgetSize: CGSize = CGSize(width: 364, height: 364)
     @State var extraLargeWidgetSize: CGSize = CGSize(width: 715, height: 364)
-	    
+		    
     private var deviceType: UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
     
     var body: some View {

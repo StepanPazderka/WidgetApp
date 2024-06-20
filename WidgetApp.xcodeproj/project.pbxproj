@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F0141172C246F8D00B35537 /* truncateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0141162C246F8D00B35537 /* truncateText.swift */; };
+		7F0141182C246F9300B35537 /* truncateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0141162C246F8D00B35537 /* truncateText.swift */; };
 		7F06A27C2BC964630087BF1B /* iCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27B2BC964630087BF1B /* iCloudService.swift */; };
 		7F06A27D2BC964630087BF1B /* iCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27B2BC964630087BF1B /* iCloudService.swift */; };
 		7F06A27F2BC965320087BF1B /* WidgetSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27E2BC965320087BF1B /* WidgetSettings.swift */; };
 		7F06A2802BC965320087BF1B /* WidgetSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27E2BC965320087BF1B /* WidgetSettings.swift */; };
 		7F06A2862BC96BF50087BF1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A2852BC96BF50087BF1B /* Constants.swift */; };
 		7F06A2872BC96BF50087BF1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A2852BC96BF50087BF1B /* Constants.swift */; };
+		7F300D042C245CB400E68173 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D4592B34498A00730DA6 /* AppIntent.swift */; };
 		7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40A2B34440400730DA6 /* WidgetApp.swift */; };
 		7F44D40D2B34440400730DA6 /* WidgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D40C2B34440400730DA6 /* WidgetSettingsView.swift */; };
 		7F44D40F2B34440600730DA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D40E2B34440600730DA6 /* Assets.xcassets */; };
@@ -32,6 +35,7 @@
 		7F57D5352BF6D2BB00F722B8 /* UserDefaults+appGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */; };
 		7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
+		7F6C79E32C24499900623569 /* WidgetSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */; };
 		7F7E9BFA2B35CFF80016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E9BF92B35CFF80016407C /* Color+encode.swift */; };
 		7F998AF72B3492EC0094F970 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F998AF62B3492EC0094F970 /* WidgetView.swift */; };
@@ -68,6 +72,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7F0141162C246F8D00B35537 /* truncateText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = truncateText.swift; sourceTree = "<group>"; };
 		7F06A27B2BC964630087BF1B /* iCloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudService.swift; sourceTree = "<group>"; };
 		7F06A27E2BC965320087BF1B /* WidgetSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettings.swift; sourceTree = "<group>"; };
 		7F06A2852BC96BF50087BF1B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -218,6 +223,7 @@
 				7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */,
 				7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */,
 				7FB469882C0A1E4B001710B4 /* [WidgetSettings].swift */,
+				7F0141162C246F8D00B35537 /* truncateText.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -346,6 +352,8 @@
 				7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */,
 				7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */,
 				7F4FD8CF2BF4F24F00556E5A /* AddWidgetView.swift in Sources */,
+				7F0141172C246F8D00B35537 /* truncateText.swift in Sources */,
+				7F300D042C245CB400E68173 /* AppIntent.swift in Sources */,
 				7FFA4E7B2B48B6FC0098DAB0 /* View+hideKeyboard.swift in Sources */,
 				7F06A2862BC96BF50087BF1B /* Constants.swift in Sources */,
 			);
@@ -361,8 +369,10 @@
 				7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */,
 				7F06A2802BC965320087BF1B /* WidgetSettings.swift in Sources */,
 				7F44D4582B34498A00730DA6 /* WidgetAppWidget.swift in Sources */,
+				7F6C79E32C24499900623569 /* WidgetSettingsRepository.swift in Sources */,
 				7F998AF82B34930E0094F970 /* WidgetView.swift in Sources */,
 				7F44D45A2B34498A00730DA6 /* AppIntent.swift in Sources */,
+				7F0141182C246F9300B35537 /* truncateText.swift in Sources */,
 				7F06A2872BC96BF50087BF1B /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,7 +513,7 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetApp/WidgetApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.6.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3HV23S92WL;
@@ -527,7 +537,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pazderka.WidgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -548,7 +558,7 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetApp/WidgetApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.6.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3HV23S92WL;
@@ -572,7 +582,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pazderka.WidgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
