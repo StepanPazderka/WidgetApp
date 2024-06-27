@@ -14,8 +14,8 @@ struct WidgetCarousel: View {
 			print("Current value: \(selectedWidgetNo)")
 		}
 	}
+	
 	@State var showingDeleteAlert = false
-
 	@EnvironmentObject var repo: WidgetSettingsRepository
 	
     var body: some View {
@@ -53,6 +53,17 @@ struct WidgetCarousel: View {
 		.onAppear {
 			if let firstWidgetID = repo.widgetSettings.first?.id {
 				selectedWidgetNo = firstWidgetID
+			}
+		}
+		.onOpenURL { url in
+			print(url)
+			
+			if let host = url.host() {
+				print(host)
+				if let id = Int(host) {
+					self.selectedWidgetNo = id
+					print("Directing: \(id)")
+				}
 			}
 		}
 		.alert(isPresented: $showingDeleteAlert, content: {

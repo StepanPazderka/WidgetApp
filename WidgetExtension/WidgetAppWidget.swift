@@ -22,7 +22,7 @@ struct Provider: AppIntentTimelineProvider {
 	// MARK: - Snapshot when updating timeline
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> WidgetSettings {
 		let id = configuration.content.id
-		
+				
         let text = localDefaults?.object(forKey: "\(id)-widgetContent") as? String
         var widgetType: WidgetTypes?
         
@@ -77,7 +77,7 @@ struct Provider: AppIntentTimelineProvider {
         if let colorData {
             color = Color(rawValue: colorData)
         }
-        return WidgetSettings(text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
+		return WidgetSettings(id: id, text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<WidgetSettings> {
@@ -144,15 +144,16 @@ struct Provider: AppIntentTimelineProvider {
         if let widgetColor {
             color = Color(rawValue: widgetColor)
         }
-        let entry = WidgetSettings(text: widgetContent ?? "Couldn't load data", shouldBeBold: widgetBoldSetting ?? false, color: color ?? .primary, fontSize: widgetFontSize ?? 20.0)
+        let entry = WidgetSettings(id: id, text: widgetContent ?? "Couldn't load data", shouldBeBold: widgetBoldSetting ?? false, color: color ?? .primary, fontSize: widgetFontSize ?? 10.0)
         entries.append(entry)
-        return Timeline(entries: entries, policy: .never)
+		return Timeline(entries: entries, policy: .never)
     }
 }
 
 
 
 struct WidgetAppWidgetEntryView: View {
+	@State var id: Int
 	@State var widgetText: String = "Your text will be here"
 	@State var widgetFontSize: CGFloat = 20.0
 	@State var color: Color = .primary
@@ -162,6 +163,7 @@ struct WidgetAppWidgetEntryView: View {
     var entry: Provider.Entry
     
     init(entry: WidgetSettings) {
+		self.id = entry.id
         self.entry = entry
         self.color = entry.color
         self.widgetText = entry.text
@@ -171,34 +173,34 @@ struct WidgetAppWidgetEntryView: View {
     var body: some View {
         switch family {
         case .systemMedium:
-            Link(destination: URL(string: "echoframe://systemMedium")!) {
+            Link(destination: URL(string: "echoframe://\(id)/systemMedium")!) {
                 WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .systemSmall:
-            Link(destination: URL(string: "echoframe://systemSmall")!) {
+            Link(destination: URL(string: "echoframe://\(id)/systemSmall")!) {
                 WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .systemLarge:
-            Link(destination: URL(string: "echoframe://systemLarge")!) {
+            Link(destination: URL(string: "echoframe://\(id)/systemLarge")!) {
                 WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .systemExtraLarge:
-            Link(destination: URL(string: "echoframe://systemExtraLarge")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            Link(destination: URL(string: "echoframe://\(id)/systemExtraLarge")!) {
+				WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
             }
         case .accessoryCircular:
-            Link(destination: URL(string: "echoframe://accessoryCircular")!) {
+            Link(destination: URL(string: "echoframe://\(id)/accessoryCircular")!) {
                 WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
                     .foregroundStyle(.white)
             }
         case .accessoryRectangular:
-            Link(destination: URL(string: "echoframe://accessoryRectangular")!) {
+            Link(destination: URL(string: "echoframe://\(id)/accessoryRectangular")!) {
                 WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
                     .foregroundStyle(.white)
             }
         case .accessoryInline:
-            Link(destination: URL(string: "echoframe://accessoryInline")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
+            Link(destination: URL(string: "echoframe://\(id)/accessoryInline")!) {
+				WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
                     .foregroundStyle(.white)
             }
         @unknown default:

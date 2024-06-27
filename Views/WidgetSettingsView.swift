@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import UIKit
+import RegexBuilder
 
 struct WidgetSettingsView: View {
     let icloudDefaults = NSUbiquitousKeyValueStore.default
@@ -108,6 +109,11 @@ struct WidgetSettingsView: View {
                             .containerRelativeFrame(.horizontal)
                             .tag(WidgetTypes.accessoryCircular)
                     }
+					.onOpenURL { url in
+						if let widgetType = WidgetTypes(rawValue: url.pathComponents[1]) {
+							self.selectedWidgetFamily = widgetType
+						}
+					}
 					.padding(0)
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(maxWidth: .infinity)
@@ -179,11 +185,6 @@ struct WidgetSettingsView: View {
                 WidgetCenter.shared.reloadAllTimelines()
             })
             Spacer()
-        }
-        .onOpenURL { url in
-            if let widgetFamily = url.host(), let selectedWidget = WidgetTypes(rawValue: widgetFamily) {
-                self.selectedWidgetFamily = selectedWidget
-            }
         }
 		.background(Color(UIColor.systemBackground))
 		.clipShape(RoundedRectangle(cornerRadius: 25.0))

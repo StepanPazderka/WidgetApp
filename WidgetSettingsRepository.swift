@@ -35,12 +35,6 @@ class WidgetSettingsRepository: ObservableObject {
 			}
 		}
 		
-//		print("Length of Widge Settings \(array.count)")
-//		print("Number of unique IDs \(array.uniqued(on: \.id).count)")
-//		for id in array.uniqued(on: \.id) {
-//			print("Widget Settings: \(id)")
-//		}
-		
 		return array
 	}
 	
