@@ -8,6 +8,8 @@
 import Observation
 import SwiftUI
 import Combine
+import WidgetKit
+import Algorithms
 
 class WidgetSettingsRepository: ObservableObject {
 	
@@ -25,11 +27,13 @@ class WidgetSettingsRepository: ObservableObject {
 	
 	func loadWidgetSettings() -> [WidgetSettings] {
 		var array: [WidgetSettings] = []
-		for id in 0...10 {
+		for id in 0...100 {
 			for widgetSize in WidgetTypes.allCases {
+				let widgetFontSize = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetFontSize") as? CGFloat
+				let widgetIsBold = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetBold") as? Bool
 				if let widgetContent = self.localDefaults?.object(forKey: "\(id)-widgetContent") as? String
 				{
-					let widgetSettings = WidgetSettings(id: id, text: widgetContent, shouldBeBold: false, color: .primary, fontSize: 20.0)
+					let widgetSettings = WidgetSettings(id: id, text: widgetContent, shouldBeBold: widgetIsBold ?? false, color: .primary, fontSize: widgetFontSize ?? 20.0)
 					array.append(widgetSettings)
 				}
 			}
@@ -77,6 +81,11 @@ class WidgetSettingsRepository: ObservableObject {
 			localDefaults?.removeObject(forKey: "\(id)-\(widgetType)-widgetFontSize")
 			localDefaults?.removeObject(forKey: "\(id)-\(widgetType)-widgetColor")
 			localDefaults?.removeObject(forKey: "\(id)-\(widgetType)-widgetBold")
+			
+			icloudDefaults.removeObject(forKey: "\(id)-widgetContent")
+			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetFontSize")
+			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetColor")
+			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetBold")
 		}
 	}
 }

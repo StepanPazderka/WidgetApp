@@ -7,13 +7,10 @@
 
 import SwiftUI
 import Algorithms
+import WidgetKit
 
 struct WidgetCarousel: View {
-	@State var selectedWidgetNo = 0 {
-		didSet {
-			print("Current value: \(selectedWidgetNo)")
-		}
-	}
+	@State var selectedWidgetNo = 0
 	
 	@State var showingDeleteAlert = false
 	@EnvironmentObject var repo: WidgetSettingsRepository
@@ -24,9 +21,6 @@ struct WidgetCarousel: View {
 				ForEach(repo.widgetSettings.uniqued(on: \.id), id: \.id) { settings in
 					WidgetSettingsView(selectedWidgetID: settings.id)
 						.tag(settings.id)
-						.onAppear {
-							print("Showing widget no: \(settings.id)")
-						}
 				}
 
 				AddWidgetView(callback: {
@@ -37,17 +31,13 @@ struct WidgetCarousel: View {
 					}
 				})
 				.tag(10)
-				.onAppear {
-					print("Showing widget no: 10")
-				}
 			}
-			.background(Color(UIColor.tertiarySystemFill))
 			.tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
 			.ignoresSafeArea(.all)
 			Button(action: {
 				self.showingDeleteAlert.toggle()
 			}) {
-				Label("Trash", systemImage: "trash")
+				Label("Remove", systemImage: "trash")
 			}
 		}
 		.onAppear {
@@ -55,14 +45,12 @@ struct WidgetCarousel: View {
 				selectedWidgetNo = firstWidgetID
 			}
 		}
-		.onOpenURL { url in
-			print(url)
-			
+		.onOpenURL { url in			
 			if let host = url.host() {
-				print(host)
 				if let id = Int(host) {
-					self.selectedWidgetNo = id
-					print("Directing: \(id)")
+					withAnimation {
+						self.selectedWidgetNo = id
+					}
 				}
 			}
 		}
@@ -77,6 +65,10 @@ struct WidgetCarousel: View {
 						self.selectedWidgetNo = selectedWidgetNo - 1
 					} else {
 						self.selectedWidgetNo = firstID
+					}
+					
+					Task {
+						WidgetCenter.shared.reloadAllTimelines()
 					}
 				}
 			}), secondaryButton: .cancel())

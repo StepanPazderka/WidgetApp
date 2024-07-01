@@ -32,6 +32,7 @@
 		7F4FD8D12BF4FBC100556E5A /* WidgetSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */; };
 		7F4FD8D52BF5EA2D00556E5A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7F4FD8D42BF5EA2D00556E5A /* Algorithms */; };
 		7F4FD8D72BF60F0000556E5A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D62BF60F0000556E5A /* Environment.swift */; };
+		7F5365992C3303BB000467E9 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5365972C3303A3000467E9 /* Provider.swift */; };
 		7F57D5352BF6D2BB00F722B8 /* UserDefaults+appGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */; };
 		7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
@@ -93,6 +94,7 @@
 		7F4FD8CE2BF4F24F00556E5A /* AddWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWidgetView.swift; sourceTree = "<group>"; };
 		7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettingsRepository.swift; sourceTree = "<group>"; };
 		7F4FD8D62BF60F0000556E5A /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		7F5365972C3303A3000467E9 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+appGroup.swift"; sourceTree = "<group>"; };
 		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				7F44D4592B34498A00730DA6 /* AppIntent.swift */,
 				7F44D45B2B34498A00730DA6 /* Assets.xcassets */,
 				7F4FD8CB2BF4ECC300556E5A /* WidgetAppWidget.entitlements */,
+				7F5365972C3303A3000467E9 /* Provider.swift */,
 			);
 			path = WidgetExtension;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				7F44D4562B34498900730DA6 /* WidgetAppWidgetBundle.swift in Sources */,
 				7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */,
 				7F7E9BFB2B35D5CC0016407C /* Color+encode.swift in Sources */,
+				7F5365992C3303BB000467E9 /* Provider.swift in Sources */,
 				7F06A2802BC965320087BF1B /* WidgetSettings.swift in Sources */,
 				7F44D4582B34498A00730DA6 /* WidgetAppWidget.swift in Sources */,
 				7F6C79E32C24499900623569 /* WidgetSettingsRepository.swift in Sources */,
@@ -441,6 +445,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -496,6 +501,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;

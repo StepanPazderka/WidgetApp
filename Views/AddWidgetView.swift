@@ -11,6 +11,7 @@ struct AddWidgetView: View {
 	@EnvironmentObject var repo: WidgetSettingsRepository
 	
 	var callback: (() -> Void)?
+	@State var showingAlert = false
 
     var body: some View {
 		Button(action: { addWidget(id: repo.widgetSettings.count) } ) {
@@ -22,13 +23,20 @@ struct AddWidgetView: View {
 				Text("Create new widget settings")
 			}
 		}
+		.alert(isPresented: $showingAlert, content: {
+			Alert(title: Text("Maximum number of widget settings reached"))
+		})
     }
 	
 	func addWidget(id: Int) {
-		repo.createNewWidgetSettings()
-		
-		if callback != nil {
-			callback!()
+		if repo.widgetSettings.uniqued(on: \.id).count < 5 {
+			repo.createNewWidgetSettings()
+			
+			if callback != nil {
+				callback!()
+			}
+		} else {
+			showingAlert.toggle()
 		}
 	}
 }
