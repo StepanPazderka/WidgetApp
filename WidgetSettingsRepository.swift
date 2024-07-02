@@ -9,7 +9,6 @@ import Observation
 import SwiftUI
 import Combine
 import WidgetKit
-import Algorithms
 
 class WidgetSettingsRepository: ObservableObject {
 	

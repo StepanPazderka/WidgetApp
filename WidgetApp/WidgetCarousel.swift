@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Algorithms
 import WidgetKit
 
 struct WidgetCarousel: View {
@@ -37,7 +36,9 @@ struct WidgetCarousel: View {
 			Button(action: {
 				self.showingDeleteAlert.toggle()
 			}) {
-				Label("Remove", systemImage: "trash")
+				if !repo.widgetSettings.isEmpty {
+					Label("Remove", systemImage: "trash")
+				}
 			}
 		}
 		.onAppear {
@@ -55,7 +56,7 @@ struct WidgetCarousel: View {
 			}
 		}
 		.alert(isPresented: $showingDeleteAlert, content: {
-			Alert(title: Text("Are you sure you want to delete this widget settings"), primaryButton: .default(Text("Yes"), action: {
+			Alert(title: Text("Are you sure you want to delete this widget settings?"), primaryButton: .default(Text("Yes"), action: {
 				withAnimation {
 					repo.deleteWidgetSettings(id: selectedWidgetNo)
 					

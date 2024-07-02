@@ -30,10 +30,10 @@
 		7F4FD8CD2BF4F18300556E5A /* WidgetCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8CC2BF4F18300556E5A /* WidgetCarousel.swift */; };
 		7F4FD8CF2BF4F24F00556E5A /* AddWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8CE2BF4F24F00556E5A /* AddWidgetView.swift */; };
 		7F4FD8D12BF4FBC100556E5A /* WidgetSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */; };
-		7F4FD8D52BF5EA2D00556E5A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7F4FD8D42BF5EA2D00556E5A /* Algorithms */; };
 		7F4FD8D72BF60F0000556E5A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D62BF60F0000556E5A /* Environment.swift */; };
 		7F5365992C3303BB000467E9 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5365972C3303A3000467E9 /* Provider.swift */; };
 		7F57D5352BF6D2BB00F722B8 /* UserDefaults+appGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */; };
+		7F61B2352C3366CC005716F8 /* Uniqued.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61B2342C3366CC005716F8 /* Uniqued.swift */; };
 		7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F66AC0C2B43644E00C6076E /* WidgetTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */; };
 		7F6C79E32C24499900623569 /* WidgetSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */; };
@@ -96,6 +96,7 @@
 		7F4FD8D62BF60F0000556E5A /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		7F5365972C3303A3000467E9 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+appGroup.swift"; sourceTree = "<group>"; };
+		7F61B2342C3366CC005716F8 /* Uniqued.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uniqued.swift; sourceTree = "<group>"; };
 		7F66AC0A2B433C9500C6076E /* WidgetTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTypes.swift; sourceTree = "<group>"; };
 		7F7E9BF92B35CFF80016407C /* Color+encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+encode.swift"; sourceTree = "<group>"; };
 		7F998AF62B3492EC0094F970 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
@@ -110,7 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F4FD8D52BF5EA2D00556E5A /* Algorithms in Frameworks */,
 				7FFA4E792B48B5FF0098DAB0 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,6 +224,7 @@
 				7FFA4E7A2B48B6FC0098DAB0 /* View+hideKeyboard.swift */,
 				7F57D5342BF6D2BB00F722B8 /* UserDefaults+appGroup.swift */,
 				7F0141162C246F8D00B35537 /* truncateText.swift */,
+				7F61B2342C3366CC005716F8 /* Uniqued.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -248,7 +249,6 @@
 			name = WidgetApp;
 			packageProductDependencies = (
 				7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */,
-				7F4FD8D42BF5EA2D00556E5A /* Algorithms */,
 			);
 			productName = WidgetApp;
 			productReference = 7F44D4072B34440400730DA6 /* WidgetApp.app */;
@@ -300,7 +300,6 @@
 			mainGroup = 7F44D3FE2B34440400730DA6;
 			packageReferences = (
 				7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				7F4FD8D32BF5EA2D00556E5A /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 7F44D4082B34440400730DA6 /* Products */;
 			projectDirPath = "";
@@ -348,6 +347,7 @@
 				7F44D40D2B34440400730DA6 /* WidgetSettingsView.swift in Sources */,
 				7F06A27F2BC965320087BF1B /* WidgetSettings.swift in Sources */,
 				7F4FD8D12BF4FBC100556E5A /* WidgetSettingsRepository.swift in Sources */,
+				7F61B2352C3366CC005716F8 /* Uniqued.swift in Sources */,
 				7F44D40B2B34440400730DA6 /* WidgetApp.swift in Sources */,
 				7F66AC0B2B433C9500C6076E /* WidgetTypes.swift in Sources */,
 				7F4FD8CF2BF4F24F00556E5A /* AddWidgetView.swift in Sources */,
@@ -711,14 +711,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7F4FD8D32BF5EA2D00556E5A /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
 		7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -730,11 +722,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7F4FD8D42BF5EA2D00556E5A /* Algorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7F4FD8D32BF5EA2D00556E5A /* XCRemoteSwiftPackageReference "swift-algorithms" */;
-			productName = Algorithms;
-		};
 		7FFA4E782B48B5FF0098DAB0 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7FFA4E772B48B5FF0098DAB0 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
