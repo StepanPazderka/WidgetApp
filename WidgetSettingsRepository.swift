@@ -49,6 +49,18 @@ class WidgetSettingsRepository: ObservableObject {
 				}
 			}
 			.store(in: &cancellables)
+		
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(updateLocalDefaults),
+			name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+			object: NSUbiquitousKeyValueStore.default)
+	}
+	
+	@objc func updateLocalDefaults(notification: Notification) {
+		DispatchQueue.main.sync {
+			widgetSettings = loadWidgetSettings()
+		}
 	}
 
 	func createNewWidgetSettings() {

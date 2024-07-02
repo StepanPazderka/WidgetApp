@@ -24,5 +24,16 @@ class iCloudService {
 			let value = icloudDefaults.object(forKey: key)
 			localDefaults?.set(value, forKey: key)
 		}
+		
+		guard let localDefaults else { return }
+		
+		for key in localDefaults.dictionaryRepresentation().keys {
+			let value = localDefaults.object(forKey: key)
+			let icloudValue = icloudDefaults.object(forKey: key)
+			
+			if icloudValue == nil {
+				localDefaults.removeObject(forKey: key)
+			}
+		}
 	}
 }
