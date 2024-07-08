@@ -116,9 +116,10 @@ struct WidgetSettingsView: View {
 					}
 				}
 				.padding(0)
+				.padding([.top], -150)
 				.tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
 				.frame(maxWidth: .infinity)
-				.frame(height: deviceType == .pad ? 400 : 300)
+				.frame(height: deviceType == .pad ? 450 : 300)
 				.onChange(of: selectedWidgetFamily) { oldValue, newValue in
 					print(newValue.rawValue)
 					loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
@@ -132,37 +133,40 @@ struct WidgetSettingsView: View {
 			}
 			
 			VStack {
-				TextEditor(text: $widgetText)
-					.padding(15)
-					.scrollContentBackground(.hidden)
-					.background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
-					.clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
-					.frame(height: 150)
-				VStack {
-					if deviceType == .pad {
-						Slider(value: $widgetFontSize, in: 10...80, step: 1)
-					} else {
-						Slider(value: $widgetFontSize, in: 5...30, step: 1)
-					}
-					Spacer()
-						.frame(height: 20)
+				HStack {
+					TextEditor(text: $widgetText)
+						.padding(15)
+						.scrollContentBackground(.hidden)
+						.background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+						.clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+						.frame(height: 150)
+					VStack {
+						if deviceType == .pad {
+							Slider(value: $widgetFontSize, in: 10...80, step: 1)
+						} else {
+							Slider(value: $widgetFontSize, in: 5...30, step: 1)
+						}
+						Spacer()
+							.frame(height: 20)
+							.onTapGesture {
+								self.hideKeyboard()
+							}
+						Toggle(isOn: $widgetIsBold, label: {
+							Text("Should be bold")
+						})
 						.onTapGesture {
 							self.hideKeyboard()
 						}
-					Toggle(isOn: $widgetIsBold, label: {
-						Text("Should be bold")
-					})
-					.onTapGesture {
-						self.hideKeyboard()
+						ColorPicker("Background color", selection: $widgetBackgroundColor)
 					}
-					ColorPicker("Background color", selection: $widgetBackgroundColor)
+					.padding([.leading, .trailing], 20)
 				}
-				.padding([.leading, .trailing], 20)
 			}
-			.frame(maxWidth: 600)
+			.padding(20)
+			.frame(maxWidth: 800)
 		}
-		.padding()
-		.padding([.top], 30)
+//		.padding()
+		.padding([.top], -40)
 		.onAppear {
 			localDefaults = UserDefaults(suiteName: bundleID)
 		}
@@ -186,11 +190,10 @@ struct WidgetSettingsView: View {
 			WidgetCenter.shared.reloadAllTimelines()
 		})
 		.background(Color(UIColor.systemBackground))
-		.clipShape(RoundedRectangle(cornerRadius: 25.0))
-		.padding(5)
+//		.background(Color(.red))
+//		.padding(5)
 		.padding([.bottom], 15)
-		.padding([.top], 20)
-		.shadow(radius: 10)
+		.ignoresSafeArea(edges: [.leading, .trailing, .bottom])
     }
     
     func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {

@@ -15,36 +15,33 @@ class WidgetSettingsRepository: ObservableObject {
 	private var cancellables = Set<AnyCancellable>()
 	
 	private let icloudDefaults = NSUbiquitousKeyValueStore.default
-	private var localDefaults = UserDefaults(suiteName: bundleID)
+	private let localDefaults = UserDefaults(suiteName: bundleID)
 	
 	@Published var widgetSettings: [WidgetSettings] = []
 	
 	init() {
-		widgetSettings = loadWidgetSettings()
+		widgetSettings = fetchWidgetSettings()
 		setupObservation()
 	}
 	
-	func loadWidgetSettings() -> [WidgetSettings] {
-		var array: [WidgetSettings] = []
-		for id in 0...100 {
-			for widgetSize in WidgetTypes.allCases {
+	func fetchWidgetSettings() -> [WidgetSettings] {
+		(0...100).flatMap { id -> [WidgetSettings] in
+			return WidgetTypes.allCases.compactMap { widgetSize -> WidgetSettings? in
 				let widgetFontSize = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetFontSize") as? CGFloat
 				let widgetIsBold = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetBold") as? Bool
 				if let widgetContent = self.localDefaults?.object(forKey: "\(id)-widgetContent") as? String
 				{
-					let widgetSettings = WidgetSettings(id: id, text: widgetContent, shouldBeBold: widgetIsBold ?? false, color: .primary, fontSize: widgetFontSize ?? 20.0)
-					array.append(widgetSettings)
+					return WidgetSettings(id: id, text: widgetContent, shouldBeBold: widgetIsBold ?? false, color: .primary, fontSize: widgetFontSize ?? 20.0)
 				}
+				return nil
 			}
 		}
-		
-		return array
 	}
 	
 	func setupObservation() {
 		NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification, object: localDefaults)
 			.sink { [weak self] something in
-				if let widgetSettings = self?.loadWidgetSettings() {
+				if let widgetSettings = self?.fetchWidgetSettings() {
 					self?.widgetSettings = widgetSettings
 				}
 			}
@@ -52,14 +49,14 @@ class WidgetSettingsRepository: ObservableObject {
 		
 		NotificationCenter.default.addObserver(
 			self,
-			selector: #selector(updateLocalDefaults),
+			selector: #selector(iCloudDefaultsUpdateClosure),
 			name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
 			object: NSUbiquitousKeyValueStore.default)
 	}
 	
-	@objc func updateLocalDefaults(notification: Notification) {
+	@objc func iCloudDefaultsUpdateClosure(notification: Notification) {
 		DispatchQueue.main.sync {
-			widgetSettings = loadWidgetSettings()
+			widgetSettings = fetchWidgetSettings()
 		}
 	}
 
@@ -78,11 +75,13 @@ class WidgetSettingsRepository: ObservableObject {
 		}
 		
 		guard let newWidgetID else { return }
-		for widgetType in WidgetTypes.allCases {
-			localDefaults?.set(widgetContent, forKey: "\(newWidgetID)-widgetContent")
-			localDefaults?.set(widgetFontSize, forKey: "\(newWidgetID)-\(widgetType)-widgetFontSize")
-			localDefaults?.set(widgetColor.rawValue, forKey: "\(newWidgetID)-\(widgetType)-widgetColor")
-			localDefaults?.set(widgetShouldBeBold, forKey: "\(newWidgetID)-\(widgetType)-widgetBold")
+		withAnimation {
+			for widgetType in WidgetTypes.allCases {
+				localDefaults?.set(widgetContent, forKey: "\(newWidgetID)-widgetContent")
+				localDefaults?.set(widgetFontSize, forKey: "\(newWidgetID)-\(widgetType)-widgetFontSize")
+				localDefaults?.set(widgetColor.rawValue, forKey: "\(newWidgetID)-\(widgetType)-widgetColor")
+				localDefaults?.set(widgetShouldBeBold, forKey: "\(newWidgetID)-\(widgetType)-widgetBold")
+			}
 		}
 	}
 	

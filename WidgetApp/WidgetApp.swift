@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
 import IQKeyboardManagerSwift
+#endif
 
 @main
 struct WidgetAppApp: App {
@@ -16,7 +18,9 @@ struct WidgetAppApp: App {
 	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
 	
 	init() {
+		#if os(iOS)
 		IQKeyboardManager.shared.enable = true
+		#endif
 		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
 		UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
 	}

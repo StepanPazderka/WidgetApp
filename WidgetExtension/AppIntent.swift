@@ -28,7 +28,7 @@ struct WidgetContentQuery: EntityQuery {
 	func entities(for identifiers: [WidgetSettings.ID]) async throws -> [WidgetSettings] {
 		var ids = [Int]()
 		var outputArray = [WidgetSettings]()
-		for widgetSettings in WidgetSettingsRepository().loadWidgetSettings() {
+		for widgetSettings in WidgetSettingsRepository().fetchWidgetSettings() {
 			if !ids.contains(widgetSettings.id) {
 				ids.append(widgetSettings.id)
 				outputArray.append(widgetSettings)
@@ -41,7 +41,7 @@ struct WidgetContentQuery: EntityQuery {
 	func suggestedEntities() async throws -> [WidgetSettings] {
 		var ids = [Int]()
 		var outputArray = [WidgetSettings]()
-		for widgetSettings in WidgetSettingsRepository().loadWidgetSettings() {
+		for widgetSettings in WidgetSettingsRepository().fetchWidgetSettings() {
 			if !ids.contains(widgetSettings.id) {
 				ids.append(widgetSettings.id)
 				outputArray.append(widgetSettings)
