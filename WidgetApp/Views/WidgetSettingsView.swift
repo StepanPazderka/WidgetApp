@@ -133,39 +133,69 @@ struct WidgetSettingsView: View {
 			}
 			
 			VStack {
-				HStack {
-					TextEditor(text: $widgetText)
-						.padding(15)
-						.scrollContentBackground(.hidden)
-						.background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
-						.clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
-						.frame(height: 150)
+				if horizontalSizeClass == .compact {
 					VStack {
-						if deviceType == .pad {
-							Slider(value: $widgetFontSize, in: 10...80, step: 1)
-						} else {
-							Slider(value: $widgetFontSize, in: 5...30, step: 1)
-						}
-						Spacer()
-							.frame(height: 20)
+						TextEditor(text: $widgetText)
+							.padding(15)
+							.scrollContentBackground(.hidden)
+							.background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+							.clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+							.frame(height: 150)
+						VStack {
+							if deviceType == .pad {
+								Slider(value: $widgetFontSize, in: 10...80, step: 1)
+							} else {
+								Slider(value: $widgetFontSize, in: 5...30, step: 1)
+							}
+							Spacer()
+								.frame(height: 20)
+								.onTapGesture {
+									self.hideKeyboard()
+								}
+							Toggle(isOn: $widgetIsBold, label: {
+								Text("Should be bold")
+							})
 							.onTapGesture {
 								self.hideKeyboard()
 							}
-						Toggle(isOn: $widgetIsBold, label: {
-							Text("Should be bold")
-						})
-						.onTapGesture {
-							self.hideKeyboard()
+							ColorPicker("Background color", selection: $widgetBackgroundColor)
 						}
-						ColorPicker("Background color", selection: $widgetBackgroundColor)
+						.padding([.leading, .trailing], 20)
 					}
-					.padding([.leading, .trailing], 20)
+				} else {
+					HStack {
+						TextEditor(text: $widgetText)
+							.padding(15)
+							.scrollContentBackground(.hidden)
+							.background(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+							.clipShape(RoundedRectangle(cornerRadius: 30.0, style: .continuous))
+							.frame(height: 150)
+						VStack {
+							if deviceType == .pad {
+								Slider(value: $widgetFontSize, in: 10...80, step: 1)
+							} else {
+								Slider(value: $widgetFontSize, in: 5...30, step: 1)
+							}
+							Spacer()
+								.frame(height: 20)
+								.onTapGesture {
+									self.hideKeyboard()
+								}
+							Toggle(isOn: $widgetIsBold, label: {
+								Text("Should be bold")
+							})
+							.onTapGesture {
+								self.hideKeyboard()
+							}
+							ColorPicker("Background color", selection: $widgetBackgroundColor)
+						}
+						.padding([.leading, .trailing], 20)
+					}
 				}
 			}
 			.padding(20)
 			.frame(maxWidth: 800)
 		}
-//		.padding()
 		.padding([.top], -40)
 		.onAppear {
 			localDefaults = UserDefaults(suiteName: bundleID)
@@ -190,8 +220,6 @@ struct WidgetSettingsView: View {
 			WidgetCenter.shared.reloadAllTimelines()
 		})
 		.background(Color(UIColor.systemBackground))
-//		.background(Color(.red))
-//		.padding(5)
 		.padding([.bottom], 15)
 		.ignoresSafeArea(edges: [.leading, .trailing, .bottom])
     }

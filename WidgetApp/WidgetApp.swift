@@ -28,6 +28,7 @@ struct WidgetAppApp: App {
     var body: some Scene {
         WindowGroup {
 			WidgetCarousel(selectedWidgetNo: 0)
+				.navigationTitle("EchoFrame")
         }
 		.environmentObject(widgetSettingsRepository)
     }

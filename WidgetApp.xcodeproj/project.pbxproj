@@ -26,7 +26,7 @@
 		7F44D4582B34498A00730DA6 /* WidgetAppWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D4572B34498A00730DA6 /* WidgetAppWidget.swift */; };
 		7F44D45A2B34498A00730DA6 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44D4592B34498A00730DA6 /* AppIntent.swift */; };
 		7F44D45C2B34498A00730DA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F44D45B2B34498A00730DA6 /* Assets.xcassets */; };
-		7F44D4612B34498A00730DA6 /* WidgetAppWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7F44D4512B34498900730DA6 /* WidgetAppWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7F44D4612B34498A00730DA6 /* WidgetAppWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7F44D4512B34498900730DA6 /* WidgetAppWidgetExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7F4FD8CD2BF4F18300556E5A /* WidgetCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8CC2BF4F18300556E5A /* WidgetCarousel.swift */; };
 		7F4FD8CF2BF4F24F00556E5A /* AddWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8CE2BF4F24F00556E5A /* AddWidgetView.swift */; };
 		7F4FD8D12BF4FBC100556E5A /* WidgetSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4FD8D02BF4FBC100556E5A /* WidgetSettingsRepository.swift */; };
@@ -382,6 +382,7 @@
 /* Begin PBXTargetDependency section */
 		7F44D4602B34498A00730DA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 7F44D4502B34498900730DA6 /* WidgetAppWidgetExtension */;
 			targetProxy = 7F44D45F2B34498A00730DA6 /* PBXContainerItemProxy */;
 		};
@@ -544,8 +545,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -591,8 +592,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -632,7 +633,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -671,7 +673,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

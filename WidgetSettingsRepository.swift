@@ -60,7 +60,7 @@ class WidgetSettingsRepository: ObservableObject {
 		}
 	}
 
-	func createNewWidgetSettings() {
+	@discardableResult func createNewWidgetSettings() -> Int? {
 		let widgetContent = "Preview content"
 		let widgetShouldBeBold = false
 		let widgetColor: Color = .primary
@@ -74,7 +74,8 @@ class WidgetSettingsRepository: ObservableObject {
 			newWidgetID = 0
 		}
 		
-		guard let newWidgetID else { return }
+		guard let newWidgetID else { return nil }
+		
 		withAnimation {
 			for widgetType in WidgetTypes.allCases {
 				localDefaults?.set(widgetContent, forKey: "\(newWidgetID)-widgetContent")
@@ -83,6 +84,8 @@ class WidgetSettingsRepository: ObservableObject {
 				localDefaults?.set(widgetShouldBeBold, forKey: "\(newWidgetID)-\(widgetType)-widgetBold")
 			}
 		}
+		
+		return newWidgetID
 	}
 	
 	func deleteWidgetSettings(id: Int) {

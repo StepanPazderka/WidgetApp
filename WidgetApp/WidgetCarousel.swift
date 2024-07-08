@@ -9,7 +9,7 @@ import SwiftUI
 import WidgetKit
 
 struct WidgetCarousel: View {
-	@State var selectedWidgetNo = 0
+	@State var selectedWidgetNo: Int? = 0
 	
 	@State var showingDeleteAlert = false
 	@EnvironmentObject var repo: WidgetSettingsRepository
@@ -17,37 +17,35 @@ struct WidgetCarousel: View {
 	
     var body: some View {
 		NavigationView {
-			List {
-				ForEach(repo.widgetSettings.uniqued(on: \.id)) { settings in
-					NavigationLink(destination: WidgetSettingsView(selectedWidgetID: settings.id)) {
-						HStack {
+			List(repo.widgetSettings.uniqued(on: \.id), selection: $selectedWidgetNo) { settings in
+				NavigationLink(destination: WidgetSettingsView(selectedWidgetID: settings.id)) {
+					HStack {
 //							ZStack {
 //								Text("\(settings.id)")
 //							}
 //							.opacity(0.5)
 //							.padding(.trailing, 10)
-							Text(settings.text)
-								.lineLimit(2)
-						}
-						.frame(minHeight: 50)
-						.tag(settings.id)
+						Text(settings.text)
+							.lineLimit(2)
 					}
-					.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
-						Button {
-							self.deleteWidgetSettings(id: settings.id)
-						} label: {
-							Label("Delete", systemImage: "trash")
-						}
-						.tint(.red)
-					})
-					.contextMenu(ContextMenu(menuItems: {
-						Button {
-							self.deleteWidgetSettings(id: settings.id)
-						} label: {
-							Label("Delete", systemImage: "trash")
-						}
-					}))
+					.frame(minHeight: 50)
+					.tag(settings.id)
 				}
+				.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
+					Button {
+						self.deleteWidgetSettings(id: settings.id)
+					} label: {
+						Label("Delete", systemImage: "trash")
+					}
+					.tint(.red)
+				})
+				.contextMenu(ContextMenu(menuItems: {
+					Button {
+						self.deleteWidgetSettings(id: settings.id)
+					} label: {
+						Label("Delete", systemImage: "trash")
+					}
+				}))
 			}
 			.navigationTitle("Widget Settings")
 			.toolbar {
@@ -67,18 +65,10 @@ struct WidgetCarousel: View {
 				selectedWidgetNo = firstWidgetID
 			}
 		}
-		.onOpenURL { url in			
-			if let host = url.host() {
-				if let id = Int(host) {
-					withAnimation {
-						self.selectedWidgetNo = id
-					}
-				}
-			}
-		}
 		.alert(isPresented: $showingDeleteAlert, content: {
 			Alert(title: Text("Are you sure you want to delete this widget settings?"), primaryButton: .default(Text("Yes"), action: {
 				withAnimation {
+					guard let selectedWidgetNo else { return }
 					repo.deleteWidgetSettings(id: selectedWidgetNo)
 					
 					guard let firstID = repo.widgetSettings.first?.id else { return }
@@ -96,11 +86,21 @@ struct WidgetCarousel: View {
 			}), secondaryButton: .cancel())
 		})
 		.background(Color(UIColor.tertiarySystemFill))
+		.onOpenURL { url in
+			if let host = url.host() {
+				if let id = Int(host) {
+					withAnimation {
+						self.selectedWidgetNo = id
+					}
+				}
+			}
+		}
     }
 	
 	func addWidget(id: Int) {
 		if repo.widgetSettings.uniqued(on: \.id).count < 5 {
-			repo.createNewWidgetSettings()
+			let newID = repo.createNewWidgetSettings()
+			self.selectedWidgetNo = newID
 		} else {
 			showingAlert.toggle()
 		}
@@ -110,11 +110,6 @@ struct WidgetCarousel: View {
 		self.showingDeleteAlert.toggle()
 		self.selectedWidgetNo = id
 	}
-}
-
-struct CustomModel: Identifiable {
-	let id = UUID()
-	var value: String
 }
 
 #Preview {
