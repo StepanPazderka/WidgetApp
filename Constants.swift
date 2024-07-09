@@ -8,4 +8,3 @@
 import Foundation
 
 let bundleID = "group.com.pazderka.widgetApp"
-let widgetSettingsContainer = "widgetSettingsContainer"

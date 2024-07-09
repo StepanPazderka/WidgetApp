@@ -61,7 +61,7 @@ class WidgetSettingsRepository: ObservableObject {
 	}
 
 	@discardableResult func createNewWidgetSettings() -> Int? {
-		let widgetContent = "Preview content"
+		let widgetContent = "This is a preview text that will be in the widget"
 		let widgetShouldBeBold = false
 		let widgetColor: Color = .primary
 		let widgetFontSize = 20.0

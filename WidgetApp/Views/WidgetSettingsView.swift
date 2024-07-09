@@ -121,7 +121,6 @@ struct WidgetSettingsView: View {
 				.frame(maxWidth: .infinity)
 				.frame(height: deviceType == .pad ? 450 : 300)
 				.onChange(of: selectedWidgetFamily) { oldValue, newValue in
-					print(newValue.rawValue)
 					loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 				}
 				.onAppear {

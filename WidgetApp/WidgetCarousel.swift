@@ -9,27 +9,21 @@ import SwiftUI
 import WidgetKit
 
 struct WidgetCarousel: View {
-	@State var selectedWidgetNo: Int? = 0
-	
-	@State var showingDeleteAlert = false
 	@EnvironmentObject var repo: WidgetSettingsRepository
+
+	@State var selectedWidgetNo: WidgetSettings?
+	@State var showingDeleteAlert = false
 	@State var showingAlert = false
 	
     var body: some View {
 		NavigationView {
 			List(repo.widgetSettings.uniqued(on: \.id), selection: $selectedWidgetNo) { settings in
-				NavigationLink(destination: WidgetSettingsView(selectedWidgetID: settings.id)) {
+				NavigationLink(destination: WidgetSettingsView(selectedWidgetID: settings.id), tag: settings, selection: $selectedWidgetNo) {
 					HStack {
-//							ZStack {
-//								Text("\(settings.id)")
-//							}
-//							.opacity(0.5)
-//							.padding(.trailing, 10)
 						Text(settings.text)
 							.lineLimit(2)
 					}
 					.frame(minHeight: 50)
-					.tag(settings.id)
 				}
 				.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
 					Button {
@@ -47,6 +41,7 @@ struct WidgetCarousel: View {
 					}
 				}))
 			}
+			.listStyle(.insetGrouped)
 			.navigationTitle("Widget Settings")
 			.toolbar {
 				ToolbarItem(placement: .topBarTrailing) {
@@ -57,26 +52,32 @@ struct WidgetCarousel: View {
 					}
 				}
 			}
+			.onAppear {
+				if selectedWidgetNo == nil {
+					self.selectedWidgetNo = repo.widgetSettings.first
+				}
+			}
+			
+			Text("Select a widget settings to display")
 		}
 		.toolbar(.hidden)
 		.animation(.easeInOut(duration: 0.1), value: repo.widgetSettings)
-		.onAppear {
-			if let firstWidgetID = repo.widgetSettings.first?.id {
-				selectedWidgetNo = firstWidgetID
-			}
-		}
 		.alert(isPresented: $showingDeleteAlert, content: {
 			Alert(title: Text("Are you sure you want to delete this widget settings?"), primaryButton: .default(Text("Yes"), action: {
 				withAnimation {
 					guard let selectedWidgetNo else { return }
-					repo.deleteWidgetSettings(id: selectedWidgetNo)
+					repo.deleteWidgetSettings(id: selectedWidgetNo.id)
 					
-					guard let firstID = repo.widgetSettings.first?.id else { return }
-					
-					if selectedWidgetNo > firstID {
-						self.selectedWidgetNo = selectedWidgetNo - 1
+					guard let firstID = repo.widgetSettings.first else { return }
+
+					if selectedWidgetNo.id > firstID.id {
+						self.selectedWidgetNo = repo.widgetSettings.first(where: { $0.id == $0.id - 1 })
 					} else {
 						self.selectedWidgetNo = firstID
+					}
+					
+					if self.selectedWidgetNo == nil {
+						self.selectedWidgetNo = repo.widgetSettings.first
 					}
 					
 					Task {
@@ -90,7 +91,7 @@ struct WidgetCarousel: View {
 			if let host = url.host() {
 				if let id = Int(host) {
 					withAnimation {
-						self.selectedWidgetNo = id
+//						self.selectedWidgetNo = id
 					}
 				}
 			}
@@ -100,7 +101,7 @@ struct WidgetCarousel: View {
 	func addWidget(id: Int) {
 		if repo.widgetSettings.uniqued(on: \.id).count < 5 {
 			let newID = repo.createNewWidgetSettings()
-			self.selectedWidgetNo = newID
+			self.selectedWidgetNo = repo.widgetSettings.first(where: { $0.id == newID })
 		} else {
 			showingAlert.toggle()
 		}
@@ -108,7 +109,7 @@ struct WidgetCarousel: View {
 	
 	func deleteWidgetSettings(id: Int) {
 		self.showingDeleteAlert.toggle()
-		self.selectedWidgetNo = id
+//		self.selectedWidgetNo = id
 	}
 }
 
