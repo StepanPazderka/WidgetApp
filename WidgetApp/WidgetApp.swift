@@ -6,21 +6,11 @@
 //
 
 import SwiftUI
-#if os(iOS)
-import IQKeyboardManagerSwift
-#endif
-
 @main
 struct WidgetAppApp: App {
-    let syncObserver = iCloudService()
-	
-	@State var selectedWidgetNo = 0
 	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
 	
 	init() {
-		#if os(iOS)
-		IQKeyboardManager.shared.enable = true
-		#endif
 		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
 		UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
 	}

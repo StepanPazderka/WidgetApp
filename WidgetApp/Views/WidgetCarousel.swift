@@ -10,6 +10,8 @@ import WidgetKit
 
 struct WidgetCarousel: View {
 	@EnvironmentObject var repo: WidgetSettingsRepository
+	
+	let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
 
 	@State var selectedWidgetNo: WidgetSettings?
 	@State var showingDeleteAlert = false
@@ -60,6 +62,9 @@ struct WidgetCarousel: View {
 			
 			Text("Select a widget settings to display")
 		}
+		.refreshable {
+			NSUbiquitousKeyValueStore.default.synchronize()
+		}
 		.toolbar(.hidden)
 		.animation(.easeInOut(duration: 0.1), value: repo.widgetSettings)
 		.alert(isPresented: $showingDeleteAlert, content: {
@@ -96,6 +101,9 @@ struct WidgetCarousel: View {
 				}
 			}
 		}
+		.onReceive(iCloudChangePublisher, perform: { _ in
+			repo.widgetSettings = repo.fetchWidgetSettings()
+		})
     }
 	
 	func addWidget(id: Int) {
@@ -109,7 +117,6 @@ struct WidgetCarousel: View {
 	
 	func deleteWidgetSettings(id: Int) {
 		self.showingDeleteAlert.toggle()
-//		self.selectedWidgetNo = id
 	}
 }
 

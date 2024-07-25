@@ -42,7 +42,7 @@ struct WidgetSettingsView: View {
 			VStack {
 				TabView(selection: $selectedWidgetFamily) {
 					WidgetView(text: $widgetText, fontSize: $widgetFontSize, shouldBeBold: $widgetIsBold, textPadding: $widgetPadding)
-						.padding( deviceType == .pad ? 4 : 6)
+						.padding( deviceType == .pad ? 7 : 6)
 						.frame(width: smallWidgetSize.width, height: smallWidgetSize.height)
 						.background(widgetBackgroundColor)
 						.foregroundStyle(widgetBackgroundColor.complementaryColor(for: widgetBackgroundColor))
@@ -195,10 +195,10 @@ struct WidgetSettingsView: View {
 			.padding(20)
 			.frame(maxWidth: 800)
 		}
-		.padding([.top], -40)
 		.onAppear {
 			localDefaults = UserDefaults(suiteName: bundleID)
 		}
+		.padding([.top], -40)
 		.onChange(of: widgetText) {
 			updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 		}

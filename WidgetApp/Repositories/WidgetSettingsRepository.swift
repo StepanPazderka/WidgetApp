@@ -11,13 +11,12 @@ import Combine
 import WidgetKit
 
 class WidgetSettingsRepository: ObservableObject {
-	
-	private var cancellables = Set<AnyCancellable>()
-	
 	private let icloudDefaults = NSUbiquitousKeyValueStore.default
 	private let localDefaults = UserDefaults(suiteName: bundleID)
 	
 	@Published var widgetSettings: [WidgetSettings] = []
+	
+	private var cancellables = Set<AnyCancellable>()
 	
 	init() {
 		widgetSettings = fetchWidgetSettings()
@@ -40,7 +39,8 @@ class WidgetSettingsRepository: ObservableObject {
 	
 	func setupObservation() {
 		NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification, object: localDefaults)
-			.sink { [weak self] something in
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] _ in
 				if let widgetSettings = self?.fetchWidgetSettings() {
 					self?.widgetSettings = widgetSettings
 				}
@@ -55,6 +55,21 @@ class WidgetSettingsRepository: ObservableObject {
 	}
 	
 	@objc func iCloudDefaultsUpdateClosure(notification: Notification) {
+		for key in icloudDefaults.dictionaryRepresentation.keys {
+			let value = icloudDefaults.object(forKey: key)
+			localDefaults?.set(value, forKey: key)
+		}
+		
+		guard let localDefaults else { return }
+		
+		for key in localDefaults.dictionaryRepresentation().keys {
+			let icloudValue = icloudDefaults.object(forKey: key)
+			
+			if icloudValue == nil {
+				localDefaults.removeObject(forKey: key)
+			}
+		}
+		
 		DispatchQueue.main.sync {
 			widgetSettings = fetchWidgetSettings()
 		}

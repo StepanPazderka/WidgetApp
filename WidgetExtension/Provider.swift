@@ -125,12 +125,6 @@ struct Provider: AppIntentTimelineProvider {
 		let widgetColor = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
 		var color: Color?
 		
-#if os(iOS)
-		if context.family == .accessoryRectangular {
-			print("Showing rectangular")
-		}
-#endif
-		
 		if let widgetColor {
 			color = Color(rawValue: widgetColor)
 		}
