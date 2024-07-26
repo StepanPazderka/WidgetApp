@@ -20,7 +20,7 @@ struct WidgetCarousel: View {
     var body: some View {
 		NavigationView {
 			List(repo.widgetSettings.uniqued(on: \.id), selection: $selectedWidgetNo) { settings in
-				NavigationLink(destination: WidgetSettingsView(selectedWidgetID: settings.id), tag: settings, selection: $selectedWidgetNo) {
+				NavigationLink(destination: WidgetSettingsView(selectedWidgetID: .constant(settings.id)), tag: settings, selection: $selectedWidgetNo) {
 					HStack {
 						Text(settings.text)
 							.lineLimit(2)

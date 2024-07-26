@@ -28,7 +28,7 @@ struct WidgetSettingsView: View {
     @State var widgetIsBold = false
 	
     @State var selectedWidgetFamily: WidgetTypes = .systemSmall
-    @State var selectedWidgetID: Int
+    @Binding var selectedWidgetID: Int?
     
     @State var smallWidgetSize: CGSize = CGSize(width: 170, height: 170)
     @State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
@@ -121,10 +121,14 @@ struct WidgetSettingsView: View {
 				.frame(maxWidth: .infinity)
 				.frame(height: deviceType == .pad ? 450 : 300)
 				.onChange(of: selectedWidgetFamily) { oldValue, newValue in
-					loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+					if let selectedWidgetID {
+						loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+					}
 				}
 				.onAppear {
-					loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+					if let selectedWidgetID {
+						loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+					}
 				}
 				.animation(.easeInOut(duration: 4), value: selectedWidgetFamily)
 			}.onTapGesture {
@@ -200,22 +204,32 @@ struct WidgetSettingsView: View {
 		}
 		.padding([.top], -40)
 		.onChange(of: widgetText) {
-			updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			if let selectedWidgetID {
+				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
 		}
 		.onChange(of: widgetIsBold) {
-			updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			if let selectedWidgetID {
+				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
 		}
 		.onChange(of: widgetBackgroundColor) {
-			updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			if let selectedWidgetID {
+				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
 		}
 		.onChange(of: widgetFontSize) {
-			updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			if let selectedWidgetID {
+				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
 			WidgetCenter.shared.reloadAllTimelines()
 		}
 		.onReceive(iCloudChangePublisher, perform: { _ in
-			loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			if let selectedWidgetID {
+				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
 			WidgetCenter.shared.reloadAllTimelines()
 		})
 		.background(Color(UIColor.systemBackground))
@@ -327,5 +341,5 @@ struct WidgetSettingsView: View {
 }
 
 #Preview {
-	WidgetSettingsView(widgetText: "Preview Text", selectedWidgetID: 0)
+	WidgetSettingsView(widgetText: "Preview Text", selectedWidgetID: .constant(0))
 }
