@@ -27,7 +27,7 @@ struct WidgetSettingsView: View {
     @State var widgetPadding: CGFloat = 10.0
     @State var widgetIsBold = false
 	
-    @State var selectedWidgetFamily: WidgetTypes = .systemSmall
+    @Binding var selectedWidgetFamily: WidgetTypes?
     @Binding var selectedWidgetID: Int?
     
     @State var smallWidgetSize: CGSize = CGSize(width: 170, height: 170)
@@ -114,12 +114,12 @@ struct WidgetSettingsView: View {
 				.frame(maxWidth: .infinity)
 				.frame(height: deviceType == .pad ? 450 : 300)
 				.onChange(of: selectedWidgetFamily) { oldValue, newValue in
-					if let selectedWidgetID {
+					if let selectedWidgetID, let selectedWidgetFamily {
 						loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 					}
 				}
 				.onAppear {
-					if let selectedWidgetID {
+					if let selectedWidgetID, let selectedWidgetFamily {
 						loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 					}
 				}
@@ -197,27 +197,27 @@ struct WidgetSettingsView: View {
 		}
 		.padding([.top], -40)
 		.onChange(of: widgetText) {
-			if let selectedWidgetID {
+			if let selectedWidgetID, let selectedWidgetFamily {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onChange(of: widgetIsBold) {
-			if let selectedWidgetID {
+			if let selectedWidgetID, let selectedWidgetFamily {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onChange(of: widgetBackgroundColor) {
-			if let selectedWidgetID {
+			if let selectedWidgetID, let selectedWidgetFamily {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onChange(of: widgetFontSize) {
-			if let selectedWidgetID {
+			if let selectedWidgetID, let selectedWidgetFamily {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onChange(of: selectedWidgetID) {
-			if let selectedWidgetID {
+			if let selectedWidgetID, let selectedWidgetFamily {
 				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
@@ -225,7 +225,7 @@ struct WidgetSettingsView: View {
 			WidgetCenter.shared.reloadAllTimelines()
 		}
 		.onReceive(iCloudChangePublisher, perform: { _ in
-			if let selectedWidgetID {
+			if let selectedWidgetID, let selectedWidgetFamily {
 				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 			WidgetCenter.shared.reloadAllTimelines()
@@ -337,5 +337,5 @@ struct WidgetSettingsView: View {
 }
 
 #Preview {
-	WidgetSettingsView(widgetText: "Preview Text", selectedWidgetID: .constant(0))
+	WidgetSettingsView(widgetText: "Preview Text", selectedWidgetFamily: .constant(.systemSmall), selectedWidgetID: .constant(0))
 }

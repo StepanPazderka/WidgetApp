@@ -23,7 +23,7 @@ struct WidgetCarousel: View {
 		NavigationView {
 			List(selection: $selectedWidgetNo) {
 				ForEach(repo.widgetSettings.uniqued(on: \.id)) { settings in
-					NavigationLink(destination: WidgetSettingsView(selectedWidgetID: $selectedWidgetNo)) {
+					NavigationLink(destination: WidgetSettingsView(selectedWidgetFamily: $selectedWidgetFamily, selectedWidgetID: $selectedWidgetNo)) {
 						HStack {
 							Text(settings.text)
 								.lineLimit(2)
