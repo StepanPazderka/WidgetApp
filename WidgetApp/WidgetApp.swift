@@ -10,6 +10,9 @@ import SwiftUI
 struct WidgetAppApp: App {
 	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
 	
+	@State var selectedWidgetID: Int? = 0
+	@State var selectedWidgetFamily: WidgetTypes? = .systemSmall
+	
 	init() {
 		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
 		UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
@@ -17,7 +20,22 @@ struct WidgetAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-			WidgetCarousel()
+			WidgetCarousel(selectedWidgetNo: $selectedWidgetID, selectedWidgetFamily: $selectedWidgetFamily)
+				.onOpenURL { url in
+					if let host = url.host() {
+						if let id = Int(host) {
+							withAnimation {
+								self.selectedWidgetID = id
+							}
+						}
+					}
+					
+					if let widgetType = WidgetTypes(rawValue: url.pathComponents[1]) {
+						withAnimation {
+							self.selectedWidgetFamily = widgetType
+						}
+					}
+				}
 				.navigationTitle("EchoFrame")
         }
 		.environmentObject(widgetSettingsRepository)

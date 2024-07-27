@@ -13,7 +13,9 @@ struct WidgetCarousel: View {
 	
 	let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
 
-	@State var selectedWidgetNo: Int?
+	@Binding var selectedWidgetNo: Int?
+	@Binding var selectedWidgetFamily: WidgetTypes?
+	
 	@State var showingDeleteAlert = false
 	@State var showingAlert = false
 	
@@ -21,7 +23,7 @@ struct WidgetCarousel: View {
 		NavigationView {
 			List(selection: $selectedWidgetNo) {
 				ForEach(repo.widgetSettings.uniqued(on: \.id)) { settings in
-					NavigationLink(destination: WidgetSettingsView(selectedWidgetID: .constant(settings.id))) {
+					NavigationLink(destination: WidgetSettingsView(selectedWidgetID: $selectedWidgetNo)) {
 						HStack {
 							Text(settings.text)
 								.lineLimit(2)
@@ -95,15 +97,6 @@ struct WidgetCarousel: View {
 			}), secondaryButton: .cancel())
 		})
 		.background(Color(UIColor.tertiarySystemFill))
-		.onOpenURL { url in
-			if let host = url.host() {
-				if let id = Int(host) {
-					withAnimation {
-//						self.selectedWidgetNo = id
-					}
-				}
-			}
-		}
 		.onReceive(iCloudChangePublisher, perform: { _ in
 			repo.widgetSettings = repo.fetchWidgetSettings()
 		})
@@ -124,5 +117,5 @@ struct WidgetCarousel: View {
 }
 
 #Preview {
-    WidgetCarousel()
+	WidgetCarousel(selectedWidgetNo: .constant(0), selectedWidgetFamily: .constant(.systemSmall))
 }

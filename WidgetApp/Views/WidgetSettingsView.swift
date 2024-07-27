@@ -108,13 +108,6 @@ struct WidgetSettingsView: View {
 						.containerRelativeFrame(.horizontal)
 						.tag(WidgetTypes.accessoryCircular)
 				}
-				.onOpenURL { url in
-					if let widgetType = WidgetTypes(rawValue: url.pathComponents[1]) {
-						withAnimation {
-							self.selectedWidgetFamily = widgetType
-						}
-					}
-				}
 				.padding(0)
 				.padding([.top], -150)
 				.tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
@@ -221,6 +214,11 @@ struct WidgetSettingsView: View {
 		.onChange(of: widgetFontSize) {
 			if let selectedWidgetID {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
+		}
+		.onChange(of: selectedWidgetID) {
+			if let selectedWidgetID {
+				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
@@ -334,9 +332,7 @@ struct WidgetSettingsView: View {
             self.widgetText = "This is a preview text that will be in the widget"
         }
         
-        withAnimation {
-            self.widgetFontSize = localFontSize ?? 15.0
-        }
+		self.widgetFontSize = localFontSize ?? 15.0
     }
 }
 
