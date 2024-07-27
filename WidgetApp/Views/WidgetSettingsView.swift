@@ -192,6 +192,11 @@ struct WidgetSettingsView: View {
 			.padding(20)
 			.frame(maxWidth: 800)
 		}
+		.onChange(of: selectedWidgetID) { newValue, oldValue in
+			if let selectedWidgetID, let selectedWidgetFamily {
+				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+			}
+		}
 		.onAppear {
 			localDefaults = UserDefaults(suiteName: bundleID)
 		}
@@ -199,6 +204,9 @@ struct WidgetSettingsView: View {
 		.onChange(of: widgetText) {
 			if let selectedWidgetID, let selectedWidgetFamily {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
+				Task {
+					widgetSettingsRepository.refreshWidgetSettings()
+				}
 			}
 		}
 		.onChange(of: widgetIsBold) {
@@ -216,11 +224,6 @@ struct WidgetSettingsView: View {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
-		.onChange(of: selectedWidgetID) {
-			if let selectedWidgetID, let selectedWidgetFamily {
-				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
-			}
-		}
 		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
 			WidgetCenter.shared.reloadAllTimelines()
 		}
@@ -233,6 +236,7 @@ struct WidgetSettingsView: View {
 		.background(Color(UIColor.systemBackground))
 		.padding([.bottom], 15)
 		.ignoresSafeArea(edges: [.leading, .trailing, .bottom])
+		.animation(.easeInOut(duration: 0.5), value: widgetFontSize)
     }
     
     func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {

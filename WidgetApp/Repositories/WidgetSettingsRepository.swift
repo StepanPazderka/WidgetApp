@@ -116,4 +116,8 @@ class WidgetSettingsRepository: ObservableObject {
 			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetBold")
 		}
 	}
+	
+	func refreshWidgetSettings() {
+		self.widgetSettings = fetchWidgetSettings()
+	}
 }

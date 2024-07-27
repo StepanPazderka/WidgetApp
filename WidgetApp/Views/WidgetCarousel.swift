@@ -20,33 +20,31 @@ struct WidgetCarousel: View {
 	@State var showingAlert = false
 	
     var body: some View {
-		NavigationView {
-			List(selection: $selectedWidgetNo) {
-				ForEach(repo.widgetSettings.uniqued(on: \.id)) { settings in
-					NavigationLink(destination: WidgetSettingsView(selectedWidgetFamily: $selectedWidgetFamily, selectedWidgetID: $selectedWidgetNo)) {
-						HStack {
-							Text(settings.text)
-								.lineLimit(2)
-						}
-						.frame(minHeight: 50)
-						.tag(settings.id)
+		NavigationSplitView {
+			List(repo.widgetSettings.uniqued(on: \.id), id: \.id, selection: $selectedWidgetNo) { settings in
+				NavigationLink(value: settings.id) {
+					HStack {
+						Text(settings.text)
+							.lineLimit(2)
 					}
-					.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
-						Button {
-							self.deleteWidgetSettings(id: settings.id)
-						} label: {
-							Label("Delete", systemImage: "trash")
-						}
-						.tint(.red)
-					})
-					.contextMenu(ContextMenu(menuItems: {
-						Button {
-							self.deleteWidgetSettings(id: settings.id)
-						} label: {
-							Label("Delete", systemImage: "trash")
-						}
-					}))
+					.frame(minHeight: 50)
 				}
+				.tag(settings.id)
+				.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
+					Button {
+						self.deleteWidgetSettings(id: settings.id)
+					} label: {
+						Label("Delete", systemImage: "trash")
+					}
+					.tint(.red)
+				})
+				.contextMenu(ContextMenu(menuItems: {
+					Button {
+						self.deleteWidgetSettings(id: settings.id)
+					} label: {
+						Label("Delete", systemImage: "trash")
+					}
+				}))
 			}
 			.listStyle(.insetGrouped)
 			.navigationTitle("Widget Settings")
@@ -64,8 +62,12 @@ struct WidgetCarousel: View {
 					self.selectedWidgetNo = repo.widgetSettings.first?.id
 				}
 			}
-			
-			Text("Select a widget settings to display")
+		} detail: {
+			if let selectedWidgetNo {
+				WidgetSettingsView(selectedWidgetFamily: $selectedWidgetFamily, selectedWidgetID: $selectedWidgetNo)
+			} else {
+				Text("Select a widget settings to display")
+			}
 		}
 		.refreshable {
 			NSUbiquitousKeyValueStore.default.synchronize()
