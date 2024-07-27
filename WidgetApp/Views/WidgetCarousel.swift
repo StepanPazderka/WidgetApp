@@ -13,35 +13,38 @@ struct WidgetCarousel: View {
 	
 	let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
 
-	@State var selectedWidgetNo: WidgetSettings?
+	@State var selectedWidgetNo: Int?
 	@State var showingDeleteAlert = false
 	@State var showingAlert = false
 	
     var body: some View {
 		NavigationView {
-			List(repo.widgetSettings.uniqued(on: \.id), selection: $selectedWidgetNo) { settings in
-				NavigationLink(destination: WidgetSettingsView(selectedWidgetID: .constant(settings.id)), tag: settings, selection: $selectedWidgetNo) {
-					HStack {
-						Text(settings.text)
-							.lineLimit(2)
+			List(selection: $selectedWidgetNo) {
+				ForEach(repo.widgetSettings.uniqued(on: \.id)) { settings in
+					NavigationLink(destination: WidgetSettingsView(selectedWidgetID: .constant(settings.id))) {
+						HStack {
+							Text(settings.text)
+								.lineLimit(2)
+						}
+						.frame(minHeight: 50)
+						.tag(settings.id)
 					}
-					.frame(minHeight: 50)
+					.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
+						Button {
+							self.deleteWidgetSettings(id: settings.id)
+						} label: {
+							Label("Delete", systemImage: "trash")
+						}
+						.tint(.red)
+					})
+					.contextMenu(ContextMenu(menuItems: {
+						Button {
+							self.deleteWidgetSettings(id: settings.id)
+						} label: {
+							Label("Delete", systemImage: "trash")
+						}
+					}))
 				}
-				.swipeActions(edge: .trailing, allowsFullSwipe: true, content: {
-					Button {
-						self.deleteWidgetSettings(id: settings.id)
-					} label: {
-						Label("Delete", systemImage: "trash")
-					}
-					.tint(.red)
-				})
-				.contextMenu(ContextMenu(menuItems: {
-					Button {
-						self.deleteWidgetSettings(id: settings.id)
-					} label: {
-						Label("Delete", systemImage: "trash")
-					}
-				}))
 			}
 			.listStyle(.insetGrouped)
 			.navigationTitle("Widget Settings")
@@ -56,7 +59,7 @@ struct WidgetCarousel: View {
 			}
 			.onAppear {
 				if selectedWidgetNo == nil {
-					self.selectedWidgetNo = repo.widgetSettings.first
+					self.selectedWidgetNo = repo.widgetSettings.first?.id
 				}
 			}
 			
@@ -71,18 +74,18 @@ struct WidgetCarousel: View {
 			Alert(title: Text("Are you sure you want to delete this widget settings?"), primaryButton: .default(Text("Yes"), action: {
 				withAnimation {
 					guard let selectedWidgetNo else { return }
-					repo.deleteWidgetSettings(id: selectedWidgetNo.id)
+					repo.deleteWidgetSettings(id: selectedWidgetNo)
 					
 					guard let firstID = repo.widgetSettings.first else { return }
 
-					if selectedWidgetNo.id > firstID.id {
-						self.selectedWidgetNo = repo.widgetSettings.first(where: { $0.id == $0.id - 1 })
+					if selectedWidgetNo > firstID.id {
+						self.selectedWidgetNo = repo.widgetSettings.first(where: { $0.id == $0.id - 1 })?.id
 					} else {
-						self.selectedWidgetNo = firstID
+						self.selectedWidgetNo = firstID.id
 					}
 					
 					if self.selectedWidgetNo == nil {
-						self.selectedWidgetNo = repo.widgetSettings.first
+						self.selectedWidgetNo = repo.widgetSettings.first?.id
 					}
 					
 					Task {
@@ -109,7 +112,7 @@ struct WidgetCarousel: View {
 	func addWidget(id: Int) {
 		if repo.widgetSettings.uniqued(on: \.id).count < 5 {
 			let newID = repo.createNewWidgetSettings()
-			self.selectedWidgetNo = repo.widgetSettings.first(where: { $0.id == newID })
+			self.selectedWidgetNo = repo.widgetSettings.first(where: { $0.id == newID })?.id
 		} else {
 			showingAlert.toggle()
 		}
