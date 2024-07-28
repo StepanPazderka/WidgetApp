@@ -14,7 +14,7 @@ struct WidgetCarousel: View {
 	let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
 
 	@Binding var selectedWidgetNo: Int?
-	@Binding var selectedWidgetFamily: WidgetTypes?
+	@Binding var selectedWidgetFamily: WidgetTypes
 	
 	@State var showingDeleteAlert = false
 	@State var showingAlert = false

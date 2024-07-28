@@ -27,7 +27,7 @@ struct WidgetSettingsView: View {
     @State var widgetPadding: CGFloat = 10.0
     @State var widgetIsBold = false
 	
-    @Binding var selectedWidgetFamily: WidgetTypes?
+    @Binding var selectedWidgetFamily: WidgetTypes
     @Binding var selectedWidgetID: Int?
     
     @State var smallWidgetSize: CGSize = CGSize(width: 170, height: 170)
@@ -114,12 +114,12 @@ struct WidgetSettingsView: View {
 				.frame(maxWidth: .infinity)
 				.frame(height: deviceType == .pad ? 450 : 300)
 				.onChange(of: selectedWidgetFamily) { oldValue, newValue in
-					if let selectedWidgetID, let selectedWidgetFamily {
+					if let selectedWidgetID {
 						loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 					}
 				}
 				.onAppear {
-					if let selectedWidgetID, let selectedWidgetFamily {
+					if let selectedWidgetID {
 						loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 					}
 				}
@@ -193,7 +193,7 @@ struct WidgetSettingsView: View {
 			.frame(maxWidth: 800)
 		}
 		.onChange(of: selectedWidgetID) { newValue, oldValue in
-			if let selectedWidgetID, let selectedWidgetFamily {
+			if let selectedWidgetID {
 				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
@@ -202,7 +202,7 @@ struct WidgetSettingsView: View {
 		}
 		.padding([.top], -40)
 		.onChange(of: widgetText) {
-			if let selectedWidgetID, let selectedWidgetFamily {
+			if let selectedWidgetID {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 				Task {
 					widgetSettingsRepository.refreshWidgetSettings()
@@ -210,17 +210,17 @@ struct WidgetSettingsView: View {
 			}
 		}
 		.onChange(of: widgetIsBold) {
-			if let selectedWidgetID, let selectedWidgetFamily {
+			if let selectedWidgetID {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onChange(of: widgetBackgroundColor) {
-			if let selectedWidgetID, let selectedWidgetFamily {
+			if let selectedWidgetID {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onChange(of: widgetFontSize) {
-			if let selectedWidgetID, let selectedWidgetFamily {
+			if let selectedWidgetID {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
@@ -228,7 +228,7 @@ struct WidgetSettingsView: View {
 			WidgetCenter.shared.reloadAllTimelines()
 		}
 		.onReceive(iCloudChangePublisher, perform: { _ in
-			if let selectedWidgetID, let selectedWidgetFamily {
+			if let selectedWidgetID {
 				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 			WidgetCenter.shared.reloadAllTimelines()
@@ -241,7 +241,7 @@ struct WidgetSettingsView: View {
     
     func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
         localDefaults?.set(widgetText, forKey: "\(forWidgetNo)-widgetContent")
-        localDefaults?.set(widgetFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
+        localDefaults?.set(widgetFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
         localDefaults?.set(widgetBackgroundColor.rawValue, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
         localDefaults?.set(widgetIsBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
         

@@ -11,7 +11,7 @@ struct WidgetAppApp: App {
 	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
 	
 	@State var selectedWidgetID: Int? = 0
-	@State var selectedWidgetFamily: WidgetTypes? = .systemSmall
+	@State var selectedWidgetFamily: WidgetTypes = .systemSmall
 	
 	init() {
 		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
@@ -37,6 +37,9 @@ struct WidgetAppApp: App {
 					}
 				}
 				.navigationTitle("EchoFrame")
+				.onChange(of: selectedWidgetFamily) { newValue, oldValue in
+					print("New Value: \(newValue), Old Value: \(oldValue)")
+				}
         }
 		.environmentObject(widgetSettingsRepository)
     }
