@@ -23,8 +23,8 @@ class WidgetSettingsRepository: ObservableObject {
 		setupObservation()
 	}
 	
-	func fetchWidgetSettings() -> [WidgetSettings] {
-		(0...100).flatMap { id -> [WidgetSettings] in
+	@discardableResult func fetchWidgetSettings() -> [WidgetSettings] {
+		let returnArray = (0...100).flatMap { id -> [WidgetSettings] in
 			return WidgetTypes.allCases.compactMap { widgetSize -> WidgetSettings? in
 				let widgetFontSize = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetFontSize") as? CGFloat
 				let widgetIsBold = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetBold") as? Bool
@@ -35,6 +35,8 @@ class WidgetSettingsRepository: ObservableObject {
 				return nil
 			}
 		}
+		self.widgetSettings = returnArray
+		return returnArray
 	}
 	
 	func setupObservation() {

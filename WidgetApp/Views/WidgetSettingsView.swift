@@ -227,12 +227,13 @@ struct WidgetSettingsView: View {
 		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
 			WidgetCenter.shared.reloadAllTimelines()
 		}
-		.onReceive(iCloudChangePublisher, perform: { _ in
+		.onReceive(iCloudChangePublisher) { _ in
+			self.widgetSettingsRepository.fetchWidgetSettings()
 			if let selectedWidgetID {
 				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 			WidgetCenter.shared.reloadAllTimelines()
-		})
+		}
 		.background(Color(UIColor.systemBackground))
 		.padding([.bottom], 15)
 		.ignoresSafeArea(edges: [.leading, .trailing, .bottom])
