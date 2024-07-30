@@ -34,7 +34,7 @@ struct WidgetSettingsView: View {
     @State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
     @State var largeWidgetSize: CGSize = CGSize(width: 364, height: 364)
     @State var extraLargeWidgetSize: CGSize = CGSize(width: 715, height: 364)
-		    
+
     private var deviceType: UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
     
     var body: some View {
@@ -234,10 +234,18 @@ struct WidgetSettingsView: View {
 			}
 			WidgetCenter.shared.reloadAllTimelines()
 		}
+		.onChange(of: widgetText) { newValue, oldValue in
+			self.widgetSettingsRepository.fetchWidgetSettings()
+			
+			Task {
+				WidgetCenter.shared.reloadAllTimelines()
+			}
+		}
 		.background(Color(UIColor.systemBackground))
 		.padding([.bottom], 15)
 		.ignoresSafeArea(edges: [.leading, .trailing, .bottom])
 		.animation(.easeInOut(duration: 0.5), value: widgetFontSize)
+		.animation(.easeInOut(duration: 1.5), value: widgetBackgroundColor)
     }
     
     func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {

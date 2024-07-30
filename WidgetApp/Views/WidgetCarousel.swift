@@ -63,14 +63,11 @@ struct WidgetCarousel: View {
 				}
 			}
 		} detail: {
-			if let selectedWidgetNo {
+			if selectedWidgetNo != nil {
 				WidgetSettingsView(selectedWidgetFamily: $selectedWidgetFamily, selectedWidgetID: $selectedWidgetNo)
 			} else {
 				Text("Select a widget settings to display")
 			}
-		}
-		.refreshable {
-			NSUbiquitousKeyValueStore.default.synchronize()
 		}
 		.toolbar(.hidden)
 		.animation(.easeInOut(duration: 0.1), value: repo.widgetSettings)
@@ -101,7 +98,16 @@ struct WidgetCarousel: View {
 		.background(Color(UIColor.tertiarySystemFill))
 		.onReceive(iCloudChangePublisher, perform: { _ in
 			repo.widgetSettings = repo.fetchWidgetSettings()
+			
+			Task {
+				WidgetCenter.shared.reloadAllTimelines()
+			}
 		})
+		.onChange(of: selectedWidgetNo) { newValue, oldValue in
+			if let selectedWidgetNo {
+				print("Selected Widget ID: \(String(describing: selectedWidgetNo))")
+			}
+		}
     }
 	
 	func addWidget(id: Int) {
