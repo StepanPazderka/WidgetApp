@@ -9,19 +9,24 @@ import Observation
 import SwiftUI
 import Combine
 import WidgetKit
+import SwiftData
 
+@MainActor
 class WidgetSettingsRepository: ObservableObject {
 	private let icloudDefaults = NSUbiquitousKeyValueStore.default
 	private let localDefaults = UserDefaults(suiteName: bundleID)
 	
 	@Published var widgetSettings: [WidgetSettings] = []
 	
-	private var cancellables = Set<AnyCancellable>()
+	static public var container: ModelContainer?
+	
+	static let standard: WidgetSettingsRepository = .init()
 	
 	init() {
-		widgetSettings = fetchWidgetSettings()
-		setupObservation()
+		
 	}
+	
+	private var cancellables = Set<AnyCancellable>()
 	
 	@discardableResult func fetchWidgetSettings() -> [WidgetSettings] {
 		let returnArray = (0...100).flatMap { id -> [WidgetSettings] in
@@ -43,39 +48,39 @@ class WidgetSettingsRepository: ObservableObject {
 		NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification, object: localDefaults)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] _ in
-				if let widgetSettings = self?.fetchWidgetSettings() {
-					self?.widgetSettings = widgetSettings
+				Task {
+					await self?.refreshWidgetSettings()
 				}
 			}
 			.store(in: &cancellables)
 		
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(iCloudDefaultsUpdateClosure),
-			name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-			object: NSUbiquitousKeyValueStore.default)
+//		NotificationCenter.default.addObserver(
+//			self,
+//			selector: #selector(iCloudDefaultsUpdateClosure),
+//			name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+//			object: NSUbiquitousKeyValueStore.default)
 	}
 	
-	@objc func iCloudDefaultsUpdateClosure(notification: Notification) {
-		for key in icloudDefaults.dictionaryRepresentation.keys {
-			let value = icloudDefaults.object(forKey: key)
-			localDefaults?.set(value, forKey: key)
-		}
-		
-		guard let localDefaults else { return }
-		
-		for key in localDefaults.dictionaryRepresentation().keys {
-			let icloudValue = icloudDefaults.object(forKey: key)
-			
-			if icloudValue == nil {
-				localDefaults.removeObject(forKey: key)
-			}
-		}
-		
-		DispatchQueue.main.sync {
-			widgetSettings = fetchWidgetSettings()
-		}
-	}
+//	@objc func iCloudDefaultsUpdateClosure(notification: Notification) {
+//		for key in icloudDefaults.dictionaryRepresentation.keys {
+//			let value = icloudDefaults.object(forKey: key)
+//			localDefaults?.set(value, forKey: key)
+//		}
+//		
+//		guard let localDefaults else { return }
+//		
+//		for key in localDefaults.dictionaryRepresentation().keys {
+//			let icloudValue = icloudDefaults.object(forKey: key)
+//			
+//			if icloudValue == nil {
+//				localDefaults.removeObject(forKey: key)
+//			}
+//		}
+//		
+//		DispatchQueue.main.sync {
+//			widgetSettings = fetchWidgetSettings()
+//		}
+//	}
 
 	@discardableResult func createNewWidgetSettings() -> Int? {
 		let widgetContent = "This is a preview text that will be in the widget"

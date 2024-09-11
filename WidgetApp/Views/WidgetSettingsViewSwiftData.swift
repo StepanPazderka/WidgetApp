@@ -1,46 +1,53 @@
 //
-//  ContentView.swift
+//  WidgetSettingsViewSwiftData.swift
 //  WidgetApp
 //
-//  Created by Štěpán Pazderka on 21.12.2023.
+//  Created by Štěpán Pazderka on 08.08.2024.
 //
 
 import SwiftUI
 import WidgetKit
-import UIKit
-import RegexBuilder
+import SwiftData
 
-struct WidgetSettingsView: View {
-    let icloudDefaults = NSUbiquitousKeyValueStore.default
-    let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
-	
+struct WidgetSettingsViewSwiftData: View {
+	let icloudDefaults = NSUbiquitousKeyValueStore.default
+	let iCloudChangePublisher = NotificationCenter.default.publisher(for: NSUbiquitousKeyValueStore.didChangeExternallyNotification)
 	@State var localDefaults: UserDefaults?
-    
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @Environment(\.verticalSizeClass) var verticalSizeClass
+	
+	@Environment(\.colorScheme) var colorScheme
+	@Environment(\.horizontalSizeClass) var horizontalSizeClass
+	@Environment(\.verticalSizeClass) var verticalSizeClass
 	
 	@EnvironmentObject private var widgetSettingsRepository: WidgetSettingsRepository
+	@Environment(\.modelContext) private var context
 	
-//	@Environment(\.widgetSettingsRepository) private var widgetSettingsRepository
-    
-    @State var widgetText = "This is a preview text that will be in the widget"
+	@State var widgetText = "This is a preview text that will be in the widget"
 	@State var widgetBackgroundColor: Color = .white
-    @State var widgetFontSize: CGFloat = 30.0
-    @State var widgetPadding: CGFloat = 10.0
-    @State var widgetIsBold = false
+	@State var widgetFontSize: CGFloat = 30.0
+	@State var widgetPadding: CGFloat = 10.0
+	@State var widgetIsBold = false
 	
-    @Binding var selectedWidgetFamily: WidgetTypes
-    @Binding var selectedWidgetID: Int?
-    
-    @State var smallWidgetSize: CGSize = CGSize(width: 170, height: 170)
-    @State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
-    @State var largeWidgetSize: CGSize = CGSize(width: 364, height: 364)
-    @State var extraLargeWidgetSize: CGSize = CGSize(width: 715, height: 364)
-
-    private var deviceType: UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
-    
-    var body: some View {
+	@Binding var selectedWidgetFamily: WidgetTypes
+	@Binding var selectedWidgetID: Int?
+	
+	@State var smallWidgetSize: CGSize = CGSize(width: 170, height: 170)
+	@State var mediumWidgetSize: CGSize = CGSize(width: 364, height: 170)
+	@State var largeWidgetSize: CGSize = CGSize(width: 364, height: 364)
+	@State var extraLargeWidgetSize: CGSize = CGSize(width: 715, height: 364)
+	
+	@Query private var widgetSettings: [WidgetSettingsSwiftData]
+	
+	private var deviceType: UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+	
+	var anyWidgetValues: [String] {[
+		widgetText.description,
+		widgetBackgroundColor.description,
+		widgetFontSize.description,
+		widgetPadding.description,
+		widgetIsBold.description
+	]}
+	
+	var body: some View {
 		VStack {
 			VStack {
 				TabView(selection: $selectedWidgetFamily) {
@@ -195,6 +202,11 @@ struct WidgetSettingsView: View {
 			.padding(20)
 			.frame(maxWidth: 800)
 		}
+		.onChange(of: selectedWidgetFamily, { oldValue, newValue in
+			if let selectedWidgetID {
+				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: oldValue)
+			}
+		})
 		.onChange(of: selectedWidgetID) { newValue, oldValue in
 			if let selectedWidgetID {
 				loadSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
@@ -202,29 +214,20 @@ struct WidgetSettingsView: View {
 		}
 		.onAppear {
 			localDefaults = UserDefaults(suiteName: bundleID)
+			
+			if let selectedWidgetSettings = widgetSettings.first { $0.widgetId == $selectedWidgetID.wrappedValue } {
+				if let selectedId = selectedWidgetSettings.widgetId {
+					print(selectedId)
+				}
+			}
 		}
 		.padding([.top], -40)
-		.onChange(of: widgetText) {
+		.onChange(of: anyWidgetValues) {
 			if let selectedWidgetID {
 				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 				Task {
 					widgetSettingsRepository.refreshWidgetSettings()
 				}
-			}
-		}
-		.onChange(of: widgetIsBold) {
-			if let selectedWidgetID {
-				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
-			}
-		}
-		.onChange(of: widgetBackgroundColor) {
-			if let selectedWidgetID {
-				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
-			}
-		}
-		.onChange(of: widgetFontSize) {
-			if let selectedWidgetID {
-				updateSettings(forWidgetNo: selectedWidgetID, widgetSize: selectedWidgetFamily)
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
@@ -237,121 +240,93 @@ struct WidgetSettingsView: View {
 			}
 			WidgetCenter.shared.reloadAllTimelines()
 		}
-		.onChange(of: widgetText) { newValue, oldValue in
-			self.widgetSettingsRepository.fetchWidgetSettings()
-			
-			Task {
-				WidgetCenter.shared.reloadAllTimelines()
-			}
-		}
 		.background(Color(UIColor.systemBackground))
 		.padding([.bottom], 15)
 		.ignoresSafeArea(edges: [.leading, .trailing, .bottom])
 		.animation(.easeInOut(duration: 0.5), value: widgetFontSize)
 		.animation(.easeInOut(duration: 1.5), value: widgetBackgroundColor)
-    }
-    
-    func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
-        localDefaults?.set(widgetText, forKey: "\(forWidgetNo)-widgetContent")
-        localDefaults?.set(widgetFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
-        localDefaults?.set(widgetBackgroundColor.rawValue, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
-        localDefaults?.set(widgetIsBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
-        
-        icloudDefaults.set(widgetText, forKey: "\(forWidgetNo)-widgetContent")
-        icloudDefaults.set(widgetBackgroundColor.rawValue, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
-        icloudDefaults.set(widgetIsBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
-		localDefaults?.set(widgetFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
-        
-		icloudDefaults.synchronize()
-				
-		WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    func transferOldSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
+	}
+	
+	func updateSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
+		guard let widgetSettingsForCurrentIDandFamily = widgetSettings.first(where: { $0.widgetId == $selectedWidgetID.wrappedValue && $0.widgetFamily == $selectedWidgetFamily.wrappedValue }) else { return }
+		
+		let widgetSettingsForCurrentID = widgetSettings.filter({ $0.widgetId == $selectedWidgetID.wrappedValue })
+		
+		for widgetSettings in widgetSettingsForCurrentID {
+			widgetSettings.text = widgetText
+		}
+		
+		widgetSettingsForCurrentIDandFamily.color = widgetBackgroundColor.rawValue
+		widgetSettingsForCurrentIDandFamily.fontSize = widgetFontSize
+		widgetSettingsForCurrentIDandFamily.isBold = widgetIsBold
+		
+		Syncer(modelContainer: self.context.container).transferSwiftDataToLocalSettings()
+		
+		try? context.save()
+
+		Task {
+			WidgetCenter.shared.reloadAllTimelines()
+		}
+	}
+	
+	func transferOldSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
 		let sharedDefaults = UserDefaults(suiteName: bundleID)
-        
-        if let oldContentData = sharedDefaults?.object(forKey: "widgetContent") as? String {
-            sharedDefaults?.set(oldContentData, forKey: "\(forWidgetNo)-widgetContent")
-            sharedDefaults?.removeObject(forKey: "widgetContent")
-        }
-        
-        if let oldFontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat {
-            sharedDefaults?.set(oldFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
-            sharedDefaults?.removeObject(forKey: "widgetFontSize")
-        }
-        
-        if let oldColorData = sharedDefaults?.object(forKey: "widgetColor") as? String {
-            sharedDefaults?.set(oldColorData, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
-            sharedDefaults?.removeObject(forKey: "widgetColor")
-        }
-        
-        if let oldShouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool {
-            sharedDefaults?.set(oldShouldBeBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
-            sharedDefaults?.removeObject(forKey: "widgetBold")
-        }
-    }
-    
-    func loadSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
-        if let smallWidgetSize = localDefaults?.dictionary(forKey: "smallWidgetSize") as? [String: CGFloat] {
-            self.smallWidgetSize.width = smallWidgetSize["width"] ?? 170
-            self.smallWidgetSize.height = smallWidgetSize["height"] ?? 170
-        }
-        
-        if let mediumWidgetSize = localDefaults?.dictionary(forKey: "mediumWidgetSize") as? [String: CGFloat] {
-            self.mediumWidgetSize.width = mediumWidgetSize["width"] ?? 364
-            self.mediumWidgetSize.height = mediumWidgetSize["height"] ?? 170
-        }
-        
-        if let largeWidgetSize = localDefaults?.dictionary(forKey: "largeWidgetSize") as? [String: CGFloat] {
-            self.largeWidgetSize.width = largeWidgetSize["width"] ?? 364
-            self.largeWidgetSize.height = largeWidgetSize["height"] ?? 364
-        }
-        
-        transferOldSettings(forWidgetNo: forWidgetNo, widgetSize: widgetSize)
-        
-        let localWidgetContent = localDefaults?.object(forKey: "\(forWidgetNo)-widgetContent") as? String
-        let localFontSize = localDefaults?.object(forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize") as? CGFloat
-        let localIsBold = localDefaults?.object(forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold") as? Bool
-        let localColorData = localDefaults?.object(forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor") as? String
-        
-        let iCloudWidgetContent = icloudDefaults.object(forKey: "\(forWidgetNo)-widgetContent") as? String
-        let iCloudWidgetIsBold = icloudDefaults.object(forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold") as? Bool
-        let iCloudWidgetColorData = icloudDefaults.object(forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor") as? String
-        
-        if let iCloudWidgetContent {
-            localDefaults?.set(iCloudWidgetContent, forKey: "\(forWidgetNo)-widgetContent")
-        }
-        
-        if let iCloudWidgetIsBold {
-            localDefaults?.set(iCloudWidgetIsBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
-        }
-        
-        if let iCloudWidgetColorData {
-            localDefaults?.set(iCloudWidgetColorData, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
-        }
-                
-        if let iCloudWidgetColorData {
-            if let color = Color(rawValue: iCloudWidgetColorData) {
-                self.widgetBackgroundColor = color
-            }
-        } else if let localColorData {
-            if let color = Color(rawValue: localColorData) {
-                self.widgetBackgroundColor = color
-            }
-        } else {
-            self.widgetBackgroundColor = Color(uiColor: UIColor(hue: CGFloat.random(in: 0.0...1.0), saturation: CGFloat.random(in: 0.0...1.0), brightness: CGFloat.random(in: 0.0...1.0), alpha: 1.0))
-        }
-        
-        self.widgetIsBold = iCloudWidgetIsBold ?? localIsBold ?? false
-        self.widgetText = iCloudWidgetContent ?? localWidgetContent ?? "This is a preview text that will be in the widget"
-        if let localWidgetContent, localWidgetContent.isEmpty {
-            self.widgetText = "This is a preview text that will be in the widget"
-        }
-        
-		self.widgetFontSize = localFontSize ?? 15.0
-    }
+		
+		if let oldContentData = sharedDefaults?.object(forKey: "widgetContent") as? String {
+			sharedDefaults?.set(oldContentData, forKey: "\(forWidgetNo)-widgetContent")
+			sharedDefaults?.removeObject(forKey: "widgetContent")
+		}
+		
+		if let oldFontSize = sharedDefaults?.object(forKey: "widgetFontSize") as? CGFloat {
+			sharedDefaults?.set(oldFontSize, forKey: "\(forWidgetNo)-\(widgetSize)-widgetFontSize")
+			sharedDefaults?.removeObject(forKey: "widgetFontSize")
+		}
+		
+		if let oldColorData = sharedDefaults?.object(forKey: "widgetColor") as? String {
+			sharedDefaults?.set(oldColorData, forKey: "\(forWidgetNo)-\(widgetSize)-widgetColor")
+			sharedDefaults?.removeObject(forKey: "widgetColor")
+		}
+		
+		if let oldShouldBeBold = sharedDefaults?.object(forKey: "widgetBold") as? Bool {
+			sharedDefaults?.set(oldShouldBeBold, forKey: "\(forWidgetNo)-\(widgetSize)-widgetBold")
+			sharedDefaults?.removeObject(forKey: "widgetBold")
+		}
+	}
+	
+	func loadSettings(forWidgetNo: Int, widgetSize: WidgetTypes) {
+		if let smallWidgetSize = localDefaults?.dictionary(forKey: "smallWidgetSize") as? [String: CGFloat] {
+			self.smallWidgetSize.width = smallWidgetSize["width"] ?? 170
+			self.smallWidgetSize.height = smallWidgetSize["height"] ?? 170
+		}
+		
+		if let mediumWidgetSize = localDefaults?.dictionary(forKey: "mediumWidgetSize") as? [String: CGFloat] {
+			self.mediumWidgetSize.width = mediumWidgetSize["width"] ?? 364
+			self.mediumWidgetSize.height = mediumWidgetSize["height"] ?? 170
+		}
+		
+		if let largeWidgetSize = localDefaults?.dictionary(forKey: "largeWidgetSize") as? [String: CGFloat] {
+			self.largeWidgetSize.width = largeWidgetSize["width"] ?? 364
+			self.largeWidgetSize.height = largeWidgetSize["height"] ?? 364
+		}
+		
+		transferOldSettings(forWidgetNo: forWidgetNo, widgetSize: widgetSize)
+		
+		guard let selectedObject = widgetSettings.first(where: { $0.widgetId == $selectedWidgetID.wrappedValue && $0.widgetFamily == $selectedWidgetFamily.wrappedValue }) else { return }
+
+		self.widgetText = selectedObject.text
+		self.widgetFontSize = selectedObject.fontSize
+		self.widgetIsBold = selectedObject.isBold
+		let localColorData = selectedObject.color
+		
+		if let color = Color(rawValue: localColorData) {
+			self.widgetBackgroundColor = color
+		} else {
+			self.widgetBackgroundColor = Color(uiColor: UIColor(hue: CGFloat.random(in: 0.0...1.0), saturation: CGFloat.random(in: 0.0...1.0), brightness: CGFloat.random(in: 0.0...1.0), alpha: 1.0))
+		}
+	}
 }
 
 #Preview {
 	WidgetSettingsView(widgetText: "Preview Text", selectedWidgetFamily: .constant(.systemSmall), selectedWidgetID: .constant(0))
 }
+

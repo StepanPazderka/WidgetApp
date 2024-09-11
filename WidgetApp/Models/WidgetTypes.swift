@@ -15,3 +15,5 @@ enum WidgetTypes: String, CaseIterable {
     case accessoryRectangular
     case accessoryCircular
 }
+
+extension WidgetTypes: Codable { }

@@ -8,67 +8,9 @@
 import WidgetKit
 import SwiftUI
 
-struct WidgetAppWidgetEntryView: View {
-	@State var id: Int
-	@State var widgetText: String = "Your text will be here"
-	@State var widgetFontSize: CGFloat = 20.0
-	@State var color: Color = .primary
-	@State var shouldBeBold: Bool = false
-	@Environment(\.widgetFamily) var family
-
-    var entry: Provider.Entry
-    
-    init(entry: WidgetSettings) {
-		self.id = entry.id
-        self.entry = entry
-        self.color = entry.color
-        self.widgetText = entry.text
-		self._widgetFontSize = State(initialValue: entry.fontSize)
-    }
-    
-    var body: some View {
-        switch family {
-        case .systemMedium:
-            Link(destination: URL(string: "echoframe://\(id)/systemMedium")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-            }
-        case .systemSmall:
-            Link(destination: URL(string: "echoframe://\(id)/systemSmall")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-            }
-        case .systemLarge:
-            Link(destination: URL(string: "echoframe://\(id)/systemLarge")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-            }
-        case .systemExtraLarge:
-            Link(destination: URL(string: "echoframe://\(id)/systemExtraLarge")!) {
-				WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-            }
-        case .accessoryCircular:
-            Link(destination: URL(string: "echoframe://\(id)/accessoryCircular")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-                    .foregroundStyle(.white)
-            }
-        case .accessoryRectangular:
-            Link(destination: URL(string: "echoframe://\(id)/accessoryRectangular")!) {
-                WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-                    .foregroundStyle(.white)
-            }
-        case .accessoryInline:
-            Link(destination: URL(string: "echoframe://\(id)/accessoryInline")!) {
-				WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-                    .foregroundStyle(.white)
-            }
-        @unknown default:
-            Link(destination: URL(string: "echoframe://")!) {
-				WidgetView(text: .constant(entry.text), fontSize: $widgetFontSize, shouldBeBold: $shouldBeBold, textPadding: .constant(0))
-            }
-        }
-    }
-}
-
 struct WidgetAppWidget: Widget {
     let kind: String = "WidgetAppWidget"
+//	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository.standard
     
 #if os(iOS)
     var body: some WidgetConfiguration {
@@ -79,6 +21,7 @@ struct WidgetAppWidget: Widget {
                 .containerBackground(entry.color, for: .widget)
                 .foregroundStyle(color.complementaryColor(for: color))
                 .fontWeight( entry.shouldBeBold ? .bold : .regular)
+				.modelContainer(for: [WidgetSettingsSwiftData.self])
         }
 		.configurationDisplayName("Widget Settings")
 		.description("Sets a Widget Settings to display")

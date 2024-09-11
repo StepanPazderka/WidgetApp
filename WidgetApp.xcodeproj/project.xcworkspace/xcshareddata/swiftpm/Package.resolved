@@ -1,0 +1,15 @@
+{
+  "originHash" : "65f5ca1e20eb20cd1bc51b8e721764443dfe3bd2a5039ebbf0d9983965cf7336",
+  "pins" : [
+    {
+      "identity" : "cloudkitsyncmonitor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ggruen/CloudKitSyncMonitor",
+      "state" : {
+        "revision" : "f84f9c074b2c55adc7dc364a4437cfe7249ae529",
+        "version" : "1.4.1"
+      }
+    }
+  ],
+  "version" : 3
+}

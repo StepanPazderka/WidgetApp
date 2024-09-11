@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
+
 @main
 struct WidgetAppApp: App {
 	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
 	
-	@State var selectedWidgetID: Int? = 0
+	@State var selectedWidgetID: Int?
 	@State var selectedWidgetFamily: WidgetTypes = .systemSmall
-	
+			
 	init() {
 		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
 		UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
@@ -20,7 +22,8 @@ struct WidgetAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-			WidgetCarousel(selectedWidgetNo: $selectedWidgetID, selectedWidgetFamily: $selectedWidgetFamily)
+			WidgetCarouselSwiftDataView(selectedWidgetNo: $selectedWidgetID, selectedWidgetFamily: $selectedWidgetFamily)
+				.tabItem { Label("SwiftData", systemImage: "list.star") }
 				.onOpenURL { url in
 					if let host = url.host() {
 						if let id = Int(host) {
@@ -36,11 +39,16 @@ struct WidgetAppApp: App {
 						}
 					}
 				}
-				.navigationTitle("EchoFrame")
-				.onChange(of: selectedWidgetFamily) { newValue, oldValue in
-					print("New Value: \(newValue), Old Value: \(oldValue)")
-				}
         }
 		.environmentObject(widgetSettingsRepository)
+		.modelContainer(for: [WidgetSettingsSwiftData.self]) { result in
+			switch result {
+			case .success(let container):
+				WidgetSettingsRepository.container = container
+				print(container)
+			case .failure(let error):
+				print(error)
+			}
+		}
     }
 }
