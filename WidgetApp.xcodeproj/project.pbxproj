@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A864DBE2D946316003C66D0 /* changelog.md in Resources */ = {isa = PBXBuildFile; fileRef = 6A864DBD2D946311003C66D0 /* changelog.md */; };
+		6A864DBF2D946316003C66D0 /* changelog.md in Resources */ = {isa = PBXBuildFile; fileRef = 6A864DBD2D946311003C66D0 /* changelog.md */; };
 		7F0141172C246F8D00B35537 /* truncateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0141162C246F8D00B35537 /* truncateText.swift */; };
 		7F0141182C246F9300B35537 /* truncateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0141162C246F8D00B35537 /* truncateText.swift */; };
 		7F06A27C2BC964630087BF1B /* iCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F06A27B2BC964630087BF1B /* iCloudService.swift */; };
@@ -72,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6A864DBD2D946311003C66D0 /* changelog.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = changelog.md; sourceTree = "<group>"; };
 		7F0141162C246F8D00B35537 /* truncateText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = truncateText.swift; sourceTree = "<group>"; };
 		7F06A27B2BC964630087BF1B /* iCloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudService.swift; sourceTree = "<group>"; };
 		7F06A27E2BC965320087BF1B /* WidgetSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSettings.swift; sourceTree = "<group>"; };
@@ -139,6 +142,7 @@
 		7F44D3FE2B34440400730DA6 = {
 			isa = PBXGroup;
 			children = (
+				6A864DBD2D946311003C66D0 /* changelog.md */,
 				7F57D5382BF7CE0A00F722B8 /* Views */,
 				7F06A2852BC96BF50087BF1B /* Constants.swift */,
 				7F4FD8D62BF60F0000556E5A /* Environment.swift */,
@@ -319,6 +323,7 @@
 				7FB48D232BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */,
 				7F44D4132B34440600730DA6 /* Preview Assets.xcassets in Resources */,
 				7F44D40F2B34440600730DA6 /* Assets.xcassets in Resources */,
+				6A864DBF2D946316003C66D0 /* changelog.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +331,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A864DBE2D946316003C66D0 /* changelog.md in Resources */,
 				7FB48D242BB1D8900042BD25 /* PrivacyInfo.xcprivacy in Resources */,
 				7F44D45C2B34498A00730DA6 /* Assets.xcassets in Resources */,
 			);
