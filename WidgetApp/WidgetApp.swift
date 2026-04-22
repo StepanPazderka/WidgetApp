@@ -6,25 +6,24 @@
 //
 
 import SwiftUI
+import SwiftData
 import IQKeyboardManagerSwift
 
 @main
 struct WidgetAppApp: App {
-    let syncObserver = iCloudService()
-	
-	@State var selectedWidgetNo = 0
-	@ObservedObject var widgetSettingsRepository = WidgetSettingsRepository()
-	
-	init() {
-		IQKeyboardManager.shared.enable = true
-		UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
-		UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
-	}
+    @ObservedObject private var widgetSettingsRepository = WidgetSettingsRepository()
+
+    init() {
+        IQKeyboardManager.shared.enable = true
+        UIPageControl.appearance().currentPageIndicatorTintColor = .lightGray
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.darkGray.withAlphaComponent(1)
+    }
 
     var body: some Scene {
         WindowGroup {
-			WidgetCarousel(selectedWidgetNo: 0)
+            WidgetCarousel(selectedWidgetNo: 0)
         }
-		.environmentObject(widgetSettingsRepository)
+        .environmentObject(widgetSettingsRepository)
+        .modelContainer(try! WidgetDataStore.makeModelContainer())
     }
 }

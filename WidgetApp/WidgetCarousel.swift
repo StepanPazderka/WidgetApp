@@ -78,11 +78,6 @@ struct WidgetCarousel: View {
     }
 }
 
-struct CustomModel: Identifiable {
-	let id = UUID()
-	var value: String
-}
-
 #Preview {
     WidgetCarousel()
 }

@@ -5,98 +5,167 @@
 //  Created by Štěpán Pazderka on 15.05.2024.
 //
 
-import Observation
+import SwiftData
 import SwiftUI
-import Combine
 import WidgetKit
 
+@MainActor
 class WidgetSettingsRepository: ObservableObject {
-	
-	private var cancellables = Set<AnyCancellable>()
-	
-	private let icloudDefaults = NSUbiquitousKeyValueStore.default
-	private var localDefaults = UserDefaults(suiteName: bundleID)
-	
-	@Published var widgetSettings: [WidgetSettings] = []
-	
-	init() {
-		widgetSettings = loadWidgetSettings()
-		setupObservation()
-	}
-	
-	func loadWidgetSettings() -> [WidgetSettings] {
-		var array: [WidgetSettings] = []
-		for id in 0...100 {
-			for widgetSize in WidgetTypes.allCases {
-				let widgetFontSize = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetFontSize") as? CGFloat
-				let widgetIsBold = self.localDefaults?.object(forKey: "\(id)-\(widgetSize)-widgetBold") as? Bool
-				if let widgetContent = self.localDefaults?.object(forKey: "\(id)-widgetContent") as? String
-				{
-					let widgetSettings = WidgetSettings(id: id, text: widgetContent, shouldBeBold: widgetIsBold ?? false, color: .primary, fontSize: widgetFontSize ?? 20.0)
-					array.append(widgetSettings)
-				}
-			}
-		}
-		
-		return array
-	}
-	
-	func setupObservation() {
-		NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification, object: localDefaults)
-			.sink { [weak self] something in
-				if let widgetSettings = self?.loadWidgetSettings() {
-					self?.widgetSettings = widgetSettings
-				}
-			}
-			.store(in: &cancellables)
-		
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(updateLocalDefaults),
-			name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-			object: NSUbiquitousKeyValueStore.default)
-	}
-	
-	@objc func updateLocalDefaults(notification: Notification) {
-		DispatchQueue.main.sync {
-			widgetSettings = loadWidgetSettings()
-		}
-	}
+    @Published var widgetSettings: [WidgetSettings] = []
 
-	func createNewWidgetSettings() {
-		let widgetContent = "Preview content"
-		let widgetShouldBeBold = false
-		let widgetColor: Color = .primary
-		let widgetFontSize = 20.0
-		
-		var newWidgetID: Int?
-		
-		if let lastWidgetID = widgetSettings.last?.id {
-			newWidgetID = lastWidgetID + 1
-		} else {
-			newWidgetID = 0
-		}
-		
-		guard let newWidgetID else { return }
-		for widgetType in WidgetTypes.allCases {
-			localDefaults?.set(widgetContent, forKey: "\(newWidgetID)-widgetContent")
-			localDefaults?.set(widgetFontSize, forKey: "\(newWidgetID)-\(widgetType)-widgetFontSize")
-			localDefaults?.set(widgetColor.rawValue, forKey: "\(newWidgetID)-\(widgetType)-widgetColor")
-			localDefaults?.set(widgetShouldBeBold, forKey: "\(newWidgetID)-\(widgetType)-widgetBold")
-		}
-	}
-	
-	func deleteWidgetSettings(id: Int) {
-		for widgetType in WidgetTypes.allCases {
-			localDefaults?.removeObject(forKey: "\(id)-widgetContent")
-			localDefaults?.removeObject(forKey: "\(id)-\(widgetType)-widgetFontSize")
-			localDefaults?.removeObject(forKey: "\(id)-\(widgetType)-widgetColor")
-			localDefaults?.removeObject(forKey: "\(id)-\(widgetType)-widgetBold")
-			
-			icloudDefaults.removeObject(forKey: "\(id)-widgetContent")
-			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetFontSize")
-			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetColor")
-			icloudDefaults.removeObject(forKey: "\(id)-\(widgetType)-widgetBold")
-		}
-	}
+    private let container: ModelContainer
+    private let context: ModelContext
+
+    init() {
+        do {
+            let container = try WidgetDataStore.makeModelContainer()
+            self.container = container
+            self.context = container.mainContext
+            migrateLegacyDefaultsIfNeeded()
+            widgetSettings = loadWidgetSettings()
+        } catch {
+            fatalError("Unable to create SwiftData container: \(error)")
+        }
+    }
+
+    func loadWidgetSettings() -> [WidgetSettings] {
+        let records = fetchRecords()
+        var seenIDs = Set<Int>()
+
+        let settings = records.compactMap { record -> WidgetSettings? in
+            guard !seenIDs.contains(record.widgetId) else { return nil }
+            seenIDs.insert(record.widgetId)
+            return record.widgetSettings
+        }
+
+        widgetSettings = settings
+        return settings
+    }
+
+    func widgetSettings(for id: Int, widgetFamily: WidgetTypes) -> WidgetSettings? {
+        fetchRecord(id: id, widgetFamily: widgetFamily)?.widgetSettings
+    }
+
+    func updateWidgetSettings(id: Int, widgetFamily: WidgetTypes, text: String, color: Color, isBold: Bool, fontSize: CGFloat) {
+        let matchingIDRecords = fetchRecords().filter { $0.widgetId == id }
+        let record = matchingIDRecords.first { $0.widgetFamily == widgetFamily }
+
+        for record in matchingIDRecords {
+            record.text = text
+        }
+
+        if let record {
+            record.colorRawValue = color.rawValue
+            record.isBold = isBold
+            record.fontSize = Double(fontSize)
+        } else {
+            context.insert(WidgetSettingsSwiftData(
+                widgetId: id,
+                widgetFamily: widgetFamily,
+                text: text,
+                color: color,
+                isBold: isBold,
+                fontSize: fontSize
+            ))
+        }
+
+        saveAndRefreshTimelines()
+    }
+
+    func createNewWidgetSettings() {
+        let records = fetchRecords()
+        let newWidgetID = (records.map(\.widgetId).max() ?? -1) + 1
+        let widgetContent = "Preview content"
+        let widgetShouldBeBold = false
+        let widgetColor: Color = .primary
+        let widgetFontSize: CGFloat = 20.0
+
+        for widgetType in WidgetTypes.allCases {
+            context.insert(WidgetSettingsSwiftData(
+                widgetId: newWidgetID,
+                widgetFamily: widgetType,
+                text: widgetContent,
+                color: widgetColor,
+                isBold: widgetShouldBeBold,
+                fontSize: widgetFontSize
+            ))
+        }
+
+        saveAndRefreshTimelines()
+    }
+
+    func deleteWidgetSettings(id: Int) {
+        for record in fetchRecords().filter({ $0.widgetId == id }) {
+            context.delete(record)
+        }
+
+        saveAndRefreshTimelines()
+    }
+
+    private func saveAndRefreshTimelines() {
+        do {
+            try context.save()
+            widgetSettings = loadWidgetSettings()
+            WidgetCenter.shared.reloadAllTimelines()
+        } catch {
+            print("Failed to save widget settings: \(error)")
+        }
+    }
+
+    private func fetchRecords() -> [WidgetSettingsSwiftData] {
+        let descriptor = FetchDescriptor<WidgetSettingsSwiftData>(
+            sortBy: [SortDescriptor(\.widgetId), SortDescriptor(\.widgetFamilyRawValue)]
+        )
+
+        return (try? context.fetch(descriptor)) ?? []
+    }
+
+    private func fetchRecord(id: Int, widgetFamily: WidgetTypes) -> WidgetSettingsSwiftData? {
+        let widgetFamilyRawValue = widgetFamily.rawValue
+        let descriptor = FetchDescriptor<WidgetSettingsSwiftData>(
+            predicate: #Predicate { record in
+                record.widgetId == id && record.widgetFamilyRawValue == widgetFamilyRawValue
+            }
+        )
+
+        return try? context.fetch(descriptor).first
+    }
+
+    private func migrateLegacyDefaultsIfNeeded() {
+        guard fetchRecords().isEmpty else { return }
+        guard let localDefaults = UserDefaults(suiteName: bundleID) else { return }
+
+        var didMigrate = false
+
+        for id in 0...100 {
+            let widgetContent = localDefaults.object(forKey: "\(id)-widgetContent") as? String
+
+            for widgetType in WidgetTypes.allCases {
+                let widgetFontSize = localDefaults.object(forKey: "\(id)-\(widgetType)-widgetFontSize") as? CGFloat
+                let widgetIsBold = localDefaults.object(forKey: "\(id)-\(widgetType)-widgetBold") as? Bool
+                let widgetColorRawValue = localDefaults.object(forKey: "\(id)-\(widgetType)-widgetColor") as? String
+
+                guard widgetContent != nil || widgetFontSize != nil || widgetIsBold != nil || widgetColorRawValue != nil else { continue }
+
+                let color = widgetColorRawValue.flatMap(Color.init(rawValue:)) ?? .primary
+                context.insert(WidgetSettingsSwiftData(
+                    widgetId: id,
+                    widgetFamily: widgetType,
+                    text: widgetContent ?? "Preview content",
+                    color: color,
+                    isBold: widgetIsBold ?? false,
+                    fontSize: widgetFontSize ?? 20.0
+                ))
+                didMigrate = true
+            }
+        }
+
+        guard didMigrate else { return }
+
+        do {
+            try context.save()
+        } catch {
+            print("Failed to migrate legacy widget settings: \(error)")
+        }
+    }
 }

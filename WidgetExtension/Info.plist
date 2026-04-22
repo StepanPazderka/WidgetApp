@@ -4,6 +4,8 @@
 <dict>
 	<key>ITSEncryptionExportComplianceCode</key>
 	<string></string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.1</string>
 	<key>CFBundleVersion</key>
 	<string>1.6.1</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

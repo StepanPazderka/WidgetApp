@@ -8,4 +8,4 @@
 import Foundation
 
 let bundleID = "group.com.pazderka.widgetApp"
-let widgetSettingsContainer = "widgetSettingsContainer"
+let cloudKitContainerID = "iCloud.com.pazderka.WidgetApp"

@@ -11,46 +11,29 @@ import AppIntents
 struct ConfigurationAppIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Configuration"
     static var description = IntentDescription("This is an example widget.")
-	
-	@Parameter(title: "Widget")
-	var content: WidgetSettings
-	
-	init(content: WidgetSettings) {
-		self.content = content
-	}
-	
-	init() {
-		
-	}
+
+    @Parameter(title: "Widget")
+    var content: WidgetSettings?
+
+    init(content: WidgetSettings?) {
+        self.content = content
+    }
+
+    init() {
+    }
 }
 
 struct WidgetContentQuery: EntityQuery {
-	func entities(for identifiers: [WidgetSettings.ID]) async throws -> [WidgetSettings] {
-		var ids = [Int]()
-		var outputArray = [WidgetSettings]()
-		for widgetSettings in WidgetSettingsRepository().loadWidgetSettings() {
-			if !ids.contains(widgetSettings.id) {
-				ids.append(widgetSettings.id)
-				outputArray.append(widgetSettings)
-			}
-		}
-		return outputArray
-	}
-	
-	// MARK: - Settings selectable by user in UI
-	func suggestedEntities() async throws -> [WidgetSettings] {
-		var ids = [Int]()
-		var outputArray = [WidgetSettings]()
-		for widgetSettings in WidgetSettingsRepository().loadWidgetSettings() {
-			if !ids.contains(widgetSettings.id) {
-				ids.append(widgetSettings.id)
-				outputArray.append(widgetSettings)
-			}
-		}
-		return outputArray
-	}
-	
-	func defaultResult() async -> WidgetSettings? {
-		try? await suggestedEntities().first
-	}
+    func entities(for identifiers: [WidgetSettings.ID]) async throws -> [WidgetSettings] {
+        let settings = await WidgetDataStore.fetchWidgetSettings()
+        return settings.filter { identifiers.contains($0.id) }
+    }
+
+    func suggestedEntities() async throws -> [WidgetSettings] {
+        await WidgetDataStore.fetchWidgetSettings()
+    }
+
+    func defaultResult() async -> WidgetSettings? {
+        try? await suggestedEntities().first
+    }
 }
