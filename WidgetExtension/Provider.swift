@@ -7,137 +7,131 @@
 
 import SwiftUI
 import WidgetKit
+import SwiftData
 
-struct Provider: AppIntentTimelineProvider {
-	let localDefaults = UserDefaults(suiteName: bundleID)
-	let icloudDefaults = NSUbiquitousKeyValueStore.default
-	
-	// MARK: - Placeholder for when previewing widget when on homescreen
-	func placeholder(in context: Context) -> WidgetSettings {
-		let fontSize = localDefaults?.object(forKey: "widgetFontSize") as? CGFloat
-		
-		return WidgetSettings(text: "Your text will be displayed here", shouldBeBold: false, color: .primary, fontSize: fontSize ?? 20.0)
-	}
-	
-	// MARK: - Snapshot when updating timeline
-	func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> WidgetSettings {
-		let id = configuration.content.id
-		
-		let text = localDefaults?.object(forKey: "\(id)-widgetContent") as? String
-		var widgetType: WidgetTypes?
-		
-		if context.family == .systemSmall {
-			widgetType = .systemSmall
-			let smallWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
-		} else if context.family == .systemMedium {
-			widgetType = .systemMedium
-			let mediumWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
-		} else if context.family == .systemLarge {
-			widgetType = .systemLarge
-			let largeWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
-		} else if context.family == .systemExtraLarge {
-			widgetType = .systemExtraLarge
-			let extraLargeWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
-		}
-#if os(iOS)
-		if context.family == .accessoryRectangular {
-			widgetType = .accessoryRectangular
-		} else if context.family == .accessoryCircular {
-			widgetType = .accessoryCircular
-		}
-#endif
-		
-		let fontSize = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
-		let shouldBeBold = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
-		let colorData = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
-		var color: Color?
-		
-		if let colorData {
-			color = Color(rawValue: colorData)
-		}
-		return WidgetSettings(id: id, text: text ?? "Preview text", shouldBeBold: shouldBeBold ?? false, color: color ?? .primary, fontSize: fontSize ?? 20.0)
-	}
-	
-	func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<WidgetSettings> {
-		var entries: [WidgetSettings] = []
-		
-		var widgetType: WidgetTypes?
-		if context.family == .systemSmall {
-			widgetType = .systemSmall
-			let smallWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(smallWidgetSize, forKey: "smallWidgetSize")
-		} else if context.family == .systemMedium {
-			widgetType = .systemMedium
-			let mediumWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(mediumWidgetSize, forKey: "mediumWidgetSize")
-		} else if context.family == .systemLarge {
-			widgetType = .systemLarge
-			let largeWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(largeWidgetSize, forKey: "largeWidgetSize")
-		} else if context.family == .systemExtraLarge {
-			widgetType = .systemExtraLarge
-			let extraLargeWidgetSize: [String: CGFloat] = [
-				"width": context.displaySize.width,
-				"height": context.displaySize.height
-			]
-			localDefaults?.set(extraLargeWidgetSize, forKey: "extraLargeWidgetSize")
-		}
-#if os(iOS)
-		if context.family == .accessoryRectangular {
-			widgetType = .accessoryRectangular
-			print("Rectangular: \(context.displaySize)")
-		} else if context.family == .accessoryCircular {
-			widgetType = .accessoryCircular
-			print("Circular: \(context.displaySize)")
-		}
-#endif
-		
-		let id = configuration.content.id
-		
-		let widgetContent = localDefaults?.object(forKey: "\(id)-widgetContent") as? String
-		let widgetFontSize = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetFontSize") as? CGFloat
-		let widgetBoldSetting = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetBold") as? Bool
-		let widgetColor = localDefaults?.object(forKey: "\(id)-\(widgetType?.rawValue ?? "systemSmall")-widgetColor") as? String
-		var color: Color?
-		
-#if os(iOS)
-		if context.family == .accessoryRectangular {
-			print("Showing rectangular")
-		}
-#endif
-		
-		if let widgetColor {
-			color = Color(rawValue: widgetColor)
-		}
-		let entry = WidgetSettings(id: id, text: widgetContent ?? "Couldn't load data", shouldBeBold: widgetBoldSetting ?? false, color: color ?? .primary, fontSize: widgetFontSize ?? 20.0)
-		print(entry)
-		entries.append(entry)
-		return Timeline(entries: entries, policy: .never)
-	}
+enum SharedWidgetStore {
+    static let container: ModelContainer = {
+        do {
+            return try makeLocalContainer()
+        } catch {
+            fatalError("Could not create widget model container: \(error.localizedDescription)")
+        }
+    }()
+
+    private static func makeLocalContainer() throws -> ModelContainer {
+        let configuration = ModelConfiguration(
+            groupContainer: .identifier(bundleID),
+            cloudKitDatabase: .none
+        )
+        let container = try ModelContainer(
+            for: StoredWidgetSettings.self,
+            configurations: configuration
+        )
+        print("WidgetExtension Provider: using shared local SwiftData store")
+        return container
+    }
 }
 
+struct Provider: AppIntentTimelineProvider {
+    private let sharedDefaults = UserDefaults(suiteName: bundleID)
+
+    // MARK: - Placeholder for when previewing widget when on homescreen
+    func placeholder(in context: Context) -> WidgetSettings {
+        WidgetSettings(
+            text: "Your text will be displayed here",
+            shouldBeBold: false,
+            color: .primary,
+            fontSize: 20.0
+        )
+    }
+
+    // MARK: - Snapshot when updating timeline
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> WidgetSettings {
+        makeEntry(for: configuration, in: context)
+    }
+
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<WidgetSettings> {
+        let entry = makeEntry(for: configuration, in: context)
+        return Timeline(entries: [entry], policy: .never)
+    }
+
+    private func makeEntry(for configuration: ConfigurationAppIntent, in context: Context) -> WidgetSettings {
+        let id = configuration.content.id
+        let widgetType = widgetType(for: context.family)
+        persistDisplaySize(for: context)
+        let settings = loadStoredSettings(id: id, widgetType: widgetType)
+
+        return WidgetSettings(
+            id: id,
+            text: settings?.text ?? "Preview text",
+            shouldBeBold: settings?.shouldBeBold ?? false,
+            color: Color(rawValue: settings?.colorRawValue ?? "") ?? .primary,
+            fontSize: CGFloat(settings?.fontSize ?? 20.0)
+        )
+    }
+
+    private func loadStoredSettings(id: Int, widgetType: WidgetTypes) -> StoredWidgetSettings? {
+        let context = ModelContext(SharedWidgetStore.container)
+        let widgetTypeRawValue = widgetType.rawValue
+
+        let exactDescriptor = FetchDescriptor<StoredWidgetSettings>(
+            predicate: #Predicate { item in
+                item.widgetId == id && item.widgetTypeRawValue == widgetTypeRawValue
+            }
+        )
+
+        if let exactMatch = try? context.fetch(exactDescriptor).first {
+            return exactMatch
+        }
+
+        let fallbackDescriptor = FetchDescriptor<StoredWidgetSettings>(
+            predicate: #Predicate { item in
+                item.widgetId == id
+            }
+        )
+
+        return try? context.fetch(fallbackDescriptor).first
+    }
+
+    private func widgetType(for family: WidgetFamily) -> WidgetTypes {
+        switch family {
+        case .systemSmall:
+            return .systemSmall
+        case .systemMedium:
+            return .systemMedium
+        case .systemLarge:
+            return .systemLarge
+        case .systemExtraLarge:
+            return .systemExtraLarge
+        case .accessoryRectangular:
+            return .accessoryRectangular
+        case .accessoryCircular:
+            return .accessoryCircular
+        default:
+            return .systemSmall
+        }
+    }
+
+    private func persistDisplaySize(for context: Context) {
+        let sizeKey: String
+
+        switch context.family {
+        case .systemSmall:
+            sizeKey = "smallWidgetSize"
+        case .systemMedium:
+            sizeKey = "mediumWidgetSize"
+        case .systemLarge:
+            sizeKey = "largeWidgetSize"
+        case .systemExtraLarge:
+            sizeKey = "extraLargeWidgetSize"
+        default:
+            return
+        }
+
+        let size: [String: CGFloat] = [
+            "width": context.displaySize.width,
+            "height": context.displaySize.height
+        ]
+        sharedDefaults?.set(size, forKey: sizeKey)
+    }
+}
