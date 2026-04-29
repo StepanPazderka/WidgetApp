@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "95A32C60-34E8-4BDF-B6A9-DF29D0BDE12D",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WidgetApp.xcodeproj",
+      "identifier" : "7F44D4062B34440400730DA6",
+      "name" : "WidgetApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WidgetApp.xcodeproj",
+        "identifier" : "7F5F6A472FA2673F004E59F2",
+        "name" : "WidgetAppTests"
+      }
+    }
+  ],
+  "version" : 1
+}
